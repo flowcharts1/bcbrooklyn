@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wind Ensemble Performance</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #faf8f4;
+    color: #1a1a1a;
+    font-family: "Georgia", "Times New Roman", serif;
+    text-align: center;
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+
+  /* Hero Image */
+  .hero {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .section {
+    margin: 20px 0;
+  }
+
+  a {
+    color: #1a1a1a;
+    text-decoration: underline;
+    font-size: clamp(22px, 4vw, 30px);
+  }
+
+  .note {
+    font-size: clamp(16px, 3vw, 20px);
+    font-style: italic;
+    margin-top: 8px;
+    color: #555;
+  }
+
+  p {
+    font-size: clamp(20px, 4vw, 28px);
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+.toplabel {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(20px, 4vw, 28px);
+}
+
+  .map-button {
+    font-family: inherit;
+    font-size: clamp(20px, 4vw, 28px);
+    background: none;
+    border: 1.5px solid #1a1a1a;
+    padding: 12px 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-top: 20px;
+  }
+
+  .map-button:hover {
+    background: #1a1a1a;
+    color: #faf8f4;
+  }
+
+  #mapImage {
+    display: none;
+    margin-top: 30px;
+    max-width: 100%;
+    border-radius: 6px;
+  }
+
+  /* Bottom Gallery */
+  .gallery {
+    margin-top: 60px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gallery img {
+    width: 280px;
+    max-width: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 600px) {
+    .gallery img {
+      width: 100%;
+    }
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <!-- Top Image 
+  <img src="hero.jpg" alt="Wind Ensemble" class="hero">   -->
+<p class="toplabel">Brooklyn College</p>
+  <h1>Wind Ensemble Spring Concert</h1>
+
+    <p style="font-size:1.1em; margin: 0px;">Wednesday, April 27th, at 7PM</p>
+  <div class="section">
+    <a href="https://tickets.brooklyn.edu" target="_blank">
+      Tickets $5, Students Free.
+    </a>
+    <div class="note"></div>
+  </div>
+
+  <div class="section">
+    <p>Nearby parking garage available at 2201 Nostrand Ave, for $4 per hour.</p>
+    <p>Brooklyn College is located at 2900 Bedford Avenue.</p>
+  </div>
+
+  <div class="section">
+    <button class="map-button" onclick="loadMap()">
+      Claire Tow Theater Location on Campus
+    </button>
+
+    <img id="mapImage" alt="Whitman Hall Campus Map">
+  </div>
+
+  <!-- Bottom Image Strip -->
+  <div class="gallery">
+    <img src="ensemble1.jpg" alt="Wind Ensemble Photo 1">
+    <img src="ensemble2.jpg" alt="Wind Ensemble Photo 2">
+    <img src="ensemble3.jpg" alt="Wind Ensemble Photo 3">
+  </div>
+
+</div>
+
+<script>
+function loadMap() {
+  const img = document.getElementById("mapImage");
+
+  if (!img.src) {
+    img.src = "whitmanmap.jpg"; // lazy load first time
+  }
+
+  const isVisible = img.style.display === "block";
+
+  if (isVisible) {
+    img.style.display = "none";
+  } else {
+    img.style.display = "block";
+
+    // 👇 scroll smoothly to the image
+    img.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+</script>
+
+</body>
+</html>
