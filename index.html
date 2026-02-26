@@ -1,25 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>bcbrooklyn</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #e6f2ff; /* pale light blue */
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            font-size: 3rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=deviAce-width, initial-scale=1.0">
+<title>bcbrooklyn</title>
+
+<style>
+:root {
+    --maroon: #882346;
+    --light-gray: #FAF0C5;
+    --text-dark: #111;
+    --hero:#1D4B52;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+    
+.page-wrap {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-image: url("fullimage.jpg");
+  background-color: #A7B9EB;
+  background-size: cover;   /* fit width */
+  background-repeat: no-repeat;
+  background-position:  center;
+  background-attachment: fixed;
+  
+  
+}
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-dark);
+    background:
+    radial-gradient(circle at 20% 20%, rgba(128,0,0,0.04), transparent 60%),
+    linear-gradient(to bottom, #9CE6FF, #E8F9FF);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+    
+    /*background-image: url('lily.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; /* This makes the image cover the whole screen */
+  background-position: center; /* This centers the image in the viewport */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
+}
+
+/* ===== TOP BAR ===== */
+
+.top-bar {
+    background: var(--maroon);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    
+    /* fixed bar
+     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    */
+    
+}
+.top-right {
+    display: flex;
+    margin-right: 0px;
+    gap:10px;
+} 
+.top-left{
+    display: flex;
+   
+    margin-right:auto;
+ }  
+.site-name {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+/* ===== HERO TEXT ===== */
+    
+.herop{
+    position: absolute;
+    top: 1px;          /* adjust */
+    left: 50%;
+    transform: translateX(-50%);
+     }
+.hero h1 {
+padding-top:15px;
+padding: 10px;
+   
+    
+   line-height: 0.1; 
+    font-weight: 500;
+    line-height: 1;
+    color: var(--hero); /* soft light blue */
+    letter-spacing: -0.5px;
+    
+    /* this text shadow is to make text fatter. */
+    text-shadow:
+    0.5px 0 0 currentColor,
+    -0.5px 0 0 currentColor;
+    
+    /*
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 80%;
+    */
+    text-align: center;
+    font-size: clamp(2.5rem, 4vw, 20rem);
+    
+    
+    /*  this text shadow is to actually add a shadow */
+  text-shadow:
+  0 0 16px rgba(255, 255, 255,0.8),
+  0 0 16px rgba(255, 255, 255,0.8);
+  
+     
+ 
+} 
+.heroh {
+        padding-top: 10px;
+  border-top: 1px solid transparent;
+        text-align: center;
+    color:var(--hero);
+    
+ text-shadow:
+  0 0 16px rgba(255, 255, 255,10),
+  0 0 16px rgba(255, 255, 255,0.8);
+  
+ 
+}
+/* title-break is to break the title in half cleaner*/
+.title-break {
+  display: none;
+}
+@media (max-width: 560px) {  /* adjust breakpoint */
+  .title-break {
+    display: inline;
+  }
+}
+
+/* ===== LINKS SECTION ===== */
+
+    
+/*default(mobile) Layout*/    
+.links {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 40px 50px 100px;
+    align-items: start;
+}
+.links a {
+    display: block;
+    padding: 20px;
+    background: var(--light-gray);
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 1.8rem;
+   /* font-weight: 500; */
+    border-radius: 8px;
+    transition: transform 0.15s ease, background 0.15s ease;
+    text-align: center;
+    
+}
+.links a:hover {
+    background: color-mix(in srgb, var(--light-gray) 80%, black);
+    transform: translateY(-2px);
+}
+    
+.links a:active {
+    background: color-mix(in srgb, var(--light-gray) 75%, black);
+    transform: translateY(0);  /* optional, reset hover move */
+}
+    
+/* Desktop layout */
+@media (min-width: 768px) {
+    .links {
+        grid-template-columns: 1fr 1fr;
+        padding: 60px 10vw 100px;
+    }
+
+    .links a {
+        padding: 30px;
+        font-size: 1.8rem;
+        text-align: center;
+        
+    }
+    
+    .page-wrap {
+ display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+}
+
+/* ===== BOTTOM BAR ===== */
+
+.bottom-bar {
+    background: var(--maroon);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 20px;
+    font-size: 0.85rem;
+    
+}
+.bottom-bar a {
+    color: white;
+    text-decoration: none;
+}
+.contact-btn {
+    padding: 4px 10px;
+    border: 1px solid white;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+}
+.contact-btn:hover {
+    background: white;
+    color: var(--maroon);
+}
+    
+</style>
 </head>
 <body>
-    <h1>bcbrooklyn</h1>
-    <p>Hi Fiona</p>
+
+    
+<div class="page-wrap">
+
+<!-- HERO 
+<p class="herop">bcbrooklyn</p>   --> 
+
+<div class="hero">
+<h1>Brooklyn College <br class="title-break"> Student Life</h1>
+    
+<h3 class="heroh"><i>go be a part of something</i></h3>
+</div>
+
+<!-- LINKS -->
+<div class="links">
+    <a href="#">Clubs and Events</a>
+    <a href="#">Athletic Teams</a>
+    <a href="#">Pool, Tennis and Basketball Courts</a>
+    <a href="#">Student Concerts and Performances</a>
+    <a href="#">Politics and Activism</a>
+    <a href="#">Community Service</a>
+    <a href="#">Student Government</a>
+    <a href="#">Student Resources</a>
+</div>
+    
+
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+    <a href="https://www.brooklyn.cuny.edu" target="_blank">
+        bcbrooklyn
+    </a>
+    <a href="#" class="contact-btn">Contact Me</a>
+</div>
+</div>  <!-- page wrap end -->
 </body>
 </html>
