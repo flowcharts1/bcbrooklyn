@@ -160,19 +160,21 @@
 <script>
 function loadMap() {
   const img = document.getElementById("mapImage");
-
-  if (!img.src) {
-    img.src = "whitmanmap.jpg"; // lazy load first time
-  }
-
   const isVisible = img.style.display === "block";
 
   if (isVisible) {
     img.style.display = "none";
-  } else {
-    img.style.display = "block";
+    return;
+  }
 
-    // 👇 scroll smoothly to the image
+  img.style.display = "block";
+
+  if (!img.src) {
+    img.onload = function() {
+      img.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    img.src = "whitmanmap.jpg"; // lazy load
+  } else {
     img.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
