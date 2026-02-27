@@ -26,13 +26,15 @@
   min-height: 100svh; /* mobile-safe */
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 .mobile-bg {
   position: fixed;
   inset: 0;
   background: url("fullimage.jpg") center / cover no-repeat;
   background-color: #A7B9EB;
-  z-index: -1;
+     transform: translateZ(0);
+  will-change: transform;
 }
 
     @media (min-width: 768px) {
