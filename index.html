@@ -22,14 +22,28 @@
     
 .page-wrap {
   max-width: 1200px;
-  min-height: 100vh;
   margin: 0 auto;
-  background-image: url("fullimage.jpg");
+  position: relative;
+  min-height: 100svh; /* mobile-safe */
+  display: flex;
+  flex-direction: column;
+}
+
+/* background layer */
+.page-wrap::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 100svh;
+  background: url("fullimage.jpg") center / cover no-repeat;
   background-color: #A7B9EB;
-  background-size: cover;   /* fit width */
-  background-repeat: no-repeat;
-  background-position:  center;
-  background-attachment: fixed;
+  z-index: -1;
+}
+  
   
   
 }
