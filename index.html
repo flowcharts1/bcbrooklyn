@@ -19,7 +19,6 @@
     box-sizing: border-box;
 }
 
-    
 .page-wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -28,25 +27,32 @@
   display: flex;
   flex-direction: column;
 }
-
-/* background layer */
-.page-wrap::before {
-  content: "";
+.mobile-bg {
   position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1200px;
-  height: 100svh;
+  inset: 0;
   background: url("fullimage.jpg") center / cover no-repeat;
   background-color: #A7B9EB;
   z-index: -1;
 }
-  
-  
-  
+
+    @media (min-width: 768px) {
+
+  .mobile-bg {
+    display: none;
+  }
+
+  .page-wrap {
+    background: url("fullimage.jpg") center / cover no-repeat;
+    background-color: #A7B9EB;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
 }
+
+/* background layer */
+
+  
+
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-dark);
@@ -262,7 +268,7 @@ padding: 10px;
 </style>
 </head>
 <body>
-
+<div class="mobile-bg"></div>
     
 <div class="page-wrap">
 
@@ -286,6 +292,7 @@ padding: 10px;
     <a href="https://www.bcstudentgov.org/">Student Government</a>
     <a href="https://www.brooklyn.edu/dosa/administrative-services/orientation/family/student-support-resources/">Student Resources</a>
 </div>
+    
     
 
 
