@@ -37,7 +37,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 110vh;
-  height: 100lvh; /* fallback */
+ /* height: 100lvh; */
   /*height: -webkit-fill-available; /* old iOS fix */
   overflow: hidden;
   z-index: -1;
@@ -63,7 +63,7 @@ html, body {
   }
 }
 
-/* background layer */
+
 
   
 
@@ -192,7 +192,7 @@ padding: 10px;
 .title-break {
   display: none;
 }
-@media (max-width: 560px) {  /* adjust breakpoint */
+@media (max-width: 560px) {  /* adjust breakpoint so it breaks cleanly at a certain width */
   .title-break {
     display: inline;
   }
