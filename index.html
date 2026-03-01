@@ -135,11 +135,11 @@ body {
     padding: 1px 10px 1px; /*top, outer side, bottom.*/
     margin: 5px; /*gapin between*/
     border-radius: 12px;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     cursor: pointer;
-    border: 3px solid var(--yellow);
-    background: var(--light-gray);
+    border: 0px solid var(--yellow);
+    background: transparent;
     color: var(--yellow);
     transition: 0.2s ease;
     
@@ -147,6 +147,7 @@ body {
 .primary-tab.active {
     background: var(--yellow);
     color: white;
+     border: 3px solid var(--yellow);
 }
 /* ======== SUB TABS (OFF) ======== */
 .sub-tabs {
@@ -449,7 +450,7 @@ document.addEventListener('click', function (e) {
 <!-- PRIMARY TABS -->
 <div class="primary-tabs">
     <div id="clubsTab" class="primary-tab active" onclick="selectPrimary('clubs')">CLUBS</div>
-    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">OR NOT</div>
+    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')"></div>
 </div>
 <!-- SUB TABS OFF FOR NOW -->
 <div id="subTabs" class="sub-tabs">
