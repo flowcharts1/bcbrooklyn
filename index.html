@@ -111,19 +111,19 @@ body {
 }
 /* Desktop layout */
 @media (min-width: 768px) {    
-.page-wrap {
-    min-height: 100vh;
-    flex: 0; 
-}
-.mobile-bg {
+/*
+    .mobile-bg {
     display: none;
   }
+    
 .page-wrap {
     background: url("fullimage.jpg") center / cover no-repeat;
     background-color: #A7B9EB;
     background-attachment: fixed;
     min-height: 100vh;
+    flex: 1; 
   }
+    */
 }
     
 /* ==== MAIN CONTENT ==== */    
@@ -138,8 +138,8 @@ body {
     font-size: 25px;
     font-weight: bold;
     cursor: pointer;
-    border: 0px solid var(--yellow);
-    background: transparent;
+    border: 0px solid var(--yellow);  /*TEMP*/
+    background: transparent;   /*TEMPORARY */
     color: var(--yellow);
     transition: 0.2s ease;
     
@@ -147,7 +147,7 @@ body {
 .primary-tab.active {
     background: var(--yellow);
     color: white;
-     border: 3px solid var(--yellow);
+     border: 3px solid var(--yellow);  /*TEMP*/
 }
 /* ======== SUB TABS (OFF) ======== */
 .sub-tabs {
@@ -238,7 +238,30 @@ body {
     }
 
 
+.spinner {
+  display: inline-block; /* required for transform */
+  cursor: pointer;
+     display: inline-block;
+  transform-origin: center center;
+  flex: 0 0 auto;     /* prevents flex resizing */
+}
+.spin {
+  animation: spinOnce 0.6s linear;
+}
+@keyframes spinOnce {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+    
 /* ===== BOTTOM BAR ===== */
+    
+    
+.bike-icon {
+  height: 1.2em;
+  display: block;
+  filter: invert(1); /* turns black svg white */
+}
+    
 .bottom-bar {
     background: var(--maroon);
     color: white;
@@ -248,6 +271,7 @@ body {
     padding: 6px 20px;
     font-size: 0.85rem;
      margin-top: auto;
+    
 }
 .bottom-bar a {
     color: white;
@@ -264,6 +288,9 @@ body {
     color: var(--maroon);
 }  
 </style>
+    
+    
+    
 <script>
 
 /* ================= STATE ================= */
@@ -341,11 +368,9 @@ function renderClubs() {
     container.innerHTML = "";
 
     let list = clubDataJSON[subSelected];
-
     if (!list) return;
 
     list.forEach(club => {
-
         let box = document.createElement("div");
         box.className = "club-box";
 
@@ -354,38 +379,34 @@ function renderClubs() {
         wrapper.className = "club-wrapper";
 
         // Icon
-       let icon = document.createElement("img");
-icon.className = "club-icon";
+        let icon = document.createElement("img");
+        icon.className = "club-icon";
 
-let baseName = club.line1.replace(/\s+/g, "");
-let iconFolder = "icons/";
+        let baseName = club.line1.replace(/\s+/g, "");
+        let iconFolder = "icons/";
+        let tryPNG = iconFolder + baseName + ".png";
+        let tryJPG = iconFolder + baseName + ".jpg";
+        let fallbackJSON = club.icon ? iconFolder + club.icon : null;
+        let defaultIcon = iconFolder + "default.svg";
 
-let tryPNG = iconFolder + baseName + ".png";
-let tryJPG = iconFolder + baseName + ".jpg";
-let fallbackJSON = club.icon ? iconFolder + club.icon : null;
-let defaultIcon = iconFolder + "default.svg";
+        // Try PNG → JPG → JSON → default
+        let tried = 0;
+        let sources = [tryPNG, tryJPG];
+        if (fallbackJSON) sources.push(fallbackJSON);
+        sources.push(defaultIcon);
 
-icon.src = tryPNG;
+        icon.src = sources[tried];
+        icon.onerror = function() {
+            tried++;
+            if (tried < sources.length) {
+                icon.onerror = arguments.callee; // keep the same handler
+                icon.src = sources[tried];
+            }
+        };
 
-icon.onerror = function () {
-    if (icon.src.endsWith(".png")) {
-        icon.src = tryJPG;
-    } 
-    else if (icon.src.endsWith(".jpg")) {
-        if (fallbackJSON) {
-            icon.src = fallbackJSON;
-        } else {
-            icon.src = defaultIcon;
-        }
-    } 
-    else {
-        icon.src = defaultIcon;
-    }
-};
         // Text container
         let textContainer = document.createElement("div");
         textContainer.className = "club-text";
-
         textContainer.innerHTML = `
             <div class="club-line1">${club.line1 || ""}</div>
             <div class="club-line">${club.line2 || ""}</div>
@@ -399,7 +420,6 @@ icon.onerror = function () {
         container.appendChild(box);
     });
 }
-
 /* ================= INITIAL LOAD ================= */
 
 window.onload = function() {
@@ -427,6 +447,9 @@ document.addEventListener('click', function (e) {
     e.target.textContent = e.target.dataset.email;
   }
 });
+
+
+
 
 </script>
     
@@ -466,10 +489,16 @@ document.addEventListener('click', function (e) {
 
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
-    <a href=# target="_blank">
-        bcbrooklyn
-    </a>
-    <a href="#" class="contact-btn">Contact Me</a>
+    <span class="spinner"
+      onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">
+  bcbrooklyn
+</span>
+    
+    
+      <img src="Bike-icon.svg" class="bike-icon" alt="Bike">
+   
+    
+    <span data-email="mkravets49@gmail.com" class="contact-btn email">Contact Me</span>
 </div>
 </div>  
     
