@@ -5,32 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>bcbrooklyn</title>
 
+
 <style>
 :root {
     --maroon: #882346;
     --light-gray: #FAF0C5;
     --text-dark: #111;
     --hero:#1D4B52;
+    --yellow: #f4c542;
+    --light-yellow: #fff6d6;
+    --box-spacing: 15px;
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 .page-wrap {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
   z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 html, body {
   height: 100%;
-}
+}  
 .mobile-bg {
   position: fixed;
   top: 0;
@@ -46,98 +48,20 @@ html, body {
   will-change: transform;
   backface-visibility: hidden;
 }
-
 .mobile-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-    @media (min-width: 768px) {
-
-  .mobile-bg {
-    display: none;
-  }
-
-  .page-wrap {
-    background: url("fullimage.jpg") center / cover no-repeat;
-    background-color: #A7B9EB;
-    background-attachment: fixed;
-    min-height: 100vh;
-  }
-}
-
-
-
-  
-
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-dark);
-   /*
-    background:
-    radial-gradient(circle at 20% 20%, rgba(128,0,0,0.04), transparent 60%),
-    linear-gradient(to bottom, #9CE6FF, #E8F9FF); 
-   
+    margin:0;
+    text-align:center;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    
-    
-    /*background-image: url('lily.jpg');
-  background-repeat: no-repeat;
-  background-size: cover; /* This makes the image cover the whole screen 
-  background-position: center; /* This centers the image in the viewport 
-  background-attachment: fixed; /* Keeps the background fixed while scrolling */
 }
-
-/* ===== TOP BAR ===== */
-
-.top-bar {
-    background: var(--maroon);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 20px;
-    
-    /* fixed bar
-     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    */
-    
-}
-.top-right {
-    display: flex;
-    margin-right: 0px;
-    gap:10px;
-} 
-.top-left{
-    display: flex;
-   
-    margin-right:auto;
- }  
-.site-name {
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-.icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-}
-.icon-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-}
-
 /* ===== HERO TEXT ===== */
-    
 .herop{
     position: absolute;
     top: 1px;          /* adjust */
@@ -145,11 +69,11 @@ body {
     transform: translateX(-50%);
      }
 .hero h1 {
-padding-top:15px;
-padding: 10px;
-   
-    
-   line-height: 0.1; 
+    padding-top:15px;
+    padding: 10px;
+    text-align: center;
+    font-size: clamp(2.5rem, 4vw, 20rem);
+    line-height: 0.1; 
     font-weight: 500;
     line-height: 1;
     color: var(--hero); /* soft light blue */
@@ -159,26 +83,10 @@ padding: 10px;
     text-shadow:
     0.5px 0 0 currentColor,
     -0.5px 0 0 currentColor;
-    
-    /*
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    width: 80%;
-    */
-    text-align: center;
-    font-size: clamp(2.5rem, 4vw, 20rem);
-    
-    
     /*  this text shadow is to actually add a shadow */
-  text-shadow:
-  0 0 16px rgba(255, 255, 255,0.8),
-  0 0 16px rgba(255, 255, 255,0.8);
-  
-     
- 
+    text-shadow:
+    0 0 16px rgba(255, 255, 255,0.8),
+    0 0 16px rgba(255, 255, 255,0.8); 
 } 
 .heroh {
         padding-top: 10px;
@@ -201,65 +109,135 @@ padding: 10px;
     display: inline;
   }
 }
-
-/* ===== LINKS SECTION ===== */
-
-    
-/*default(mobile) Layout*/    
-.links {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 25px;
-    padding: 40px 50px 100px;
-    align-items: start;
-}
-.links a {
-    display: block;
-    padding: 20px;
-    background: var(--light-gray);
-    text-decoration: none;
-    color: var(--text-dark);
-    font-size: 1.8rem;
-   /* font-weight: 500; */
-    border-radius: 8px;
-    transition: transform 0.15s ease, background 0.15s ease;
-    text-align: center;
-    
-}
-.links a:hover {
-    background: color-mix(in srgb, var(--light-gray) 80%, black);
-    transform: translateY(-2px);
-}
-    
-.links a:active {
-    background: color-mix(in srgb, var(--light-gray) 75%, black);
-    transform: translateY(0);  /* optional, reset hover move */
-}
-    
 /* Desktop layout */
-@media (min-width: 768px) {
-    .links {
-        grid-template-columns: 1fr 1fr;
-        padding: 60px 10vw 100px;
+@media (min-width: 768px) {    
+.page-wrap {
+    min-height: 100vh;
+    flex: 0; 
+}
+.mobile-bg {
+    display: none;
+  }
+.page-wrap {
+    background: url("fullimage.jpg") center / cover no-repeat;
+    background-color: #A7B9EB;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+    
+/* ==== MAIN CONTENT ==== */    
+.primary-tabs {
+    margin-top: 10px;
+}
+.primary-tab {
+    display: inline-block;
+    padding: 1px 10px 1px; /*top, outer side, bottom.*/
+    margin: 5px; /*gapin between*/
+    border-radius: 12px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid var(--yellow);
+    background: var(--light-gray);
+    color: var(--yellow);
+    transition: 0.2s ease;
+    
+}
+.primary-tab.active {
+    background: var(--yellow);
+    color: white;
+}
+/* ======== SUB TABS (OFF) ======== */
+.sub-tabs {
+    margin-top: 40px;
+    display:none;
+    pointer-events: none;
+}/*off*/ 
+.sub-tab {
+    /*display: inline-block;*/
+    display: none;
+    pointer-events: none;
+    padding: 15px 50px;
+    margin: 10px;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
+    transition: 0.2s ease;
+}/*off*/
+.sub-tab.active {
+    background: var(--yellow);
+    color: white;
+}
+/* ========= CLUB LIST ======= */
+#clubContainer {
+    width: 90%;
+    max-width: 1000px;
+    margin: 10px auto;
+}
+/* Club Card */
+.club-box {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: var(--box-spacing);
+    text-align: left;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+/* Layout: Icon + Text */
+.club-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/* Icon */
+.club-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+    background: transparent;
+}
+/* Text Area */
+.club-text {
+    flex: 1;
+}
+/* Line 1 (Title) */
+.club-line1 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+/* Other Lines */
+.club-line {
+    font-size: 1em;
+    margin: 3px 0;
+}
+
+/* Links */
+.club-line a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3366cc;
+}
+.club-line span {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3366cc;
+}
+.club-line a:hover {
+    text-decoration: underline;
+}
+.club-line span:hover{
+        text-decoration: underline;
     }
 
-    .links a {
-        padding: 30px;
-        font-size: 1.8rem;
-        text-align: center;
-        
-    }
-    
-    .page-wrap {
- display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-}
 
 /* ===== BOTTOM BAR ===== */
-
 .bottom-bar {
     background: var(--maroon);
     color: white;
@@ -268,7 +246,7 @@ padding: 10px;
     align-items: center;
     padding: 6px 20px;
     font-size: 0.85rem;
-    
+     margin-top: auto;
 }
 .bottom-bar a {
     color: white;
@@ -283,48 +261,217 @@ padding: 10px;
 .contact-btn:hover {
     background: white;
     color: var(--maroon);
+}  
+</style>
+<script>
+
+/* ================= STATE ================= */
+
+let primarySelected = "clubs";
+let subSelected = "tab1";
+
+/* ================= BASELINE JSON ================= */
+
+let clubDataJSON = {};
+
+/* ================= PRIMARY TAB SWITCH ================= */
+
+function selectPrimary(tab) {
+    primarySelected = tab;
+
+    
+    
+   
+    
+    document.getElementById("clubsTab").classList.remove("active");
+    document.getElementById("eventsTab").classList.remove("active");
+
+    document.getElementById(tab + "Tab").classList.add("active");
+
+    if (tab === "clubs") {
+        document.getElementById("subTabs").style.display = "block";
+        renderClubs();
+        
+    } else {
+        document.getElementById("subTabs").style.display = "none";
+        document.getElementById("clubContainer").innerHTML = "";
+        // EVENTS LOGIC EMPTY FOR NOW
+    }
+}
+
+/* ================= SUB TAB SWITCH ================= */
+
+function selectSub(tab) {
+    subSelected = tab;
+
+    let tabs = document.querySelectorAll(".sub-tab");
+    tabs.forEach(t => t.classList.remove("active"));
+
+    document.getElementById(tab).classList.add("active");
+
+    renderClubs();
+}
+
+
+
+/* ================= RENDER CLUBS FROM JSON ================= */
+
+function loadClubs() {
+
+    fetch("clubs.json")
+        .then(res => res.json())
+        .then(data => {
+            clubDataJSON = data;
+            renderClubs();
+        })
+        .catch(err => {
+            console.error("Error loading clubs.json:", err);
+            // fallback to empty list if JSON fails
+            clubDataJSON = { "tab1": [], "tab2": [], "tab3": [], "tab4": [] };
+            renderClubs();
+        });
+
 }
     
-</style>
+    
+    // ICONS IN HERE
+function renderClubs() {
+    let container = document.getElementById("clubContainer");
+    container.innerHTML = "";
+
+    let list = clubDataJSON[subSelected];
+
+    if (!list) return;
+
+    list.forEach(club => {
+
+        let box = document.createElement("div");
+        box.className = "club-box";
+
+        // Wrapper for icon + text side by side
+        let wrapper = document.createElement("div");
+        wrapper.className = "club-wrapper";
+
+        // Icon
+       let icon = document.createElement("img");
+icon.className = "club-icon";
+
+let baseName = club.line1.replace(/\s+/g, "");
+let iconFolder = "icons/";
+
+let tryPNG = iconFolder + baseName + ".png";
+let tryJPG = iconFolder + baseName + ".jpg";
+let fallbackJSON = club.icon ? iconFolder + club.icon : null;
+let defaultIcon = iconFolder + "default.svg";
+
+icon.src = tryPNG;
+
+icon.onerror = function () {
+    if (icon.src.endsWith(".png")) {
+        icon.src = tryJPG;
+    } 
+    else if (icon.src.endsWith(".jpg")) {
+        if (fallbackJSON) {
+            icon.src = fallbackJSON;
+        } else {
+            icon.src = defaultIcon;
+        }
+    } 
+    else {
+        icon.src = defaultIcon;
+    }
+};
+        // Text container
+        let textContainer = document.createElement("div");
+        textContainer.className = "club-text";
+
+        textContainer.innerHTML = `
+            <div class="club-line1">${club.line1 || ""}</div>
+            <div class="club-line">${club.line2 || ""}</div>
+            <div class="club-line">${club.line3 || ""}</div>
+            <div class="club-line">${club.line4 || ""}</div>
+        `;
+
+        wrapper.appendChild(icon);
+        wrapper.appendChild(textContainer);
+        box.appendChild(wrapper);
+        container.appendChild(box);
+    });
+}
+
+/* ================= INITIAL LOAD ================= */
+
+window.onload = function() {
+    selectPrimary("clubs"); // updates the tab UI
+
+    fetch("clubs.json")
+        .then(res => res.json())
+        .then(data => {
+            clubDataJSON = data;
+            selectSub("tab1"); // <-- call AFTER data is loaded
+        })
+        .catch(err => {
+            console.error("Error loading clubs.json:",err);
+            clubDataJSON = { "tab1": [], "tab2": [], "tab3": [], "tab4": [] };
+            selectSub("tab1"); // still call so page shows empty but doesn’t crash
+        });
+};
+    
+    
+
+/*quick email function
+email link format: <a class="email" data-email="email@gmail.com">email</a>*/
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('email')) {
+    e.target.textContent = e.target.dataset.email;
+  }
+});
+
+</script>
+    
+    
+    
 </head>
+    
 <body>
 <div class="mobile-bg">
-  <img src="fullimage.jpg" alt="">
+  <img src="mobileimage.jpg" alt="">
 </div>
     
 <div class="page-wrap">
 
-<!-- HERO 
-<p class="herop">bcbrooklyn</p>   --> 
-
 <div class="hero">
 <h1>Brooklyn College <br class="title-break"> Student Life</h1>
-    
 <h3 class="heroh"><i>go be a part of something</i></h3>
 </div>
-
-<!-- LINKS -->
-<div class="links">
-    <a href="https://www.clubs.brooklyn.cuny.edu">Clubs and Events</a>
-    <a href="https://www.brooklyncollegeathletics.com/">Athletic Teams</a>
-    <a href="https://www.brooklyncollegeathletics.com/sports/2007/5/23/recsched.aspx">Pool, Gym, Tennis and Basketball Courts</a>
-    <a href="wind.html">Student Concerts and Performances</a>
-    <a href="https://www.nypirg.org/issues/">Politics and Activism</a>
-    <a href="https://www.brooklyn.edu/garden/">Campus Gardening</a>
-    <a href="https://www.bcstudentgov.org/">Student Government</a>
-    <a href="https://www.brooklyn.edu/dosa/administrative-services/orientation/family/student-support-resources/">Student Resources</a>
+    
+<!-- MAIN CONTENT HERE -->
+<!-- PRIMARY TABS -->
+<div class="primary-tabs">
+    <div id="clubsTab" class="primary-tab active" onclick="selectPrimary('clubs')">CLUBS</div>
+    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">OR NOT</div>
 </div>
-    
-    
+<!-- SUB TABS OFF FOR NOW -->
+<div id="subTabs" class="sub-tabs">
+    <div id="tab1" class="sub-tab active" onclick="selectSub('tab1')">Tab1</div>
+    <div id="tab2" class="sub-tab" onclick="selectSub('tab2')">Tab2</div>
+    <div id="tab3" class="sub-tab" onclick="selectSub('tab3')">Tab3</div>
+    <div id="tab4" class="sub-tab" onclick="selectSub('tab4')">Tab4</div>
+</div>
+<!-- CLUB LIST -->
+<div id="clubContainer"></div>
 
+    
 
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
-    <a href="https://www.brooklyn.cuny.edu" target="_blank">
+    <a href=# target="_blank">
         bcbrooklyn
     </a>
     <a href="#" class="contact-btn">Contact Me</a>
 </div>
-</div>  <!-- page wrap end -->
+</div>  
+    
+    <!-- page wrap end -->
 </body>
 </html>
