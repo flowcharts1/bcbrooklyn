@@ -3,112 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wind Ensemble Performance</title>
+<title>Wind Ensemble Spring Concert</title>
 
 <style>
   body {
     margin: 0;
-    background: #faf8f4;
+    background: #f4f1ea;
     color: #1a1a1a;
     font-family: "Georgia", "Times New Roman", serif;
     text-align: center;
   }
 
   .wrapper {
-    max-width: 520px;
-    margin: auto;
-    padding: 40px 20px;
+    max-width: 720px;
+    margin: 30px auto;
+    padding: 0 20px;
   }
 
-  /* Hero Image */
-  .hero {
-    width: 100%;
-    max-height: 350px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 40px;
-  }
-
-  h1 {
-    font-size: clamp(32px, 5vw, 48px);
-    margin-bottom: 10px;
+  .title-main {
+    font-size: clamp(36px, 5vw, 52px);
+    margin: 0 0 20px 0;
     letter-spacing: 1px;
   }
 
-  .section {
-    margin: 20px 0;
+  .title-sub {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 400;
+    margin: 0 0 35px 0;
   }
 
-  a {
-    color: #1a1a1a;
-    text-decoration: underline;
-    font-size: clamp(22px, 4vw, 30px);
+  .main-image {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    border-radius: 6px;
   }
 
-  .note {
-    font-size: clamp(16px, 3vw, 20px);
-    font-style: italic;
-    margin-top: 8px;
-    color: #555;
+  .date-block {
+    font-size: clamp(26px, 4.5vw, 34px);
+    margin: 10px 0 15px 0;
+    padding: 16px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
 
-  p {
+  .notify-section {
+    margin: 30px 0 30px 0;
+  }
+
+  .notify-title {
+    font-size: clamp(20px, 4vw, 22px);
+    margin-bottom: 10px;
+  }
+
+  .notify-button {
+    display: inline-block;
+    padding: 14px 40px;
+    border: 2px solid #1a1a1a;
+    border-radius: 4px;
+    text-decoration: none;
     font-size: clamp(20px, 4vw, 28px);
-    margin: 20px 0;
+    transition: all 0.25s ease;
+  }
+
+  .notify-button:hover {
+    background: #1a1a1a;
+    color: #f4f1ea;
+  }
+
+  .secondary-info {
+    margin-top: 20px;
+    padding-top: 30px;
+    border-top: 2px solid #e2e2e2;
+    color: #444;
+  }
+
+  .friends {
+    font-size: clamp(18px, 3.5vw, 22px);
+    margin: 10px 0 25px 0;
+    font-style: italic;
+  }
+
+  /* Bottom link row */
+  .info-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .info-links span {
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: clamp(18px, 3.5vw, 20px);
+  }
+
+  .popup {
+    display: none;
+    margin-top: 25px;
+    font-size: clamp(16px, 3vw, 18px);
     line-height: 1.6;
   }
-.toplabel {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(20px, 4vw, 28px);
-}
+
+  .popup a {
+    color: #1a1a1a;
+    text-decoration: underline;
+  }
 
   .map-button {
     font-family: inherit;
-    font-size: clamp(20px, 4vw, 28px);
+    font-size: 16px;
     background: none;
     border: 1.5px solid #1a1a1a;
-    padding: 12px 28px;
+    padding: 8px 20px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.25s ease;
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .map-button:hover {
     background: #1a1a1a;
-    color: #faf8f4;
+    color: #f4f1ea;
   }
 
   #mapImage {
     display: none;
-    margin-top: 30px;
+    margin-top: 20px;
     max-width: 100%;
     border-radius: 6px;
-  }
-
-  /* Bottom Gallery */
-  .gallery {
-    margin-top: 60px;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .gallery img {
-    width: 280px;
-    max-width: 100%;
-    border-radius: 6px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 600px) {
-    .gallery img {
-      width: 100%;
-    }
   }
 
 </style>
@@ -118,46 +143,80 @@
 
 <div class="wrapper">
 
-  <!-- Top Image 
-  <img src="hero.jpg" alt="Wind Ensemble" class="hero">   -->
-<p class="toplabel">Brooklyn College</p>
-  <h1>Wind Ensemble Spring Concert</h1>
+  <h1 class="title-main">Wind Ensemble</h1>
+  <h2 class="title-sub">Spring Concert</h2>
 
-    <p style="font-size:1.1em; margin: 0px;">Wednesday, April 27th, at 7PM</p>
-  <div class="section">
-    <a href="https://tickets.brooklyn.edu" target="_blank">
-      Tickets $5, Students Free.
-    </a>
-    <div class="note"></div>
+  <img src="ensemble1.jpg" alt="Wind Ensemble" class="main-image">
+
+  <div class="date-block">
+    April 27th · 7PM
   </div>
 
-  <div class="section">
-      <p style="margin-bottom:1px;">Brooklyn College is located at 2900 Bedford Avenue.</p>
-    <p style="font-size: clamp(2px, 5vw, 17px); margin-top:10px; ">No parking on campus. There is  paid parking on 2201 Nostrand Ave.</p>
-    
+  <div class="notify-section">
+    <p class="notify-title">Don't miss the show...</p>
+    <a href="#" class="notify-button">Receive a Reminder</a>
   </div>
 
-  <div class="section">
-    <button class="map-button" onclick="loadMap()">
-      Claire Tow Theater Location on Campus
-    </button>
+  <div class="secondary-info">
+    <p style="font-size: clamp(20px, 4vw, 22px);">Free for BC Students; $5 for Community</p>
+    <p class="friends" style="font-size: clamp(20px, 4vw, 28px);">Come with friends!</p>
 
-    <img id="mapImage" alt="Whitman Hall Campus Map">
-  </div>
-    
-    <h3 style="font-weight: 100;"><i>Bring your friends!</i></h3>
+    <div class="info-links">
+    <span onclick="toggleSection('tickets')">Tickets</span>
+      <span onclick="toggleSection('directions')">Directions</span>
+      <span onclick="toggleSection('parking')">Parking</span>
+      
+    </div>
 
-  <!-- Bottom Image Strip -->
-  <div class="gallery">
-      <!--  the photos don't quite fit the vibe.
-    <img src="ensemble1.jpg" alt="Wind Ensemble Photo 1">
-  <img src="ensemble2.jpg" alt="Wind Ensemble Photo 2">
-    <img src="ensemble3.jpg" alt="Wind Ensemble Photo 3"> -->
+    <div id="directions" class="popup">
+      Brooklyn College<br>
+      2920 Campus Rd<br>
+      <a href="https://maps.app.goo.gl/vnBgGPikoRmWrpCj6" target="_blank">Open in Google Maps</a><br>
+      <button class="map-button" onclick="loadMap()">Whitman Theater Location</button>
+      <img id="mapImage" alt="Whitman Hall Campus Map">
+    </div>
+
+    <div id="parking" class="popup">
+      No parking on campus. Paid parking available at 2201 Nostrand Ave.<br>
+      ~$4 per hour, usually not too busy.
+    </div>
+
+    <div id="tickets" class="popup">
+      Buy tickets online or at the door. (Door might get busy).<br>
+      <a style="margin-top:1px;"href="#" target="_blank">Online Tickets</a>
+    </div>
+
   </div>
 
 </div>
 
 <script>
+function toggleSection(id) {
+  const sections = document.querySelectorAll(".popup");
+  const target = document.getElementById(id);
+  const isOpening = target.style.display !== "block";
+
+  sections.forEach(section => {
+    section.style.display = "none";
+  });
+
+  if (isOpening) {
+    target.style.display = "block";
+    
+    // Scroll down to the opened section
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+
+  } else {
+    target.style.display = "none";
+
+    // Scroll back up to the link row
+    document.querySelector(".info-links")
+      .scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
 function loadMap() {
   const img = document.getElementById("mapImage");
   const isVisible = img.style.display === "block";
@@ -170,12 +229,7 @@ function loadMap() {
   img.style.display = "block";
 
   if (!img.src) {
-    img.onload = function() {
-      img.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-    img.src = "whitmanmap.jpg"; // lazy load
-  } else {
-    img.scrollIntoView({ behavior: "smooth", block: "start" });
+    img.src = "whitmanmap.jpg";
   }
 }
 </script>
