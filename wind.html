@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wind Ensemble Spring Concert</title>
-<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎺</text></svg>">
-
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="90" text-anchor="middle" x="50%">🎺</text></svg>'>
+    
+    
 <style>
   body {
     margin: 0;
@@ -25,6 +26,7 @@
     font-size: clamp(36px, 5vw, 52px);
     margin: 0 0 20px 0;
     letter-spacing: 1px;
+       
   }
 
   .title-sub {
@@ -87,19 +89,19 @@
   }
 
   /* Bottom link row */
-  .info-links {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
+.info-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
 
-  .info-links span {
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: clamp(18px, 3.5vw, 20px);
-  }
+.info-links span {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: clamp(18px, 3.5vw, 20px);
+  margin: 0 15px;
+}
 
   .popup {
     display: none;
@@ -184,7 +186,7 @@
 
     <div id="tickets" class="popup">
       Buy tickets online or at the door. (Door might get busy).<br>
-      <a style="margin-top:1px;"href="#" target="_blank">Online Tickets</a>
+      <a href="#" target="_blank">Online Tickets</a>
     </div>
 
   </div>
@@ -237,4 +239,3 @@ function loadMap() {
 
 </body>
 </html>
-
