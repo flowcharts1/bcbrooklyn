@@ -29,7 +29,7 @@
 html, body{
     width:100%;
     height:100%;
-    overflow-x: hidden; /* lock horizontal scroll */
+        overflow-x: hidden; /* lock horizontal scroll */
     overflow-y: auto;   /* allow vertical scroll */
 }
 
@@ -83,13 +83,14 @@ body{
   margin-bottom: 6px;
   z-index: 2;
 }
-       @media (max-width: 307px) {
+    @media (max-width: 307px) {
   .title {
     letter-spacing: 2px;           /* less aggressive spacing */
     
     font-size: clamp(30px, 13vw, 100px); /* smaller scaling */
   }
 }
+    
 
 .title-fill {
   position: absolute; /* overlay exactly on top of .title */
@@ -223,7 +224,7 @@ body{
 /* SHARE MESSAGE */
 .share-message{
     
-    display:none;
+   display:none;
     margin-top:20px;
     font-size:clamp(10px,6vw,26px);
     letter-spacing:3px;
@@ -240,29 +241,67 @@ body{
 
 .copy-link{
     font-size:clamp(18px,5vw,28px);
-    color:var(--cta-color);
+    color:#FF2966;
     margin-top:6px;
     word-break:break-all;
     cursor:pointer;
 }
     
 /* Desktop scaling */
-@media (min-width: 1424px) {
+@media (min-width: 1224px) {
   .bulldog {
     width: 70vw;
     max-width: 500px;
   }
 
   .bulldog.left {
-    left: -5vw;
-    transform: translateZ();
+    left: -2vw;
+    transform: translateZ(-70%);
+    transform: translateY(-15%);  
   }
 
   .bulldog.right {
-    right: -5vw;
+    right: -2vw;
+      transform: translateY(-15%)scaleX(-1);
     transform: translateZ(-70%) scaleX(-1);
+      
   }
 }
+
+    
+.bottom-link {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.show-link-btn {
+  background: none;
+  border: none;
+  color: gold;              /* yellow/gold */
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link-container {
+  display: block;           /* ensures it’s on its own line */
+  margin-top: 10px;
+  font-size: 18px;
+  color: white;           /* bright blue */
+  word-break: break-all;     /* makes the whole URL visible */
+  position: relative;        /* layer above background elements */
+  z-index: 999;  
+    max-width:240px;
+    
+}
+
+.link-container a {
+    
+  color: inherit;
+  text-decoration: underline;
+}    
+
 </style>
 </head>
 
@@ -286,22 +325,32 @@ Expand Recreation, Athletics, and Intramural sports!
 <div class="instructions">
 <strong style="font-size:1.4em; color:white">Instructions:</strong>
 <ol>
-<li>Copy link below</li>
-<li>Paste into web browser</li>
+<li>Click link below</li>
 <li>Log in</li>
-<li>Paste link AGAIN to reload</li>
+<li>Go back here</li>
+<li>Click link AGAIN to access</li>
 <li><p style="color:gold">Vote for athletics! <br>(Referendum #2)</p></li>
 </ol>
 </div>
 
+    
 <div class="copy-container">
-  <button class="copy-btn" onclick="copyLink()">Click to copy link!</button>
+ <button class="copy-btn" onclick="copyAndOpen()">
+  Open Link and Vote!
+</button>
 
   <img src="bulldog.png" class="bulldog left">
   <img src="bulldog.png" class="bulldog right">
 </div>
 
+    <div class="bottom-link">
+  <button onclick="toggleLink()" class="show-link-btn">
+    show full link
+  </button>
 
+  <div id="linkContainer" class="link-container"></div>
+</div>
+    
 
 <div class="overlay" id="overlay">
     <div class="overlay-box">
@@ -314,21 +363,39 @@ Expand Recreation, Athletics, and Intramural sports!
     </div>
 </div>
 
+
+    
+    
+    
+    
+    
 <div class="share-message" id="shareMessage">
-Send this to your friends:
+
 <div class="copy-link" onclick="copyVoteLink()">bcbrooklyn.com/vote</div>
 </div>
 
 <script>
 const voteLink = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
+const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
 const shareLink = "bcbrooklyn.com/vote";
 
-function copyLink(){
-    navigator.clipboard.writeText(voteLink).then(()=>{
-        document.getElementById("overlay").style.display="flex";
-        document.getElementById("shareMessage").style.display="block";
-    });
+function copyAndOpen() {
+  const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
+
+    document.getElementById("shareMessage").style.display="block";
+
+  // Try modern clipboard API first
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(link).catch(() => {});
+  } else {
+    fallbackCopy(link);
+  }
+
+  // Open the link in a new tab (mobile-safe because inside click)
+  window.open(link, "_blank");
+
 }
+
 
 function closeOverlay(){
     document.getElementById("overlay").style.display="none";
@@ -336,11 +403,28 @@ function closeOverlay(){
 
 function copyVoteLink(){
     navigator.clipboard.writeText(shareLink);
-    alert("Vote link copied!");
+    alert("Link copied, share with your friends!");
 }
+    
+function toggleLink() {
+  const container = document.getElementById("linkContainer");
+
+  if (container.innerHTML !== "") {
+    container.innerHTML = "";
+    return;
+  }
+
+  const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
+
+  container.innerHTML = `
+    <a href="${link}" target="_blank" rel="noopener">
+      ${link}
+    </a>
+  `;
+}
+    
+    
 </script>
 
 </body>
-
 </html>
-
