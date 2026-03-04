@@ -75,13 +75,20 @@ body{
 }
 .title {
   position: relative; /* important: sets reference for the overlay */
-  font-size: clamp(46px, 13vw, 100px);
+  font-size: clamp(40px, 13vw, 100px);
   line-height: 1.1;
   letter-spacing: 6px;
   color: var(--light-maroon); /* fallback original color */
   -webkit-text-stroke: 8px var(--gold); /* original border */
   margin-bottom: 6px;
   z-index: 2;
+}
+       @media (max-width: 307px) {
+  .title {
+    letter-spacing: 2px;           /* less aggressive spacing */
+    
+    font-size: clamp(30px, 13vw, 100px); /* smaller scaling */
+  }
 }
 
 .title-fill {
@@ -336,3 +343,4 @@ function copyVoteLink(){
 </body>
 
 </html>
+
