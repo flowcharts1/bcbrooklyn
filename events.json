@@ -1,0 +1,17 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Template Event No 1",
+      "club": "Badminton Club",
+      "date": "NaN-aN-aN",
+      "startTime": "1899-12-30T19:32:11.000Z",
+      "endTime": "1899-12-30T20:32:11.000Z",
+      "room": "Boylan 3315",
+      "description": "This is a template event. We will see if it works.",
+      "type": "Club Event",
+      "priority": 1,
+      "flyer": "TemplateEventNo1_n2s4.png"
+    }
+  ]
+}
