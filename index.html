@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bcbrooklyn</title>
+
+<style>
+:root {
+    --maroon: #882346;
+    --light-gray: #FAF0C5;
+    --text-dark: #111;
+    --hero:#1D4B52;
+    --yellow: #f4c542;
+    --light-yellow: #fff6d6;
+    --box-spacing: 15px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+html, body {
+  height: 100%;
+}  
+.mobile-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
+  overflow: hidden;
+  z-index: -1;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.mobile-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-dark);
+    margin:0;
+    text-align:center;
+    display: flex;
+    flex-direction: column;
+}
+/* ===== HERO TEXT ===== */
+.herop{
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.hero h1 {
+    padding-top:15px;
+    padding: 10px;
+    text-align: center;
+    font-size: clamp(2.5rem, 4vw, 20rem);
+    line-height: 0.1; 
+    font-weight: 500;
+    line-height: 1;
+    color: var(--hero);
+    letter-spacing: -0.5px;
+    text-shadow:
+    0 0 16px rgba(255, 255, 255,0.8),
+    0 0 16px rgba(255, 255, 255,0.8); 
+} 
+.heroh {
+    padding-top: 10px;
+    border-top: 1px solid transparent;
+    text-align: center;
+    color:var(--hero);
+    text-shadow:
+      0 0 16px rgba(255, 255, 255,10),
+      0 0 16px rgba(255, 255, 255,0.8);
+}
+.title-break {
+  display: none;
+}
+@media (max-width: 560px) {
+  .title-break {
+    display: inline;
+  }
+}
+@media (min-width: 768px) {}
+    
+/* ==== MAIN CONTENT ==== */    
+.primary-tabs {
+    margin-top: 10px;
+}
+.primary-tab {
+    display: inline-block;
+    padding: 1px 10px 1px;
+    margin: 5px;
+    border-radius: 12px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+.primary-tab.active {
+    background: var(--yellow);
+    color: white;
+    border: 3px solid var(--yellow);
+}
+/* ======== SUB TABS (OFF) ======== */
+.sub-tabs {
+    margin-top: 40px;
+    display:none;
+    pointer-events: none;
+}
+.sub-tab {
+    display: none;
+    pointer-events: none;
+    padding: 15px 50px;
+    margin: 10px;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 3px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
+.sub-tab.active {
+    background: var(--yellow);
+    color: white;
+}
+/* ========= CLUB LIST ======= */
+#clubContainer {
+    width: 90%;
+    max-width: 1000px;
+    margin: 10px auto;
+}
+.club-box {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: var(--box-spacing);
+    text-align: left;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.club-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.club-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+    background: transparent;
+}
+.club-text {
+    flex: 1;
+}
+.club-line1 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+.club-line {
+    font-size: 1em;
+    margin: 3px 0;
+}
+.club-line a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3366cc;
+}
+.club-line span {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3366cc;
+}
+.club-line a:hover { text-decoration: underline; }
+.club-line span:hover { text-decoration: underline; }
+
+.spinner {
+  display: inline-block;
+  cursor: pointer;
+  transform-origin: center center;
+  flex: 0 0 auto;
+}
+.spin {
+  -webkit-animation: spinOnce 0.6s linear;
+  animation: spinOnce 0.6s linear;
+}
+@-webkit-keyframes spinOnce {
+  from { -webkit-transform: rotate(0deg); }
+  to   { -webkit-transform: rotate(360deg); }
+}
+@keyframes spinOnce {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+    
+/* ===== BOTTOM BAR ===== */
+.bike-icon {
+  height: 1.2em;
+  display: block;
+  filter: invert(1);
+}
+.bottom-bar {
+    background: var(--maroon);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 20px;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+.bottom-bar a {
+    color: white;
+    text-decoration: none;
+}
+.contact-btn {
+    padding: 4px 10px;
+    border: 1px solid white;
+    border-radius: 4px;
+    -webkit-transition: background 0.15s ease;
+    transition: background 0.15s ease;
+}
+.contact-btn:hover {
+    background: white;
+    color: var(--maroon);
+}
+
+
+/* ===================================================
+   EVENTS SECTION
+   =================================================== */
+
+#eventsSection {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    margin: 12px auto 0;
+}
+
+/* --- Top control bar: Upcoming ▾  &  Filters ▾ --- */
+.events-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.evt-ctrl-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: white;
+    padding: 4px 2px;
+    letter-spacing: 0.01em;
+    /* white glow via text-shadow (old iOS safe) */
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.45),
+        2px 2px 8px rgba(255,255,255,0.2);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+.evt-ctrl-btn .arrow {
+    display: inline-block;
+    -webkit-transition: -webkit-transform 0.25s ease;
+    transition: transform 0.25s ease;
+}
+.evt-ctrl-btn.open .arrow {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+/* --- Dropdown boxes --- */
+.evt-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    z-index: 50;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+}
+.evt-dropdown.open {
+    display: block;
+}
+/* Date picker anchors left of its parent wrapper */
+.evt-dropdown.date-picker {
+    left: 0;
+    background: #fff0ee;
+    width: 280px;
+    max-width: 80vw;
+}
+/* Filter anchors right of its parent wrapper */
+.evt-dropdown.filter-picker {
+    right: 0;
+    background: #edf4ff;
+    min-width: 150px;
+}
+
+/* --- Calendar strip inside date picker --- */
+.cal-days-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+}
+.cal-nav {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    color: #555;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    flex-shrink: 0;
+}
+.cal-days {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+    overflow: hidden; /* clip during slide */
+}
+/* single day column */
+.cal-day-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+.cal-label {
+    font-size: 0.7rem;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.cal-date-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    -webkit-transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s;
+}
+.cal-date-btn.selected {
+    background: #e06060;
+    color: white;
+}
+/* slide animation wrapper */
+.cal-days-anim {
+    overflow: hidden;
+    flex: 1;
+}
+.cal-days-inner {
+    display: flex;
+    width: 200%; /* two weeks side by side */
+    -webkit-transition: -webkit-transform 0.3s ease;
+    transition: transform 0.3s ease;
+}
+.cal-week {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* --- Filter options --- */
+.filter-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.filter-opt {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: bold;
+    color: #335;
+    text-align: left;
+    padding: 3px 2px;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+.filter-opt.selected {
+    color: #2255cc;
+    text-decoration: underline;
+}
+
+/* --- Event list --- */
+#eventContainer {
+    margin-top: 4px;
+    padding-bottom: 16px;
+}
+.evt-day-head {
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 0 8px rgba(0,0,0,0.4);
+    text-align: left;
+    margin: 10px 0 4px;
+    padding-left: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.evt-box {
+    background: white;
+    border-radius: 8px;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transition: opacity 0.12s;
+    transition: opacity 0.12s;
+}
+.evt-box:active {
+    opacity: 0.75;
+}
+.evt-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: transparent; /* blank if no image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.evt-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+.evt-text {
+    flex: 1;
+    overflow: hidden;
+}
+.evt-title {
+    font-size: 0.88rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.evt-meta {
+    font-size: 0.78rem;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+}
+
+/* --- Overlay / detail --- */
+#evtOverlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0);
+    z-index: 200;
+    -webkit-transition: background 0.3s ease;
+    transition: background 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+#evtOverlay.active {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.78);
+}
+.evt-detail {
+    position: relative;
+    padding: 24px 20px 30px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    max-width: 460px;
+    width: 90vw;
+    /* no margin: 0 auto needed — flex parent centres it */
+}
+.evt-detail-flyer {
+    width: 75%;
+    max-width: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 4px;
+    opacity: 0;
+    -webkit-transform: translate(-16px, 16px) scale(0.82);
+    transform: translate(-16px, 16px) scale(0.82);
+    -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    display: block;
+}
+.evt-detail-flyer.shown {
+    opacity: 1;
+    -webkit-transform: translate(0,0) scale(1);
+    transform: translate(0,0) scale(1);
+}
+.evt-detail-noflyer {
+    display: none;
+}
+.evt-detail-body {
+    margin-top: 16px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    -webkit-transition: opacity 0.35s ease 0.2s;
+    transition: opacity 0.35s ease 0.2s;
+}
+.evt-detail-body.shown {
+    opacity: 1;
+}
+.evt-detail-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+.evt-detail-desc {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 10px;
+    color: rgba(255,255,255,0.88);
+}
+.evt-detail-info {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 4px;
+}
+.evt-detail-club {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 18px;
+    font-style: italic;
+}
+.evt-close-btn {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: none;
+    border: 2px solid white;
+    border-radius: 6px;
+    padding: 6px 24px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* end events styles */
+</style>
+
+<script>
+/* ================= STATE ================= */
+var primarySelected = "clubs";
+var subSelected = "tab1";
+var clubDataJSON = {};
+
+/* ========== EVENTS STATE ========== */
+var eventsDataJSON = [];
+var evtMode = "upcoming"; /* "upcoming" | "date" | "filter" */
+var evtSelectedDate = null; /* "YYYY-MM-DD" or null */
+var evtSelectedFilter = "all"; /* "all"|"sports game"|"performance"|"club event"|"other" */
+var evtDropOpen = null; /* null | "date" | "filter" */
+
+/* Calendar week offset — 0 = current week, but we start on the *upcoming* week.
+   If today is Sat or Sun, bump forward so Mon is the first useful day shown. */
+var calWeekOffset = (function(){
+    var day = new Date().getDay(); /* 0=Sun, 6=Sat */
+    return (day === 0 || day === 6) ? 1 : 0;
+}());
+
+var touchStartX = 0;
+
+/* ================= PRIMARY TAB SWITCH ================= */
+function selectPrimary(tab) {
+    primarySelected = tab;
+
+    document.getElementById("clubsTab").classList.remove("active");
+    document.getElementById("eventsTab").classList.remove("active");
+    document.getElementById(tab + "Tab").classList.add("active");
+
+    if (tab === "clubs") {
+        document.getElementById("subTabs").style.display = "block";
+        document.getElementById("clubContainer").style.display = "block";
+        document.getElementById("eventsSection").style.display = "none";
+        renderClubs();
+    } else {
+        document.getElementById("subTabs").style.display = "none";
+        document.getElementById("clubContainer").style.display = "none";
+        document.getElementById("eventsSection").style.display = "block";
+        renderEvents();
+    }
+}
+
+/* ================= SUB TAB SWITCH ================= */
+function selectSub(tab) {
+    subSelected = tab;
+    var tabs = document.querySelectorAll(".sub-tab");
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
+    document.getElementById(tab).classList.add("active");
+    renderClubs();
+}
+
+/* ================= RENDER CLUBS ================= */
+function renderClubs() {
+    var container = document.getElementById("clubContainer");
+    container.innerHTML = "";
+    var list = clubDataJSON[subSelected];
+    if (!list) return;
+    for (var i = 0; i < list.length; i++) {
+        var club = list[i];
+        var box = document.createElement("div");
+        box.className = "club-box";
+        var wrapper = document.createElement("div");
+        wrapper.className = "club-wrapper";
+        var icon = document.createElement("img");
+        icon.className = "club-icon";
+        var baseName = club.line1.replace(/\s+/g, "");
+        var iconFolder = "images/icons/";
+        var sources = [iconFolder + baseName + ".png", iconFolder + baseName + ".jpg"];
+        if (club.icon) sources.push(iconFolder + club.icon);
+        sources.push(iconFolder + "default.svg");
+        var tried = 0;
+        icon.src = sources[tried];
+        icon.onerror = (function(srcArr) {
+            var t = { v: 0 };
+            return function() {
+                t.v++;
+                if (t.v < srcArr.length) {
+                    this.onerror = arguments.callee;
+                    this.src = srcArr[t.v];
+                }
+            };
+        })(sources);
+        var textContainer = document.createElement("div");
+        textContainer.className = "club-text";
+        textContainer.innerHTML =
+            '<div class="club-line1">' + (club.line1||"") + '</div>' +
+            '<div class="club-line">'  + (club.line2||"") + '</div>' +
+            '<div class="club-line">'  + (club.line3||"") + '</div>' +
+            '<div class="club-line">'  + (club.line4||"") + '</div>';
+        wrapper.appendChild(icon);
+        wrapper.appendChild(textContainer);
+        box.appendChild(wrapper);
+        container.appendChild(box);
+    }
+}
+
+/* ================= INITIAL LOAD ================= */
+window.onload = function() {
+    selectPrimary("clubs");
+    /* Load clubs.json */
+    if (typeof fetch !== "undefined") {
+        fetch("contents/clubs.json")
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                clubDataJSON = data;
+                selectSub("tab1");
+            })
+            .catch(function(err){
+                console.error("clubs.json error:", err);
+                clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
+                selectSub("tab1");
+            });
+        /* Load events.json */
+        fetch("contents/events.json")
+            .then(function(res){ return res.json(); })
+            .then(function(data){
+                eventsDataJSON = data.events || [];
+            })
+            .catch(function(err){
+                console.error("events.json error:", err);
+                eventsDataJSON = [];
+            });
+    } else {
+        clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
+        selectSub("tab1");
+    }
+};
+
+/* ================= EMAIL CLICK ================= */
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('email')) {
+        e.target.textContent = e.target.dataset.email;
+    }
+});
+
+/* ============================================================
+   EVENTS LOGIC
+   ============================================================ */
+
+/* helpers */
+function padZ(n){ return n < 10 ? "0"+n : ""+n; }
+function dateStr(d){ return d.getFullYear()+"-"+padZ(d.getMonth()+1)+"-"+padZ(d.getDate()); }
+function todayDate(){
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+}
+function parseDate(s){ /* "YYYY-MM-DD" -> local Date */
+    var p = s.split("-");
+    return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
+}
+var DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var DAY_FULL  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var MON_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function fmtHeading(dateS){
+    var d = parseDate(dateS);
+    return DAY_FULL[d.getDay()] + " " + MON_SHORT[d.getMonth()] + " " + d.getDate();
+}
+function fmtTime(t){ /* "14:30" -> "2:30 PM" */
+    var parts = t.split(":");
+    var h = parseInt(parts[0]), m = parseInt(parts[1]);
+    var suffix = h >= 12 ? "PM" : "AM";
+    var h12 = h % 12 || 12;
+    return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
+}
+function isEventExpired(evt){
+    /* true if end time was more than 1 hour ago */
+    var now = new Date();
+    var p = evt.date.split("-");
+    var tp = evt.endTime.split(":");
+    var end = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]),parseInt(tp[0]),parseInt(tp[1]));
+    return (now - end) > 3600000;
+}
+
+/* --- build filtered+sorted event list for display --- */
+function getDisplayEvents(){
+    var now = new Date();
+    var todayS = dateStr(todayDate());
+
+    /* Start with all events */
+    var list = eventsDataJSON.slice();
+
+    if (evtMode === "date" && evtSelectedDate) {
+        /* Date mode: show ALL events for that date regardless of expiry */
+        list = list.filter(function(e){ return e.date === evtSelectedDate; });
+    } else {
+        /* Upcoming / filter mode: drop expired */
+        list = list.filter(function(e){ return !isEventExpired(e); });
+        /* Also drop purely past dates */
+        list = list.filter(function(e){ return e.date >= todayS; });
+        if (evtMode === "filter" && evtSelectedFilter !== "all") {
+            list = list.filter(function(e){ return e.type === evtSelectedFilter; });
+        }
+    }
+
+    /* Sort by date then startTime then priority desc */
+    list.sort(function(a,b){
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
+        return (b.priority||0) - (a.priority||0);
+    });
+    return list;
+}
+
+/* --- Render the event list --- */
+function renderEvents(){
+    var container = document.getElementById("eventContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    var list = getDisplayEvents();
+    if (list.length === 0) {
+        var msg = document.createElement("div");
+        msg.style.cssText = "color:rgba(255,255,255,0.7);font-size:0.9rem;margin-top:20px;text-align:center;";
+        msg.textContent = "No events to show.";
+        container.appendChild(msg);
+        return;
+    }
+    var lastDate = null;
+    for (var i = 0; i < list.length; i++) {
+        var evt = list[i];
+        if (evt.date !== lastDate) {
+            var head = document.createElement("div");
+            head.className = "evt-day-head";
+            head.textContent = fmtHeading(evt.date);
+            container.appendChild(head);
+            lastDate = evt.date;
+        }
+        container.appendChild(buildEventBox(evt));
+    }
+}
+
+/* --- derive icon filename from full flyer filename ---
+   "ChessClub.jpg"  ->  "ChessClub-icon.jpg"
+   Works for .png .jpg .jpeg .webp etc.                  */
+function iconFromFlyer(flyer){
+    var dot = flyer.lastIndexOf(".");
+    if (dot === -1) return flyer + "-icon";
+    return flyer.slice(0, dot) + "-icon" + flyer.slice(dot);
+}
+
+function buildEventBox(evt){
+    var box = document.createElement("div");
+    box.className = "evt-box";
+    box.setAttribute("data-evtid", evt.id);
+
+    /* Icon wrap */
+    var iconWrap = document.createElement("div");
+    iconWrap.className = "evt-icon-wrap";
+    if (evt.flyer) {
+        var img = document.createElement("img");
+        img.className = "evt-icon-img";
+        img.src = "flyers/" + iconFromFlyer(evt.flyer);
+        img.alt = "";
+        img.onerror = function(){
+            if (iconWrap.contains(this)) iconWrap.removeChild(this);
+        };
+        iconWrap.appendChild(img);
+    }
+    box.appendChild(iconWrap);
+
+    /* Text */
+    var text = document.createElement("div");
+    text.className = "evt-text";
+
+    var title = document.createElement("div");
+    title.className = "evt-title";
+    title.textContent = evt.title;
+    if (evt.title.length > 32) title.style.fontSize = "0.78rem";
+
+    var meta = document.createElement("div");
+    meta.className = "evt-meta";
+    meta.textContent = fmtTime(evt.startTime) + " – " + fmtTime(evt.endTime) + "  ·  " + evt.room;
+
+    text.appendChild(title);
+    text.appendChild(meta);
+    box.appendChild(text);
+
+    box.onclick = function(){ openEvtDetail(evt); };
+    return box;
+}
+
+/* --- Event detail overlay --- */
+function openEvtDetail(evt){
+    var overlay = document.getElementById("evtOverlay");
+    var detail  = document.getElementById("evtDetail");
+    detail.innerHTML = "";
+
+    if (evt.flyer) {
+        /* Has a flyer: reserve space with an img, lazy-load it, animate in */
+        var flyer = document.createElement("img");
+        flyer.className = "evt-detail-flyer";
+        flyer.alt = evt.title;
+        flyer.onerror = function(){
+            /* Image failed — collapse to zero height so no blank gap */
+            flyer.style.display = "none";
+        };
+        detail.appendChild(flyer);
+
+        var body = buildDetailBody(evt);
+        detail.appendChild(body);
+
+        /* Show overlay first, then kick off animation */
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        setTimeout(function(){
+            flyer.src = "flyers/" + evt.flyer;
+            flyer.classList.add("shown");
+            body.classList.add("shown");
+        }, 30);
+    } else {
+        /* No flyer: just render body text immediately, no spacer */
+        var body2 = buildDetailBody(evt);
+        detail.appendChild(body2);
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+        setTimeout(function(){ body2.classList.add("shown"); }, 30);
+    }
+}
+
+function buildDetailBody(evt){
+    var body = document.createElement("div");
+    body.className = "evt-detail-body";
+
+    var t = document.createElement("div");
+    t.className = "evt-detail-title";
+    t.textContent = evt.title;
+
+    var desc = document.createElement("div");
+    desc.className = "evt-detail-desc";
+    desc.textContent = evt.description || "";
+
+    var info = document.createElement("div");
+    info.className = "evt-detail-info";
+    info.textContent = fmtHeading(evt.date) + "  ·  " + fmtTime(evt.startTime) + " – " + fmtTime(evt.endTime) + "  ·  " + evt.room;
+
+    var club = document.createElement("div");
+    club.className = "evt-detail-club";
+    club.textContent = evt.club || "";
+
+    var close = document.createElement("button");
+    close.className = "evt-close-btn";
+    close.textContent = "CLOSE ✕";
+    close.onclick = closeEvtDetail;
+
+    body.appendChild(t);
+    body.appendChild(desc);
+    body.appendChild(info);
+    body.appendChild(club);
+    body.appendChild(close);
+    return body;
+}
+
+function closeEvtDetail(){
+    var overlay = document.getElementById("evtOverlay");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+/* --- Calendar strip logic --- */
+/* Returns Mon of the week that contains `d` */
+function getMondayOf(d){
+    var day = d.getDay(); /* 0=Sun */
+    var diff = (day === 0) ? -6 : 1 - day;
+    var m = new Date(d);
+    m.setDate(d.getDate() + diff);
+    return m;
+}
+
+function getWeekDates(offset){
+    /* Returns array of 5 Date objects (Mon-Fri) for the week at `offset` from current week */
+    var base = getMondayOf(todayDate());
+    base.setDate(base.getDate() + offset * 7);
+    var days = [];
+    for (var i = 0; i < 5; i++) {
+        var d = new Date(base);
+        d.setDate(base.getDate() + i);
+        days.push(d);
+    }
+    return days;
+}
+
+function buildWeekHTML(weekDays){
+    var html = "";
+    for (var i = 0; i < weekDays.length; i++) {
+        var d = weekDays[i];
+        var ds = dateStr(d);
+        var selected = (evtSelectedDate === ds) ? " selected" : "";
+        html += '<div class="cal-day-col">' +
+            '<span class="cal-label">' + DAY_NAMES[d.getDay()].charAt(0) + '</span>' +
+            '<button class="cal-date-btn' + selected + '" data-date="' + ds + '" onclick="pickDate(\'' + ds + '\')">' +
+            d.getDate() +
+            '</button></div>';
+    }
+    return html;
+}
+
+/* Build / rebuild the full calendar strip (two-week buffer for slide) */
+function buildCalStrip(){
+    var inner = document.getElementById("calInner");
+    if (!inner) return;
+    var weekA = getWeekDates(calWeekOffset);
+    var weekB = getWeekDates(calWeekOffset + 1); /* second week pre-loaded to right */
+    inner.innerHTML =
+        '<div class="cal-week" id="calWeekA">' + buildWeekHTML(weekA) + '</div>' +
+        '<div class="cal-week" id="calWeekB">' + buildWeekHTML(weekB) + '</div>';
+    /* reset transform to show weekA */
+    inner.style.webkitTransition = "none";
+    inner.style.transition = "none";
+    inner.style.webkitTransform = "translateX(0)";
+    inner.style.transform = "translateX(0)";
+}
+
+function slideWeek(dir){ /* dir: 1=next, -1=prev */
+    var inner = document.getElementById("calInner");
+    if (!inner) return;
+    /* Prepare the second slot with the target week */
+    var targetOffset = calWeekOffset + dir;
+    var targetDays = getWeekDates(targetOffset);
+    if (dir === 1) {
+        document.getElementById("calWeekB").innerHTML = buildWeekHTML(targetDays);
+        /* slide left to reveal B */
+        inner.style.webkitTransition = "-webkit-transform 0.3s ease";
+        inner.style.transition = "transform 0.3s ease";
+        inner.style.webkitTransform = "translateX(-50%)";
+        inner.style.transform = "translateX(-50%)";
+    } else {
+        /* prepend the target week before A */
+        inner.innerHTML =
+            '<div class="cal-week" id="calWeekPrev">' + buildWeekHTML(targetDays) + '</div>' +
+            '<div class="cal-week" id="calWeekA">' + buildWeekHTML(getWeekDates(calWeekOffset)) + '</div>';
+        /* start at showing A (right slot) */
+        inner.style.webkitTransition = "none";
+        inner.style.transition = "none";
+        inner.style.webkitTransform = "translateX(-50%)";
+        inner.style.transform = "translateX(-50%)";
+        /* force reflow */
+        void inner.offsetWidth;
+        inner.style.webkitTransition = "-webkit-transform 0.3s ease";
+        inner.style.transition = "transform 0.3s ease";
+        inner.style.webkitTransform = "translateX(0)";
+        inner.style.transform = "translateX(0)";
+    }
+    /* After animation, rebuild cleanly */
+    setTimeout(function(){
+        calWeekOffset = targetOffset;
+        buildCalStrip();
+    }, 320);
+}
+
+function pickDate(ds){
+    evtSelectedDate = ds;
+    evtMode = "date";
+    evtSelectedFilter = "all";
+    var d = parseDate(ds);
+    document.getElementById("evtUpcomingBtn").innerHTML = DAY_FULL[d.getDay()] + ", " + MON_SHORT[d.getMonth()] + " " + d.getDate() + ' <span class="arrow">\u25be</span>';
+    buildCalStrip();
+    closeDropdowns();   /* close after picking — like filter */
+    renderEvents();
+}
+
+/* --- Filter logic --- */
+function pickFilter(type){
+    evtSelectedFilter = type;
+    if (type === "all") {
+        evtMode = "upcoming";
+        evtSelectedDate = null;
+        document.getElementById("evtUpcomingBtn").innerHTML = 'Upcoming <span class="arrow">▾</span>';
+    } else {
+        evtMode = "filter";
+        evtSelectedDate = null;
+        document.getElementById("evtUpcomingBtn").innerHTML = 'Upcoming <span class="arrow">▾</span>';
+    }
+    /* Update filter button selected state */
+    var opts = document.querySelectorAll(".filter-opt");
+    for (var i = 0; i < opts.length; i++) {
+        if (opts[i].getAttribute("data-type") === type) {
+            opts[i].classList.add("selected");
+        } else {
+            opts[i].classList.remove("selected");
+        }
+    }
+    closeDropdowns();
+    renderEvents();
+}
+
+/* --- Dropdown open/close --- */
+function toggleDropdown(which){
+    var dateBox   = document.getElementById("evtDateDrop");
+    var filterBox = document.getElementById("evtFilterDrop");
+    var upBtn     = document.getElementById("evtUpcomingBtn");
+    var flBtn     = document.getElementById("evtFilterBtn");
+
+    if (evtDropOpen === which) {
+        /* clicking same button again: close */
+        dateBox.classList.remove("open");
+        filterBox.classList.remove("open");
+        upBtn.classList.remove("open");
+        flBtn.classList.remove("open");
+        evtDropOpen = null;
+    } else {
+        /* open requested — close whatever is currently open */
+        dateBox.classList.remove("open");
+        filterBox.classList.remove("open");
+        upBtn.classList.remove("open");
+        flBtn.classList.remove("open");
+        evtDropOpen = which;
+        if (which === "date") {
+            buildCalStrip();
+            dateBox.classList.add("open");
+            upBtn.classList.add("open");
+        } else {
+            filterBox.classList.add("open");
+            flBtn.classList.add("open");
+        }
+    }
+}
+
+function closeDropdowns(){
+    var dateBox   = document.getElementById("evtDateDrop");
+    var filterBox = document.getElementById("evtFilterDrop");
+    var upBtn     = document.getElementById("evtUpcomingBtn");
+    var flBtn     = document.getElementById("evtFilterBtn");
+    if (dateBox)   dateBox.classList.remove("open");
+    if (filterBox) filterBox.classList.remove("open");
+    if (upBtn)     upBtn.classList.remove("open");
+    if (flBtn)     flBtn.classList.remove("open");
+    evtDropOpen = null;
+}
+
+/* Touch swipe on calendar strip */
+function calTouchStart(e){
+    touchStartX = e.touches[0].clientX;
+}
+function calTouchEnd(e){
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+        slideWeek(dx < 0 ? 1 : -1);
+    }
+}
+
+/* ---- Click-outside: close dropdowns ---- */
+document.addEventListener("click", function(e){
+    if (evtDropOpen === null) return;
+    /* If click is inside either dropdown or either control button, do nothing */
+    var dateDrop   = document.getElementById("evtDateDrop");
+    var filterDrop = document.getElementById("evtFilterDrop");
+    var upBtn      = document.getElementById("evtUpcomingBtn");
+    var flBtn      = document.getElementById("evtFilterBtn");
+    if (!dateDrop || !filterDrop) return;
+    var inDate   = dateDrop.contains(e.target)   || upBtn.contains(e.target);
+    var inFilter = filterDrop.contains(e.target) || flBtn.contains(e.target);
+    if (!inDate && !inFilter) {
+        closeDropdowns();
+    }
+});
+
+/* ---- Click overlay background to close detail ---- */
+document.addEventListener("click", function(e){
+    var overlay = document.getElementById("evtOverlay");
+    if (overlay && overlay.classList.contains("active") && e.target === overlay) {
+        closeEvtDetail();
+    }
+});
+</script>
+
+</head>
+
+<body>
+<div class="mobile-bg">
+  <img src="images/mobileimage.jpg" alt="">
+</div>
+
+<div class="page-wrap">
+
+<div class="hero">
+<h1>Brooklyn College <br class="title-break"> Student Life</h1>
+<h3 class="heroh"><i>go be a part of something</i></h3>
+</div>
+
+<!-- PRIMARY TABS -->
+<div class="primary-tabs">
+    <div id="clubsTab" class="primary-tab active" onclick="selectPrimary('clubs')">CLUBS</div>
+    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">EVENTS</div>
+</div>
+
+<!-- SUB TABS (off) -->
+<div id="subTabs" class="sub-tabs">
+    <div id="tab1" class="sub-tab active" onclick="selectSub('tab1')">Tab1</div>
+    <div id="tab2" class="sub-tab" onclick="selectSub('tab2')">Tab2</div>
+    <div id="tab3" class="sub-tab" onclick="selectSub('tab3')">Tab3</div>
+    <div id="tab4" class="sub-tab" onclick="selectSub('tab4')">Tab4</div>
+</div>
+
+<!-- CLUB LIST -->
+<div id="clubContainer"></div>
+
+<!-- ===== EVENTS SECTION ===== -->
+<div id="eventsSection">
+
+    <!-- Controls row -->
+    <div class="events-controls">
+
+        <!-- Upcoming / Date picker button + dropdown -->
+        <div style="position:relative;">
+            <button id="evtUpcomingBtn" class="evt-ctrl-btn" onclick="toggleDropdown('date')">
+                Upcoming <span class="arrow">▾</span>
+            </button>
+            <div id="evtDateDrop" class="evt-dropdown date-picker">
+                <!-- Calendar strip -->
+                <div class="cal-days-row">
+                    <button class="cal-nav" onclick="slideWeek(-1)">&#8249;</button>
+                    <div class="cal-days-anim"
+                         ontouchstart="calTouchStart(event)"
+                         ontouchend="calTouchEnd(event)"
+                         style="position:relative;overflow:hidden;">
+                        <div id="calInner" class="cal-days-inner">
+                            <!-- built by JS -->
+                        </div>
+                    </div>
+                    <button class="cal-nav" onclick="slideWeek(1)">&#8250;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter button + dropdown -->
+        <div style="position:relative;">
+            <button id="evtFilterBtn" class="evt-ctrl-btn" onclick="toggleDropdown('filter')">
+                Filters <span class="arrow">▾</span>
+            </button>
+            <div id="evtFilterDrop" class="evt-dropdown filter-picker">
+                <div class="filter-opts">
+                    <button class="filter-opt selected" data-type="all"        onclick="pickFilter('all')">All</button>
+                    <button class="filter-opt"           data-type="sports game"  onclick="pickFilter('sports game')">Sports Games</button>
+                    <button class="filter-opt"           data-type="performance"  onclick="pickFilter('performance')">Performances</button>
+                    <button class="filter-opt"           data-type="club event"   onclick="pickFilter('club event')">Club Events</button>
+                    <button class="filter-opt"           data-type="other"        onclick="pickFilter('other')">Other</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /events-controls -->
+
+    <!-- Event list -->
+    <div id="eventContainer"></div>
+
+</div><!-- /eventsSection -->
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+    <span class="spinner"
+      onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">
+  bcbrooklyn
+</span>
+    <span data-email="mkravets49@gmail.com" class="contact-btn email">Contact Me</span>
+</div>
+
+</div><!-- /page-wrap -->
+
+<!-- EVENT DETAIL OVERLAY -->
+<div id="evtOverlay">
+    <div class="evt-detail" id="evtDetail"></div>
+</div>
+
+</body>
+</html>
