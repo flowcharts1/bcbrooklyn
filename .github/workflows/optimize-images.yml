@@ -18,8 +18,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
-
+             ref: ${{ github.ref }}   # ensures we are on the branch that triggered the workflow
+             fetch-depth: 0           # downloads full git history so rebase works reliably
+             
       - name: Install ImageMagick
         run: sudo apt-get install -y imagemagick
 
@@ -68,4 +69,7 @@ jobs:
           git add flyers/
           # Only commit if there are actual staged changes
           git diff --staged --quiet || git commit -m "Auto: generate flyer icons [skip ci]"
-          git push
+
+
+          git pull --rebase origin main
+          git push origin HEAD:main
