@@ -4,42 +4,41 @@ on:
   push:
     paths:
       - 'flyers/**'
+    # Don't re-trigger when Actions itself commits icons back
+    branches-ignore: []
 
 jobs:
   optimize:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install ImageMagick
         run: sudo apt-get install -y imagemagick
 
       - name: Optimize and create icons
         run: |
+          changed=0
           for f in flyers/*; do
-            # Skip files that already have -icon in the name
             case "$f" in *-icon.*) continue ;; esac
-            
             ext="${f##*.}"
             base="${f%.*}"
-            
-            # Only process image files
-            case "$ext" in jpg|jpeg|png|webp) ;;
-              *) continue ;;
-            esac
-            
-            # Compress original in-place (max 1200px wide, quality 82)
-            convert "$f" -resize '1200x>' -quality 82 "$f"
-            
-            # Create icon version: 120x120, same extension
-            convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
-          done
+            case "$ext" in jpg|jpeg|png|webp) ;; *) continue ;; esac
 
-      - name: Commit optimized images
+            # Only process if no icon exists yet
+            if [ ! -f "${base}-icon.${ext}" ]; then
+              convert "$f" -resize '1200x>' -quality 82 "$f"
+              convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
+              changed=1
+            fi
+          done
+          echo "changed=$changed" >> $GITHUB_ENV
+
+      - name: Commit icons
+        if: env.changed == '1'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add flyers/
-          git diff --staged --quiet || git commit -m "Auto: optimize flyer images"
+          git add flyers/*-icon.*
+          git commit -m "Auto: generate icons [skip ci]"
           git push
