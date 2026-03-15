@@ -9,9 +9,22 @@
       "endTime": "15:32",
       "room": "Boylan 3315",
       "description": "This is a template event. We will see if it works.",
-      "type": "Club Event",
+      "type": "Club Events",
       "priority": 1,
       "flyer": "TemplateEventNo1_n2s4.png"
+    },
+    {
+      "id": 2,
+      "title": "Another Event",
+      "club": "Your Mom Club",
+      "date": "2026-03-17",
+      "startTime": "10:32",
+      "endTime": "00:32",
+      "room": "Ingersoll 1112",
+      "description": "This is yet another template event. Lets see... do  <a href='   https://www.nrcs.usda.gov/plantmaterials/nvpmctn12764.pdf ' target='_blank'>  <i>Links </i> </a> work??",
+      "type": "Other",
+      "priority": 0,
+      "flyer": "AnotherEvent_ummw.png"
     }
   ]
 }
