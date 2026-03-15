@@ -1,0 +1,45 @@
+name: Optimize Flyer Images
+
+on:
+  push:
+    paths:
+      - 'flyers/**'
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install ImageMagick
+        run: sudo apt-get install -y imagemagick
+
+      - name: Optimize and create icons
+        run: |
+          for f in flyers/*; do
+            # Skip files that already have -icon in the name
+            case "$f" in *-icon.*) continue ;; esac
+            
+            ext="${f##*.}"
+            base="${f%.*}"
+            
+            # Only process image files
+            case "$ext" in jpg|jpeg|png|webp) ;;
+              *) continue ;;
+            esac
+            
+            # Compress original in-place (max 1200px wide, quality 82)
+            convert "$f" -resize '1200x>' -quality 82 "$f"
+            
+            # Create icon version: 120x120, same extension
+            convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
+          done
+
+      - name: Commit optimized images
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add flyers/
+          git diff --staged --quiet || git commit -m "Auto: optimize flyer images"
+          git push
