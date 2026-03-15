@@ -4,41 +4,66 @@ on:
   push:
     paths:
       - 'flyers/**'
-    # Don't re-trigger when Actions itself commits icons back
-    branches-ignore: []
 
 jobs:
   optimize:
     runs-on: ubuntu-latest
+
+    # Don't run if this is the Actions bot committing icons back
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - name: Install ImageMagick
         run: sudo apt-get install -y imagemagick
 
-      - name: Optimize and create icons
+      - name: Get only newly added image files
+        id: newfiles
         run: |
-          changed=0
-          for f in flyers/*; do
-            case "$f" in *-icon.*) continue ;; esac
+          # --diff-filter=A = Added files only. Ignores deletions and modifications.
+          # Guard against empty "before" SHA (first push / force push edge case)
+          BEFORE="${{ github.event.before }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            # First push: treat all files in flyers/ as new
+            FILES=$(find flyers/ -maxdepth 1 -type f | grep -E '\.(jpg|jpeg|png|webp)$' | grep -v '\-icon\.' || true)
+          else
+            FILES=$(git diff --name-only --diff-filter=A ${{ github.event.before }} ${{ github.sha }} | grep '^flyers/' | grep -E '\.(jpg|jpeg|png|webp)$' | grep -v '\-icon\.' || true)
+          fi
+          echo "Found new files: $FILES"
+          # Write to a temp file so the next step can read it
+          echo "$FILES" > /tmp/newfiles.txt
+          # Set output flag so next step knows whether to run
+          if [ -z "$FILES" ]; then
+            echo "has_new=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_new=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Optimize and create icons
+        if: steps.newfiles.outputs.has_new == 'true'
+        run: |
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            [ -f "$f" ] || continue
             ext="${f##*.}"
             base="${f%.*}"
-            case "$ext" in jpg|jpeg|png|webp) ;; *) continue ;; esac
+            echo "Processing: $f"
+            # Compress original in-place (max 1200px wide, quality 82)
+            convert "$f" -resize '1200x>' -quality 82 "$f"
+            # Create icon (120x120 center crop, same extension)
+            convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
+          done < /tmp/newfiles.txt
 
-            # Only process if no icon exists yet
-            if [ ! -f "${base}-icon.${ext}" ]; then
-              convert "$f" -resize '1200x>' -quality 82 "$f"
-              convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
-              changed=1
-            fi
-          done
-          echo "changed=$changed" >> $GITHUB_ENV
-
-      - name: Commit icons
-        if: env.changed == '1'
+      - name: Commit icons back to repo
+        if: steps.newfiles.outputs.has_new == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add flyers/*-icon.*
-          git commit -m "Auto: generate icons [skip ci]"
+          git add flyers/
+          # Only commit if there are actual staged changes
+          git diff --staged --quiet || git commit -m "Auto: generate flyer icons [skip ci]"
           git push
