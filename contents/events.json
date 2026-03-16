@@ -25,6 +25,45 @@
       "type": "Other",
       "priority": 0,
       "flyer": "AnotherEvent_ummw.png"
+    },
+    {
+      "id": 3,
+      "title": "Men's Tennis vs Purchase",
+      "club": "",
+      "date": "2026-03-17",
+      "startTime": "16:02",
+      "endTime": "00:00",
+      "room": "West Quad Tennis Courts",
+      "description": "Tennis game!",
+      "type": "sports game",
+      "priority": 1,
+      "flyer": "MensTennisvsPurchase_jb58.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Conservatory Orchestra Concert",
+      "club": "",
+      "date": "2026-03-26",
+      "startTime": "18:02",
+      "endTime": "00:00",
+      "room": "Tow Center, Don Buchwald Theater",
+      "description": "String orchestra, Students free admission with ID.",
+      "type": "performance",
+      "priority": 1,
+      "flyer": "ConservatoryOrchestraConcert_bres.jpeg"
+    },
+    {
+      "id": 5,
+      "title": "Pi day Pie eating contest",
+      "club": "Math Club",
+      "date": "2026-03-17",
+      "startTime": "13:02",
+      "endTime": "00:00",
+      "room": "Inger 1310",
+      "description": "🥧 Pi Eating Contest (No hands allowed — one pie per person!)\n\n🍕 Food & refreshments\n\n🎲 Games & prizes\n\n🧠 Professors play 2 Truths & 1 Lie\n\n🔎 Sticker hunt\n\n✍🏽 Pi-ku poems\n\n⭕ Circle drawing challenge\n\n🔢 Pi memorization showdown\n\n🔑 Custom keychains\n\n📸 Photobooth fun",
+      "type": "club event",
+      "priority": 1,
+      "flyer": "PidayPieeatingcontest_bx77.png"
     }
   ]
 }
