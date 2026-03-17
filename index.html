@@ -553,6 +553,7 @@ body {
     align-items: center;
     max-width: 460px;
     width: 90vw;
+    white-space: pre-line;
 }
     
  #flyerExpand {
@@ -825,9 +826,11 @@ function fmtHeading(dateS){
     var d = parseDate(dateS);
     return DAY_FULL[d.getDay()] + " " + MON_SHORT[d.getMonth()] + " " + d.getDate();
 }
-function fmtTime(t){ /* "14:30" -> "2:30 PM" */
+function fmtTime(t){
+    if (!t || t === "") return "";
     var parts = t.split(":");
     var h = parseInt(parts[0]), m = parseInt(parts[1]);
+    if (isNaN(h)) return "";
     var suffix = h >= 12 ? "PM" : "AM";
     var h12 = h % 12 || 12;
     return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
@@ -938,7 +941,10 @@ function buildEventBox(evt){
 
     var meta = document.createElement("div");
     meta.className = "evt-meta";
-    meta.textContent = fmtTime(evt.startTime) + " – " + fmtTime(evt.endTime) + "  ·  " + evt.room;
+   var timeStr = fmtTime(evt.startTime);
+var endStr  = fmtTime(evt.endTime);
+if (endStr) timeStr += " \u2013 " + endStr;
+meta.textContent = timeStr + "  \u00b7  " + evt.room;
 
     text.appendChild(title);
     text.appendChild(meta);
@@ -1013,8 +1019,10 @@ for (var dp = 0; dp < descParts.length; dp++) {
 
     var info = document.createElement("div");
     info.className = "evt-detail-info";
-    info.textContent = fmtHeading(evt.date) + "  ·  " + fmtTime(evt.startTime) + " – " + fmtTime(evt.endTime) + "  ·  " + evt.room;
-
+    var dTimeStr = fmtTime(evt.startTime);
+var dEndStr  = fmtTime(evt.endTime);
+if (dEndStr) dTimeStr += " \u2013 " + dEndStr;
+info.textContent = fmtHeading(evt.date) + "  \u00b7  " + dTimeStr + "  \u00b7  " + evt.room;
     var club = document.createElement("div");
     club.className = "evt-detail-club";
     club.textContent = evt.club || "";
