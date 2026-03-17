@@ -2,7 +2,8 @@ name: Backfill Missing Icons
 
 on:
   workflow_dispatch:  # manual trigger only — you click "Run workflow"
-
+permissions:
+  contents: write
 jobs:
   backfill:
     runs-on: ubuntu-latest
