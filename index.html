@@ -437,6 +437,7 @@ body {
 #eventContainer {
     margin-top: 4px;
     padding-bottom: 16px;
+    min-width:0px;
 }
 .evt-day-head {
     font-size: 0.78rem;
@@ -463,6 +464,7 @@ body {
     -webkit-tap-highlight-color: transparent;
     -webkit-transition: opacity 0.12s;
     transition: opacity 0.12s;
+    min-width:0px;
 }
 .evt-box:active {
     opacity: 0.75;
@@ -486,23 +488,27 @@ body {
     display: block;
 }
 .evt-text {
-    flex: 1;
-    overflow: hidden;
+     flex: 1 1 1px;        /* allow shrinking */
+    min-width: 0;
+    max-width: 100%;
+    width: 0;  
 }
 .evt-title {
     font-size: 0.88rem;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; 
+    min-width:0px;
 }
 .evt-meta {
     font-size: 0.78rem;
     color: #555;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; 
     margin-top: 1px;
+    min-width:0px;
 }
 
 /* --- Overlay / detail --- */
