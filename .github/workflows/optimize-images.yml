@@ -61,7 +61,7 @@ jobs:
             convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
           done < /tmp/newfiles.txt
 
-      - - name: Commit icons back to repo
+       - name: Commit icons back to repo
         if: steps.newfiles.outputs.has_new == 'true'
         run: |
           git config user.name "github-actions"
