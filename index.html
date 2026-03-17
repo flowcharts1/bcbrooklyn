@@ -1097,11 +1097,13 @@ function closeEvtDetail(){
     var target = e.target;
     if (target.closest(".evt-close-btn")) return;
     if (target.closest(".evt-detail-flyer")) return;
+    e.stopPropagation();
+    e.preventDefault();
     closeEvtDetail();
 }
 
     document.getElementById("evtOverlay").addEventListener("mouseup",   handleClose);
-    document.getElementById("evtOverlay").addEventListener("touchend",  handleClose, {passive: true});
+    document.getElementById("evtOverlay").addEventListener("touchend",  handleClose, {passive: false});
 }());
 
 
