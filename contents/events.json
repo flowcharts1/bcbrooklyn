@@ -2,32 +2,6 @@
   "events": [
     {
       "id": 1,
-      "title": "Template Event No 1",
-      "club": "Badminton Club",
-      "date": "2026-03-17",
-      "startTime": "2 PM",
-      "endTime": "3 PM",
-      "room": "Boylan 3315",
-      "description": "This is a template event. We will see if it works.",
-      "type": "club event",
-      "priority": 1,
-      "flyer": "TemplateEventNo1_n2s4.png"
-    },
-    {
-      "id": 2,
-      "title": "Another Event",
-      "club": "Your Mom Club",
-      "date": "2026-03-17",
-      "startTime": "10 AM",
-      "endTime": "12 AM",
-      "room": "Ingersoll 1112",
-      "description": "This is yet another template event. Lets see... do  <a href='   https://www.nrcs.usda.gov/plantmaterials/nvpmctn12764.pdf ' target='_blank'>  <i>Links </i> </a> work??",
-      "type": "other",
-      "priority": 0,
-      "flyer": "AnotherEvent_ummw.png"
-    },
-    {
-      "id": 3,
       "title": "Men's Tennis vs Purchase",
       "club": "",
       "date": "2026-03-17",
@@ -40,7 +14,7 @@
       "flyer": "MensTennisvsPurchase_jb58.jpg"
     },
     {
-      "id": 4,
+      "id": 2,
       "title": "Conservatory Orchestra Concert",
       "club": "",
       "date": "2026-03-26",
@@ -53,17 +27,108 @@
       "flyer": "ConservatoryOrchestraConcert_bres.jpeg"
     },
     {
-      "id": 5,
+      "id": 3,
       "title": "Pi day Pie eating contest",
       "club": "Math Club",
       "date": "2026-03-17",
       "startTime": "12:30 PM",
       "endTime": "",
       "room": "Inger 1310",
-      "description": "🥧 Pi Eating Contest (No hands allowed — one pie per person!)\n\n🍕 Food & refreshments\n\n🎲 Games & prizes\n\n🧠 Professors play 2 Truths & 1 Lie\n\n🔎 Sticker hunt\n\n✍🏽 Pi-ku poems\n\n⭕ Circle drawing challenge\n\n🔢 Pi memorization showdown\n\n🔑 Custom keychains\n\n📸 Photobooth fun",
+      "description": "",
       "type": "club event",
       "priority": 1,
       "flyer": "PidayPieeatingcontest_bx77.png"
+    },
+    {
+      "id": 4,
+      "title": "ASL Basics Lesson #1",
+      "club": "American Sign Language Club",
+      "date": "2026-03-17",
+      "startTime": "12:30 PM",
+      "endTime": "",
+      "room": "Student Center Occidental Room",
+      "description": "In this event we will be introducing how to sign the alphabets and numbers using American Sign Language. \nWe will also be going over how to spell out your name and how to introduce yourself using sign language.\nFood Provided (We will be providing Pizza and Drinks! )",
+      "type": "club event",
+      "priority": 4,
+      "flyer": "ASLBasicsLesson1_gc4h.jpeg"
+    },
+    {
+      "id": 5,
+      "title": "Playing with Puzzles - Chess Club",
+      "club": "Chess Club",
+      "date": "2026-03-17",
+      "startTime": "12:30 PM",
+      "endTime": "",
+      "room": "Student Center MARONEY-LEDDY",
+      "description": "Sharpen your skills at this event centered around puzzles! Work through tactical problems ranging from beginner to advanced—mate-in-one, forks, pins, and more. Whether you’re new to puzzles or a seasoned player, this is a great way to improve your game in a fun, collaborative setting.",
+      "type": "club event",
+      "priority": 2,
+      "flyer": "PlayingwithPuzzlesChessClub_7t2u.png"
+    },
+    {
+      "id": 6,
+      "title": "Crochet Circle BLMI x CYS ",
+      "club": "BLMI",
+      "date": "2026-03-18",
+      "startTime": "12 PM",
+      "endTime": "",
+      "room": "James 3309",
+      "description": "Join us for our biweekly crochet circle designed for students to unwind and connect. Beyond crafting, we will engage in meaningful contemplation and cultural exploration through the art of fiber. Whether you're a beginner or an expert, come stitch together a stronger community.\nRegister:\nhttps://cglink.me/2tw/r384123",
+      "type": "club event",
+      "priority": 2,
+      "flyer": "CrochetCircleBLMIxCYS_z97n.png"
+    },
+    {
+      "id": 7,
+      "title": "BC Research Symposium",
+      "club": "Dream Team + Sociology Club",
+      "date": "2026-03-19",
+      "startTime": "11 AM",
+      "endTime": "4 PM",
+      "room": "Tow Center Atrium",
+      "description": "",
+      "type": "other",
+      "priority": 2,
+      "flyer": "BCResearchSymposium_sful.png"
+    },
+    {
+      "id": 8,
+      "title": "Ides of March",
+      "club": "Classical Society",
+      "date": "2026-03-19",
+      "startTime": "12:30 PM",
+      "endTime": "2:30 PM",
+      "room": "Boylan 2405",
+      "description": "Let’s make the Ides of March a day to remember! Join BC Classical Society March 19th for food and trivia, and a few rounds of pin the dagger on the Julius Caesar!",
+      "type": "club event",
+      "priority": 2,
+      "flyer": "IdesofMarch_yawm.png"
+    },
+    {
+      "id": 9,
+      "title": "Badminton Club Meeting",
+      "club": "Badminton Club",
+      "date": "2026-03-19",
+      "startTime": "12:30 PM",
+      "endTime": "3:30 PM",
+      "room": "200 Roosevelt Extension",
+      "description": "Go play",
+      "type": "club event",
+      "priority": 5,
+      "flyer": "BadmintonClubMeeting_1uhb.png"
+    },
+    {
+      "id": 10,
+      "title": "Junction Social Mixer",
+      "club": "Riverrun",
+      "date": "2026-03-19",
+      "startTime": "12:30 PM",
+      "endTime": "2 PM",
+      "room": "Boylan 2315",
+      "description": "Students are able to mingle with one another and ask senior interns questions about life as an English major or minor at Brooklyn College. It's also a great resource for anyone interested in learning more about the Junction Journal and all the activities hosted by the Riverrun club.",
+      "type": "club event",
+      "priority": 5,
+      "flyer": "JunctionSocialMixer_9fbi.png"
     }
   ]
 }
