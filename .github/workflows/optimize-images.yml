@@ -61,15 +61,12 @@ jobs:
             convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
           done < /tmp/newfiles.txt
 
-      - name: Commit icons back to repo
+      - - name: Commit icons back to repo
         if: steps.newfiles.outputs.has_new == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add flyers/
-          # Only commit if there are actual staged changes
           git diff --staged --quiet || git commit -m "Auto: generate flyer icons [skip ci]"
-
-
           git pull --rebase origin main
-          git push origin HEAD:main
+          git push
