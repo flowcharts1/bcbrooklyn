@@ -114,7 +114,7 @@
       "room": "200 Roosevelt Extension",
       "description": "Go play",
       "type": "club event",
-      "priority": 5,
+      "priority": 1,
       "flyer": "BadmintonClubMeeting_1uhb.png"
     },
     {
@@ -129,6 +129,19 @@
       "type": "club event",
       "priority": 5,
       "flyer": "JunctionSocialMixer_9fbi.png"
+    },
+    {
+      "id": 11,
+      "title": "USG Tabling",
+      "club": "",
+      "date": "2026-03-19",
+      "startTime": "12:30 PM",
+      "endTime": "",
+      "room": "New Ingersoll Lobby Table",
+      "description": "",
+      "type": "club event",
+      "priority": 4,
+      "flyer": "USGTabling_bdtk.png"
     }
   ]
 }
