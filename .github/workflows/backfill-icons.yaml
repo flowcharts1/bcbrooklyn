@@ -1,0 +1,39 @@
+name: Backfill Missing Icons
+
+on:
+  workflow_dispatch:  # manual trigger only — you click "Run workflow"
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install ImageMagick
+        run: sudo apt-get install -y imagemagick
+
+      - name: Generate any missing icons
+        run: |
+          changed=0
+          for f in flyers/*; do
+            case "$f" in *-icon.*) continue ;; esac
+            ext="${f##*.}"
+            base="${f%.*}"
+            case "$ext" in jpg|jpeg|png|webp) ;; *) continue ;; esac
+            if [ ! -f "${base}-icon.${ext}" ]; then
+              echo "Generating icon for: $f"
+              convert "$f" -resize '120x120^' -gravity center -extent 120x120 "${base}-icon.${ext}"
+              changed=1
+            fi
+          done
+          echo "changed=$changed" >> $GITHUB_ENV
+
+      - name: Commit
+        if: env.changed == '1'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add flyers/
+          git commit -m "Backfill: missing flyer icons [skip ci]"
+          git pull --rebase origin main
+          git push
