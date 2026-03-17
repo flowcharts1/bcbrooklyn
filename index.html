@@ -28,6 +28,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    
 }
 html, body {
   height: 100%;
@@ -456,7 +457,7 @@ body {
     padding: 7px 10px;
     margin-bottom: 6px;
     text-align: left;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -466,6 +467,8 @@ body {
     transition: opacity 0.12s;
     min-width:0px;
 }
+    
+
 .evt-box:active {
     opacity: 0.75;
 }
@@ -511,14 +514,13 @@ body {
     min-width:0px;
 }
 
+    
+    
+    
+    
+    
 /* --- Overlay / detail --- */
 #evtOverlay {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
@@ -530,6 +532,7 @@ body {
     transition: opacity 0.25s ease;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    /* no flex centering — card anchors to top and scrolls naturally */
 }
 #evtOverlay.active {
     opacity: 1;
@@ -538,7 +541,9 @@ body {
 }
 .evt-detail {
     position: relative;
-    padding: 54px 20px 30px;
+    /* top margin clears the device toolbar, auto left/right centers it */
+    margin: 54px auto 40px;
+    padding: 0 20px 30px;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
@@ -548,11 +553,42 @@ body {
     align-items: center;
     max-width: 460px;
     width: 90vw;
-    /* no margin: 0 auto needed — flex parent centres it */
 }
+    
+ #flyerExpand {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    z-index: 500;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+}
+#flyerExpand.active {
+    display: -webkit-box;
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
+#flyerExpand img {
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    border-radius: 8px;
+    object-fit: contain;
+    display: block;
+}   
+    
 .evt-detail-flyer {
-    width: 88%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 550px;
     border-radius: 10px;
     object-fit: cover;
     margin-bottom: 4px;
@@ -616,6 +652,15 @@ body {
     cursor: pointer;
     letter-spacing: 0.05em;
     -webkit-tap-highlight-color: transparent;
+    -webkit-transition: background 0.1s ease, color 0.1s ease;
+    transition: background 0.1s ease, color 0.1s ease;
+    /* prevent text selection on long hold */
+    -webkit-user-select: none;
+    user-select: none;
+}
+.evt-close-btn.holding {
+    background: white;
+    color: black;
 }
 
 /* end events styles */
@@ -913,6 +958,12 @@ function openEvtDetail(evt){
         /* Has a flyer: reserve space with an img, lazy-load it, animate in */
         var flyer = document.createElement("img");
         flyer.className = "evt-detail-flyer";
+        flyer.onclick = function(e) {
+    e.stopPropagation(); // don't trigger overlay close
+    openFlyerExpand(this.src);
+};
+        
+        
         flyer.alt = evt.title;
         flyer.onerror = function(){
             /* Image failed — collapse to zero height so no blank gap */
@@ -951,8 +1002,14 @@ function buildDetailBody(evt){
     t.textContent = evt.title;
 
     var desc = document.createElement("div");
-    desc.className = "evt-detail-desc";
-    desc.textContent = evt.description || "";   //anchor links - change textContent to innerHTML - could result in cross site scripting  XSS security breaches.
+desc.className = "evt-detail-desc";
+// Split on <br> tags that came from the Apps Script line-break encoding.
+// All text nodes are set via textContent — no innerHTML, no XSS risk.
+var descParts = (evt.description || "").split("<br>");
+for (var dp = 0; dp < descParts.length; dp++) {
+    if (dp > 0) desc.appendChild(document.createElement("br"));
+    desc.appendChild(document.createTextNode(descParts[dp]));
+}   //anchor links - change textContent to innerHTML - could result in cross site scripting  XSS security breaches.
 
     var info = document.createElement("div");
     info.className = "evt-detail-info";
@@ -963,9 +1020,46 @@ function buildDetailBody(evt){
     club.textContent = evt.club || "";
 
     var close = document.createElement("button");
-    close.className = "evt-close-btn";
-    close.textContent = "CLOSE ✕";
-    close.onclick = closeEvtDetail;
+close.className = "evt-close-btn";
+close.textContent = "CLOSE ✕";
+
+// Track whether pointer is still held over the button
+var holdActive = false;
+
+function onHoldStart() {
+    holdActive = true;
+    close.classList.add("holding");
+}
+function onHoldEnd() {
+    if (holdActive) {
+        closeEvtDetail();
+    }
+    holdActive = false;
+    close.classList.remove("holding");
+}
+function onHoldAbort() {
+    // Finger slid off — abort, don't close
+    holdActive = false;
+    close.classList.remove("holding");
+}
+
+// Mouse events (desktop)
+close.addEventListener("mousedown",  onHoldStart);
+close.addEventListener("mouseup",    onHoldEnd);
+close.addEventListener("mouseleave", onHoldAbort);
+
+// Touch events (mobile — more reliable than onclick for this pattern)
+close.addEventListener("touchstart",  function(e){ e.preventDefault(); onHoldStart(); }, {passive: false});
+close.addEventListener("touchend",    function(e){ e.preventDefault(); onHoldEnd();   }, {passive: false});
+close.addEventListener("touchcancel", function(e){ onHoldAbort(); });
+// If finger moves more than ~10px off the button, abort
+close.addEventListener("touchmove", function(e) {
+    var touch = e.touches[0];
+    var rect = close.getBoundingClientRect();
+    var outside = touch.clientX < rect.left - 10 || touch.clientX > rect.right + 10 ||
+                  touch.clientY < rect.top  - 10 || touch.clientY > rect.bottom + 10;
+    if (outside) onHoldAbort();
+}, {passive: true});
 
     body.appendChild(t);
     body.appendChild(desc);
@@ -980,7 +1074,45 @@ function closeEvtDetail(){
     overlay.classList.remove("active");
     document.body.style.overflow = "";
 }
+    
+    
+/* ---- Tap-outside-content to close overlay ----*/ document.addEventListener("DOMContentLoaded", function(){
+(function(){
+    var downX = 0, downY = 0;
 
+    document.getElementById("evtOverlay").addEventListener("mousedown", function(e){
+        downX = e.clientX; downY = e.clientY;
+    });
+    document.getElementById("evtOverlay").addEventListener("touchstart", function(e){
+        downX = e.touches[0].clientX; downY = e.touches[0].clientY;
+    }, {passive: true});
+
+  function handleClose(e) {
+    var overlay = document.getElementById("evtOverlay");
+    if (!overlay.classList.contains("active")) return;
+    var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+    var dist = Math.sqrt(Math.pow(upX - downX, 2) + Math.pow(upY - downY, 2));
+    if (dist > 8) return;
+    var target = e.target;
+    if (target.closest(".evt-close-btn")) return;
+    if (target.closest(".evt-detail-flyer")) return;
+    closeEvtDetail();
+}
+
+    document.getElementById("evtOverlay").addEventListener("mouseup",   handleClose);
+    document.getElementById("evtOverlay").addEventListener("touchend",  handleClose, {passive: true});
+}());
+
+
+
+});
+
+    
+    
+    
+    
+    
 /* --- Calendar strip logic --- */
 /* Returns Mon of the week that contains `d` */
 function getMondayOf(d){
@@ -1180,12 +1312,28 @@ document.addEventListener("click", function(e){
 });
 
 /* ---- Click overlay background to close detail ---- */
-document.addEventListener("click", function(e){
-    var overlay = document.getElementById("evtOverlay");
-    if (overlay && overlay.classList.contains("active") && e.target === overlay) {
-        closeEvtDetail();
-    }
-});
+
+    
+    
+    
+    
+    
+    function openFlyerExpand(src) {
+    var el = document.getElementById("flyerExpand");
+    var img = document.getElementById("flyerExpandImg");
+    img.src = src;
+    el.style.display = "-webkit-box";
+    el.style.display = "flex";
+    // force reflow so transition fires
+    void el.offsetWidth;
+    el.classList.add("active");
+}
+
+function closeFlyerExpand() {
+    var el = document.getElementById("flyerExpand");
+    el.classList.remove("active");
+    setTimeout(function(){ el.style.display = "none"; }, 220);
+}
 </script>
 
 </head>
@@ -1284,6 +1432,10 @@ document.addEventListener("click", function(e){
 <!-- EVENT DETAIL OVERLAY -->
 <div id="evtOverlay">
     <div class="evt-detail" id="evtDetail"></div>
+</div>
+    
+<div id="flyerExpand" onclick="closeFlyerExpand()">
+    <img id="flyerExpandImg" src="" alt="">
 </div>
 
 </body>
