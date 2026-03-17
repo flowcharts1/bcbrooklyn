@@ -780,13 +780,14 @@ window.onload = function() {
             .catch(function(err){
                 console.error("clubs.json error:", err);
                 clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-                selectSub("tab1");
+                //selectSub("tab1");
             });
         /* Load events.json */
         fetch("contents/events.json")
             .then(function(res){ return res.json(); })
             .then(function(data){
                 eventsDataJSON = data.events || [];
+            if (primarySelected === "events") renderEvents();
             })
             .catch(function(err){
                 console.error("events.json error:", err);
@@ -794,7 +795,7 @@ window.onload = function() {
             });
     } else {
         clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-        selectSub("tab1");
+        //selectSub("tab1");
     }
 };
 
@@ -874,7 +875,7 @@ function getDisplayEvents(){
     list.sort(function(a,b){
         if (a.date !== b.date) return a.date < b.date ? -1 : 1;
         if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
-        return (b.priority||0) - (a.priority||0);
+       return (a.priority||3) - (b.priority||3);
     });
     return list;
 }
@@ -1367,7 +1368,7 @@ function closeFlyerExpand() {
 
 <!-- PRIMARY TABS -->
 <div class="primary-tabs">
-    <div id="clubsTab" class="primary-tab active" onclick="selectPrimary('clubs')">CLUBS</div>
+    <div id="clubsTab" class="primary-tab" onclick="selectPrimary('clubs')">CLUBS</div>
     <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">EVENTS</div>
 </div>
 
