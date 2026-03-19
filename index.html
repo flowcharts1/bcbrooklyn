@@ -842,15 +842,17 @@ function fmtTime(t){
     var h12 = h % 12 || 12;
     return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
 }
+
+   /*  
 function isEventExpired(evt){
-    /* true if end time was more than 1 hour ago */
+    // true if end time was more than 1 hour ago 
     var now = new Date();
     var p = evt.date.split("-");
     var tp = evt.endTime.split(":");
     var end = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]),parseInt(tp[0]),parseInt(tp[1]));
     return (now - end) > 3600000;
 }
-
+  */
 /* --- build filtered+sorted event list for display --- */
 function getDisplayEvents(){
     var now = new Date();
@@ -863,8 +865,8 @@ function getDisplayEvents(){
         /* Date mode: show ALL events for that date regardless of expiry */
         list = list.filter(function(e){ return e.date === evtSelectedDate; });
     } else {
-        /* Upcoming / filter mode: drop expired */
-        list = list.filter(function(e){ return !isEventExpired(e); });
+        // Upcoming / filter mode: drop expired (DISABLED)
+        //list = list.filter(function(e){ return !isEventExpired(e); });
         /* Also drop purely past dates */
         list = list.filter(function(e){ return e.date >= todayS; });
         if (evtMode === "filter" && evtSelectedFilter !== "all") {
