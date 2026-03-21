@@ -1,10 +1,381 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" type="image/png" href="images/usglogo.png">
-  <title>Vote for USG President and Senate</title>
-<meta http-equiv="refresh" content="0; url=https://www.clubs.brooklyn.cuny.edu/SAIL/survey?survey_uid=0fed8d56-0b8c-11f1-9dcc-0ea371ea8909&feedback_event_id=&content_type=&content_type_id=">
+  <title>USG Presidential Election</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fdf6ee;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      padding: 40px 20px 80px;
+      color: #1a1a1a;
+    }
+
+    body > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      color: #8b0000;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 36px;
+      letter-spacing: 0.01em;
+    }
+
+    .section-label {
+      font-size: clamp(1rem, 2vw, 2rem);
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* COPY BUTTON */
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #8b0000;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: clamp(13px, 2vw, 18px) clamp(22px, 4vw, 40px);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      line-height: 1.4;
+      transition: background 0.2s, transform 0.1s;
+      min-width: clamp(170px, 45vw, 260px);
+      min-height: clamp(60px, 12vw, 90px);
+      margin-bottom: 36px;
+      box-shadow: 0 4px 18px rgba(139,0,0,0.25);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .copy-btn:hover { background: #a00000; transform: translateY(-1px); }
+    .copy-btn:active { transform: scale(0.98); }
+
+    .copy-btn .names {
+      font-size: clamp(1.1rem, 2.2vw, 1.2rem);
+      display: block;
+    }
+
+    .copy-btn .copied-text {
+      font-size: clamp(1.05rem, 2.8vw, 1.55rem);
+      font-weight: 700;
+      display: block;
+    }
+
+    /* VOTE BUTTON */
+    .vote-btn {
+      display: inline-block;
+      background: #fff;
+      color: #8b0000;
+      border: 3px solid #8b0000;
+      border-radius: 14px;
+      padding: clamp(10px, 2vw, 16px) clamp(28px, 5vw, 48px);
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+      margin-bottom: 44px;
+      box-shadow: 0 4px 18px rgba(139,0,0,0.12);
+      border-radius: clamp(10px, 2vw, 14px);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .vote-btn:hover { background: #8b0000; color: #fff; transform: translateY(-1px); }
+    .vote-btn:active { transform: scale(0.98); }
+
+    /* FLYER */
+    .flyer-wrap {
+      width: 80%;
+      margin: 0 auto 44px;
+      max-width: 500px;
+    }
+
+    /* Use a button wrapper so tap events fire reliably on mobile */
+    .flyer-btn {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: zoom-in;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .flyer-btn img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .flyer-btn:hover img,
+    .flyer-btn:focus img {
+      transform: scale(1.01);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+    }
+
+    .tap-hint {
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 8px;
+      margin-bottom: 0;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      /* Prevent scroll-through on iOS */
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 92vh;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.6);
+      /* Prevent image drag on mobile */
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: #fff;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* CAMPAIGN */
+    .campaign-toggle {
+      display: inline-block;
+      background: transparent;
+      color: #8b0000;
+      border: 2px solid #8b0000;
+      border-radius: 8px;
+      padding: clamp(7px, 1.5vw, 9px) clamp(16px, 3vw, 24px);
+      font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 16px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .campaign-toggle:hover { background: #8b0000; color: #fff; }
+
+    .campaign-text {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: left;
+      background: #fff;
+      border-left: 4px solid #8b0000;
+      border-radius: 0 10px 10px 0;
+      padding: 22px 28px;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #222;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .campaign-text.open { display: block; }
+
+    hr.divider {
+      border: none;
+      border-top: 2px solid #e0c8c8;
+      width: 60%;
+      margin: 0 auto 32px;
+    }
+  </style>
 </head>
 <body>
+
+  <h1 class="title">USG Presidential Elections</h1>
+  <p class="subtitle">Vote for Robert and Illan!</p>
+
+  <p class="section-label">1. Click to Copy Our Names for Write-Ins</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyNames()">
+    <span id="btnContent" class="names">Robert Echevarria<br>Illan Saji</span>
+  </button>
+
+  <br>
+
+  <p class="section-label">2. Open Voting Link</p>
+  <a class="vote-btn" href="https://cglink.me/2tw/s477" target="_blank" rel="noopener">🗳️ Vote Now</a>
+
+  <hr class="divider">
+
+  <div class="flyer-wrap">
+    <button class="flyer-btn" id="flyerBtn" aria-label="View Robert's flyer enlarged">
+      <img src="images/robert.jpeg" alt="Robert's Campaign Flyer">
+    </button>
+    <p class="tap-hint">Tap image to expand</p>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded flyer">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <img id="lightboxImg" src="" alt="Robert's Flyer expanded">
+  </div>
+
+  <br><br>
+
+  <button class="campaign-toggle" onclick="toggleCampaign(this)">📋 View Robert's Campaign ▾</button>
+
+  <div class="campaign-text" id="campaignText">
+    For the last 3 years (since the 1st Semester of my Freshman Year), I have dedicated myself to answering the needs of the thousands of students at BC through USG. In 23/24, I shepherded the Neuroscience Major (that we have now) through the Faculty Council's Committee on Undergraduate Curriculum and Degree Requirements. In 24/25, I wrote legislation that installed a hook in every bathroom stall on campus so people can hang their belongings, and I helped pass and made edits to USG's Undocumented Student Protection Resolution that started discussions that turned into policies we have that protects Undocumented and other Vulnerable Students on campus. In 25/26, I wrote legislation that mandates the Library and W.E.B Building to constantly replace the markers that constantly dry out in the Study Rooms — since I believe no CUNY student should be paying out of pocket for anything which tuition dollars are supposed to cover. As the seniormost member of the USG Senate (and longest serving Member of USG aside from our Current President), I ask again for your signature and vote - not to be your Senator for a 4th year, but to be Your President.
+  </div>
+
+  <script>
+    // ── Copy names ──────────────────────────────────────────────
+    function copyNames() {
+      const text = "Robert Echevarria\nIllan Saji";
+      const content = document.getElementById('btnContent');
+      const originalHTML = content.innerHTML;
+      const originalClass = content.className;
+
+      function flashCopied() {
+        content.className = 'copied-text';
+        content.innerHTML = 'Copied!';
+        setTimeout(() => {
+          content.className = originalClass;
+          content.innerHTML = originalHTML;
+        }, 1800);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(flashCopied).catch(() => fallbackCopy(text, flashCopied));
+      } else {
+        fallbackCopy(text, flashCopied);
+      }
+    }
+
+    function fallbackCopy(text, cb) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      if (cb) cb();
+    }
+
+    // ── Lightbox ────────────────────────────────────────────────
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const flyerBtn    = document.getElementById('flyerBtn');
+    const closeBtn    = document.getElementById('lightboxClose');
+
+    function openLightbox() {
+      const src = flyerBtn.querySelector('img').src;
+      lightboxImg.src = src;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden'; // prevent background scroll on iOS
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Use both click and touchend for maximum device compatibility
+    function addTapHandler(el, fn) {
+      el.addEventListener('click', fn);
+      el.addEventListener('touchend', function(e) {
+        e.preventDefault(); // prevents the 300ms delay + ghost click on iOS
+        fn();
+      }, { passive: false });
+    }
+
+    addTapHandler(flyerBtn, openLightbox);
+    addTapHandler(closeBtn, closeLightbox);
+
+    // Tap the dark backdrop (not the image) to close
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    lightbox.addEventListener('touchend', function(e) {
+      if (e.target === lightbox) {
+        e.preventDefault();
+        closeLightbox();
+      }
+    }, { passive: false });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ── Campaign toggle ─────────────────────────────────────────
+    function toggleCampaign(btn) {
+      const box = document.getElementById('campaignText');
+      box.classList.toggle('open');
+      btn.textContent = box.classList.contains('open')
+        ? "📋 Hide Robert's Campaign ▴"
+        : "📋 View Robert's Campaign ▾";
+    }
+  </script>
+
 </body>
 </html>
