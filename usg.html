@@ -17,10 +17,7 @@
       color: #1a1a1a;
     }
 
-    body > * {
-      position: relative;
-      z-index: 1;
-    }
+    body > * { position: relative; z-index: 1; }
 
     .title {
       font-family: 'Playfair Display', serif;
@@ -50,7 +47,6 @@
       text-transform: uppercase;
     }
 
-    /* COPY BUTTON */
     .copy-btn {
       display: inline-flex;
       align-items: center;
@@ -69,30 +65,18 @@
       min-height: clamp(60px, 12vw, 90px);
       margin-bottom: 36px;
       box-shadow: 0 4px 18px rgba(139,0,0,0.25);
-      -webkit-tap-highlight-color: transparent;
     }
-
     .copy-btn:hover { background: #a00000; transform: translateY(-1px); }
     .copy-btn:active { transform: scale(0.98); }
+    .copy-btn .names { font-size: clamp(1.1rem, 2.2vw, 1.2rem); display: block; }
+    .copy-btn .copied-text { font-size: clamp(1.05rem, 2.8vw, 1.55rem); font-weight: 700; display: block; }
 
-    .copy-btn .names {
-      font-size: clamp(1.1rem, 2.2vw, 1.2rem);
-      display: block;
-    }
-
-    .copy-btn .copied-text {
-      font-size: clamp(1.05rem, 2.8vw, 1.55rem);
-      font-weight: 700;
-      display: block;
-    }
-
-    /* VOTE BUTTON */
     .vote-btn {
       display: inline-block;
       background: #fff;
       color: #8b0000;
       border: 3px solid #8b0000;
-      border-radius: 14px;
+      border-radius: clamp(10px, 2vw, 14px);
       padding: clamp(10px, 2vw, 16px) clamp(28px, 5vw, 48px);
       font-size: clamp(1.4rem, 2.2vw, 2rem);
       font-weight: 700;
@@ -103,108 +87,55 @@
       letter-spacing: 0.02em;
       margin-bottom: 44px;
       box-shadow: 0 4px 18px rgba(139,0,0,0.12);
-      border-radius: clamp(10px, 2vw, 14px);
-      -webkit-tap-highlight-color: transparent;
     }
     .vote-btn:hover { background: #8b0000; color: #fff; transform: translateY(-1px); }
-    .vote-btn:active { transform: scale(0.98); }
 
-    /* FLYER */
     .flyer-wrap {
       width: 80%;
       margin: 0 auto 44px;
       max-width: 500px;
     }
 
-    /* Use a button wrapper so tap events fire reliably on mobile */
-    .flyer-btn {
-      display: block;
-      width: 100%;
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: zoom-in;
-      border-radius: 12px;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    .flyer-btn img {
+    .flyer-wrap img {
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      cursor: zoom-in;
       display: block;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .flyer-btn:hover img,
-    .flyer-btn:focus img {
-      transform: scale(1.01);
-      box-shadow: 0 12px 48px rgba(0,0,0,0.22);
-    }
-
-    .tap-hint {
-      font-size: 0.82rem;
-      color: #888;
-      margin-top: 8px;
-      margin-bottom: 0;
-    }
-
-    /* LIGHTBOX */
-    .lightbox {
+    /* LIGHTBOX — same proven pattern */
+    #flyerExpand {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92);
       z-index: 9999;
+      background: rgba(0,0,0,0.0);
+      -webkit-box-align: center;
+      -webkit-box-pack: center;
       align-items: center;
       justify-content: center;
+      transition: background 0.22s ease;
       cursor: zoom-out;
-      /* Prevent scroll-through on iOS */
-      overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
     }
-    .lightbox.open {
-      display: flex;
+    #flyerExpand.active {
+      background: rgba(0,0,0,0.88);
     }
-
-    .lightbox img {
+    #flyerExpand img {
       max-width: 95vw;
       max-height: 92vh;
       border-radius: 8px;
       box-shadow: 0 0 60px rgba(0,0,0,0.6);
-      /* Prevent image drag on mobile */
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
+      transform: scale(0.88);
+      opacity: 0;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      cursor: default;
+    }
+    #flyerExpand.active img {
+      transform: scale(1);
+      opacity: 1;
     }
 
-    .lightbox-close {
-      position: fixed;
-      top: 16px;
-      right: 20px;
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.5);
-      color: #fff;
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      font-size: 1.4rem;
-      line-height: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    .lightbox-close:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    /* CAMPAIGN */
     .campaign-toggle {
       display: inline-block;
       background: transparent;
@@ -218,8 +149,6 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
       margin-bottom: 16px;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
     .campaign-toggle:hover { background: #8b0000; color: #fff; }
 
@@ -265,16 +194,12 @@
   <hr class="divider">
 
   <div class="flyer-wrap">
-    <button class="flyer-btn" id="flyerBtn" aria-label="View Robert's flyer enlarged">
-      <img src="images/robert.jpeg" alt="Robert's Campaign Flyer">
-    </button>
-    <p class="tap-hint">Tap image to expand</p>
+    <img src="images/robert.jpeg" alt="Robert's Flyer" onclick="openFlyerExpand(this.src)">
   </div>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded flyer">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
-    <img id="lightboxImg" src="" alt="Robert's Flyer expanded">
+  <div id="flyerExpand" onclick="closeFlyerExpand()">
+    <img id="flyerExpandImg" src="" alt="Robert's Flyer expanded">
   </div>
 
   <br><br>
@@ -286,31 +211,46 @@
   </div>
 
   <script>
-    // ── Copy names ──────────────────────────────────────────────
+    function openFlyerExpand(src) {
+      var el = document.getElementById("flyerExpand");
+      var img = document.getElementById("flyerExpandImg");
+      img.src = src;
+      el.style.display = "-webkit-box";
+      el.style.display = "flex";
+      void el.offsetWidth; // force reflow so transition fires
+      el.classList.add("active");
+    }
+
+    function closeFlyerExpand() {
+      var el = document.getElementById("flyerExpand");
+      el.classList.remove("active");
+      setTimeout(function(){ el.style.display = "none"; }, 220);
+    }
+
     function copyNames() {
-      const text = "Robert Echevarria\nIllan Saji";
-      const content = document.getElementById('btnContent');
-      const originalHTML = content.innerHTML;
-      const originalClass = content.className;
+      var text = "Robert Echevarria\nIllan Saji";
+      var content = document.getElementById('btnContent');
+      var originalHTML = content.innerHTML;
+      var originalClass = content.className;
 
       function flashCopied() {
         content.className = 'copied-text';
         content.innerHTML = 'Copied!';
-        setTimeout(() => {
+        setTimeout(function() {
           content.className = originalClass;
           content.innerHTML = originalHTML;
         }, 1800);
       }
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(flashCopied).catch(() => fallbackCopy(text, flashCopied));
+        navigator.clipboard.writeText(text).then(flashCopied).catch(function(){ fallbackCopy(text, flashCopied); });
       } else {
         fallbackCopy(text, flashCopied);
       }
     }
 
     function fallbackCopy(text, cb) {
-      const ta = document.createElement('textarea');
+      var ta = document.createElement('textarea');
       ta.value = text;
       ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
       document.body.appendChild(ta);
@@ -321,55 +261,8 @@
       if (cb) cb();
     }
 
-    // ── Lightbox ────────────────────────────────────────────────
-    const lightbox    = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const flyerBtn    = document.getElementById('flyerBtn');
-    const closeBtn    = document.getElementById('lightboxClose');
-
-    function openLightbox() {
-      const src = flyerBtn.querySelector('img').src;
-      lightboxImg.src = src;
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden'; // prevent background scroll on iOS
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    // Use both click and touchend for maximum device compatibility
-    function addTapHandler(el, fn) {
-      el.addEventListener('click', fn);
-      el.addEventListener('touchend', function(e) {
-        e.preventDefault(); // prevents the 300ms delay + ghost click on iOS
-        fn();
-      }, { passive: false });
-    }
-
-    addTapHandler(flyerBtn, openLightbox);
-    addTapHandler(closeBtn, closeLightbox);
-
-    // Tap the dark backdrop (not the image) to close
-    lightbox.addEventListener('click', function(e) {
-      if (e.target === lightbox) closeLightbox();
-    });
-    lightbox.addEventListener('touchend', function(e) {
-      if (e.target === lightbox) {
-        e.preventDefault();
-        closeLightbox();
-      }
-    }, { passive: false });
-
-    // Close on Escape key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeLightbox();
-    });
-
-    // ── Campaign toggle ─────────────────────────────────────────
     function toggleCampaign(btn) {
-      const box = document.getElementById('campaignText');
+      var box = document.getElementById('campaignText');
       box.classList.toggle('open');
       btn.textContent = box.classList.contains('open')
         ? "📋 Hide Robert's Campaign ▴"
