@@ -1,436 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" type="image/png" href="images/usglogo.png">
+  <title>USG Presidential Election</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<meta http-equiv="refresh" content="0; url=https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1">
+    body {
+      background: #fdf6ee;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      padding: 40px 20px 80px;
+      color: #1a1a1a;
+    }
+     
 
-<title>Vote YES for SPORTS</title>
-
-<link rel="icon" type="image/png" href="bulldog.png">
-<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
-<style>
-:root{
-    --pink-maroon:#8e2a4f;
-    --light-maroon:#b83a5e;
-    --gold:#ffc72c;
-    --blue:#9bd3ff;
-    --cta-color:#ffd166;
-    --share-color:#06d6a0;
+/* make sure all your content sits above it */
+body > * {
+  position: relative;
+  z-index: 1;
 }
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Anton',sans-serif;
-}
-
-html, body{
-    width:100%;
-    height:100%;
-        overflow-x: hidden; /* lock horizontal scroll */
-    overflow-y: auto;   /* allow vertical scroll */
-}
-
-body{
-    background: var(--pink-maroon);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    text-align:center;
-    padding:20px 10px;
-    position:relative;
-}
-
-/* BULLDOGS */
-/* Container for copy button + bulldogs */
-.copy-container {
-  position: relative; /* reference point for absolute bulldogs */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-  
-}
-
-/* Bulldogs positioned relative to copy button container */
-.bulldog {
+      /*
+      body::after {
+  content: '';
   position: absolute;
-  width: 50vw;
-  max-width: 250px;
+ 
+  bottom: -1200px;
+  right: -1000px;
+  width: 3000px;
+  height: 1000px;
+  background-image: url('images/bulldog.png');
+  background-size: 110px 110px;
+  background-repeat: repeat;
+  opacity: 0.08;
+  transform: rotate(-15deg);
+  transform-origin: center center;
   pointer-events: none;
   z-index: 0;
+          
 }
-
-.bulldog.left {
-  left: -25vw;  /* sticks partially outside */
-  top: -40%;     /* relative vertical offset above button */
-}
-
-.bulldog.right {
-  right: -25vw;  /* sticks partially outside */
-  top: -40%;      /* same vertical offset */
-  transform: scaleX(-1);
-}
-.title {
-  position: relative; /* important: sets reference for the overlay */
-  font-size: clamp(40px, 13vw, 100px);
-  line-height: 1.1;
-  letter-spacing: 6px;
-  color: var(--light-maroon); /* fallback original color */
-  -webkit-text-stroke: 8px var(--gold); /* original border */
-  margin-bottom: 6px;
-  z-index: 2;
-}
-    @media (max-width: 307px) {
-  .title {
-    letter-spacing: 2px;           /* less aggressive spacing */
-    
-    font-size: clamp(30px, 13vw, 100px); /* smaller scaling */
-  }
-}
-    
-
-.title-fill {
-  position: absolute; /* overlay exactly on top of .title */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: var(--light-maroon); /* pure fill */
-  -webkit-text-stroke: 0; /* remove border */
-  z-index: 1; /* behind border if needed */
-  pointer-events: none; /* safe, doesn’t interfere */
-}
-
-/* SUBTITLE */
-.subtitle{
-    background:var(--gold);
-    color:var(--pink-maroon);
-    padding:8px 18px;
-    border-radius:40px;
-    font-size:clamp(14px,4vw,20px);
-    margin-bottom:14px;
-    position:relative;
-    z-index:2;
-}
-
-/* DIVIDER IMAGE */
-.divider{
-    width:100%;
-    max-width:400px;
-    margin-bottom:14px;
-    position:relative;
-    z-index:2;
-}
-
-.divider img{
-    width:100%;
-    height:auto;
-}
-
-/* INSTRUCTIONS */
-.instructions{
-    font-size:clamp(20px,4.5vw,26px);
-    line-height:1.3;
-    letter-spacing:2px;
-    color:#aee1ff; /* new light blue for clarity */
-    margin-bottom:16px;
-    text-align:left;
-    max-width:360px;
-    position:relative;
-    z-index:2;
-}
-
-/* COPY BUTTON */
-.copy-btn{
-    background:var(--gold);
-    color:var(--pink-maroon);
-    border:none;
-    padding:14px 22px;
-    font-size:clamp(20px,5vw,28px);
-    border-radius:12px;
-    cursor:pointer;
-    margin-top:6px;
-    position:relative;
-    z-index:2;
-    border: 2px solid red;
-}
-
-/* BOTTOM CTA */
-.bottom-cta{
-    font-size:clamp(28px,7vw,46px);
-    letter-spacing:3px;
-    color:#ffd166; /* new gold-ish color */
-    -webkit-text-stroke:2px var(--pink-maroon);
-    margin-top:6px;
-    z-index:2;
-    position:relative;
-}
-
-/* OVERLAY */
-.overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:999;
-}
-
-.overlay-box{
-    background:var(--pink-maroon);
-    border:4px solid var(--gold);
-    padding:22px;
-    border-radius:16px;
-    text-align:center;
-    max-width:420px;
-}
-
-.overlay-box h2{
-     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0px;
-    font-size:clamp(26px,9vw,50px);
-    margin-bottom:10px;
-    color:var(--cta-color);
-}
-
-.overlay-box p{
-    font-size:clamp(16px,4.5vw,20px);
-    color:var(--blue);
-    margin-bottom:12px;
-}
-
-.open-link{
-    display:block;
-    margin-bottom:12px;
-    color:var(--white);
-    text-decoration:underline;
-    font-size:18px;
-}
-
-.close-btn{
-    background:var(--gold);
-    color:var(--pink-maroon);
-    border:none;
-    padding:10px 18px;
-    font-size:18px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-/* SHARE MESSAGE */
-.share-message{
-    
-   display:none;
-    margin-top:20px;
-    font-size:clamp(10px,6vw,26px);
-    letter-spacing:3px;
-    color:var(--share-color);
-    position:relative;
-    z-index:2;
-    text-align:center;
-    position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-    margin-bottom:30px;
-}
-
-.copy-link{
-    font-size:clamp(18px,5vw,28px);
-    color:#FF2966;
-    margin-top:6px;
-    word-break:break-all;
-    cursor:pointer;
-}
-    
-/* Desktop scaling */
-@media (min-width: 1224px) {
-  .bulldog {
-    width: 70vw;
-    max-width: 500px;
-  }
-
-  .bulldog.left {
-    left: -2vw;
-    transform: translateZ(-70%);
-    transform: translateY(-15%);  
-  }
-
-  .bulldog.right {
-    right: -2vw;
-      transform: translateY(-15%)scaleX(-1);
-    transform: translateZ(-70%) scaleX(-1);
+*/
       
-  }
+  
+      
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      color: #8b0000;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 36px;
+      letter-spacing: 0.01em;
+    }
+
+    .section-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* COPY BUTTON */
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #8b0000;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 35px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      line-height: 1.4;
+      transition: background 0.2s, transform 0.1s;
+      min-width: 2pxpx;
+      min-height: 9px;
+      margin-bottom: 36px;
+      box-shadow: 0 4px 18px rgba(139,0,0,0.25);
+    }
+
+    .copy-btn:hover { background: #a00000; transform: translateY(-1px); }
+    .copy-btn:active { transform: scale(0.98); }
+
+    .copy-btn .names {
+      font-size: 1.1rem;
+      display: block;
+        
+    }
+
+    .copy-btn .copied-text {
+      font-size: 1.55rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    /* VOTE BUTTON */
+    .vote-btn {
+      display: inline-block;
+      background: #fff;
+      color: #8b0000;
+      border: 3px solid #8b0000;
+      border-radius: 14px;
+      padding: 16px 48px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+      margin-bottom: 44px;
+      box-shadow: 0 4px 18px rgba(139,0,0,0.12);
+    }
+    .vote-btn:hover { background: #8b0000; color: #fff; transform: translateY(-1px); }
+    .vote-btn:active { transform: scale(0.98); }
+
+      .section-label {
+  font-size: clamp(1rem, 2vw,2rem);
 }
 
-    
-.bottom-link {
-  margin-top: 30px;
-  text-align: center;
+.copy-btn {
+  padding: clamp(13px, 2vw, 18px) clamp(22px, 4vw, 40px);
+  min-width: clamp(170px, 45vw, 26px);
+  min-height: clamp(60px, 12vw, 90px);
+  border-radius: clamp(10px, 2vw, 14px);
 }
 
-.show-link-btn {
-  background: none;
-  border: none;
-  color: gold;              /* yellow/gold */
-  text-decoration: underline;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
+.copy-btn .names {
+  font-size: clamp(1.1rem, 2.2vw, 1.2rem);
 }
 
-.link-container {
-  display: block;           /* ensures it’s on its own line */
-  margin-top: 10px;
-  font-size: 18px;
-  color: white;           /* bright blue */
-  word-break: break-all;     /* makes the whole URL visible */
-  position: relative;        /* layer above background elements */
-  z-index: 999;  
-    max-width:240px;
-    
+.copy-btn .copied-text {
+  font-size: clamp(1.05rem, 2.8vw, 1.55rem);
 }
 
-.link-container a {
-    
-  color: inherit;
-  text-decoration: underline;
-}    
+.vote-btn {
+  padding: clamp(10px, 2vw, 16px) clamp(28px, 5vw, 48px);
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  border-radius: clamp(10px, 2vw, 14px);
+}
 
-</style>
+.campaign-toggle {
+  padding: clamp(7px, 1.5vw, 9px) clamp(16px, 3vw, 24px);
+  font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+}
+      
+      
+    /* FLYER */
+    .flyer-wrap {
+      width: 80%;
+      margin: 0 auto 44px;
+        max-width:500px;
+    }
+
+    .flyer-wrap img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      cursor: zoom-in;
+      transition: transform 0.2s;
+    }
+
+    .flyer-placeholder {
+      width: 100%;
+      background: #f0e0e0;
+      border: 2px dashed #c77;
+      border-radius: 12px;
+      padding: 60px 20px;
+      color: #a04444;
+      font-size: 1rem;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.6);
+    }
+
+    /* CAMPAIGN */
+    .campaign-toggle {
+      display: inline-block;
+      background: transparent;
+      color: #8b0000;
+      border: 2px solid #8b0000;
+      border-radius: 8px;
+      padding: 9px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 16px;
+    }
+    .campaign-toggle:hover { background: #8b0000; color: #fff; }
+
+    .campaign-text {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: left;
+      background: #fff;
+      border-left: 4px solid #8b0000;
+      border-radius: 0 10px 10px 0;
+      padding: 22px 28px;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #222;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .campaign-text.open { display: block; }
+
+    hr.divider {
+      border: none;
+      border-top: 2px solid #e0c8c8;
+      width: 60%;
+      margin: 0 auto 32px;
+    }
+  </style>
 </head>
-
 <body>
 
+  <h1 class="title">USG Presidential Elections</h1>
+  <p class="subtitle">Vote for Robert and Illan!</p>
 
-
-<div class="title">
-  VOTE YES<br>FOR SPORTS!!!
-  <span class="title-fill">VOTE YES<br>FOR SPORTS!!!</span>
-</div>
-
-<div class="subtitle">
-Expand Recreation, Athletics, and Intramural sports!
-</div>
-<!--
-<div class="divider">
-    <img src="sportsicons.png" alt="Sports Icons">
-</div>
--->
-    <!--
-<div class="instructions">
-<strong style="font-size:1.4em; color:white">Instructions:</strong>
-<ol>
-<li>Click link below</li>
-<li>Log in</li>
-<li>Go back here (close tab)</li>
-<li>Click link AGAIN</li>
-<li><p style="color:gold">Vote for Rec/athletics! <br>(Referendum #2)</p></li>
-</ol>
-</div>
--->
-    
-<div class="copy-container">
- <button class="copy-btn" onclick="copyAndOpen()">
-  Open Link and Vote!
-</button>
-
-  <img src="bulldog.png" class="bulldog left">
-  <img src="bulldog.png" class="bulldog right">
-</div>
-
-    <div class="bottom-link">
-  <button onclick="toggleLink()" class="show-link-btn">
-    show full link
+  <p class="section-label">1. Click to Copy Our Names for Write-Ins</p>
+  <button class="copy-btn" id="copyBtn" onclick="copyNames()">
+    <span id="btnContent" class="names">Robert Echevarria<br>Illan Saji</span>
   </button>
 
-  <div id="linkContainer" class="link-container"></div>
-</div>
+  <br>
+
+  <p class="section-label">2. Open Voting Link</p>
+  <a class="vote-btn" href="https://cglink.me/2tw/s477" target="_blank" rel="noopener">🗳️ Vote Now</a>
+
+  <hr class="divider">
+
+  <div class="flyer-wrap" id="flyerWrap">
+    <!-- Replace the placeholder below with: <img src="roberts_flyer.png" alt="Robert's Flyer" onclick="openLightbox(this.src)"> -->
+  <!-- Replace the placeholder below with: -->
+<img src="images/robert.jpeg" alt="Robert's Flyer" onclick="openLightbox(this.src)">
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="Robert's Flyer expanded">
+  </div>
+
+  <br><br>
+
+  <button class="campaign-toggle" onclick="toggleCampaign(this)">📋 View Robert's Campaign ▾</button>
+
+  <div class="campaign-text" id="campaignText">
+    For the last 3 years (since the 1st Semester of my Freshman Year), I have dedicated myself to answering the needs of the thousands of students at BC through USG. In 23/24, I shepherded the Neuroscience Major (that we have now) through the Faculty Council's Committee on Undergraduate Curriculum and Degree Requirements. In 24/25, I wrote legislation that installed a hook in every bathroom stall on campus so people can hang their belongings, and I helped pass and made edits to USG's Undocumented Student Protection Resolution that started discussions that turned into policies we have that protects Undocumented and other Vulnerable Students on campus. In 25/26, I wrote legislation that mandates the Library and W.E.B Building to constantly replace the markers that constantly dry out in the Study Rooms — since I believe no CUNY student should be paying out of pocket for anything which tuition dollars are supposed to cover. As the seniormost member of the USG Senate (and longest serving Member of USG aside from our Current President), I ask again for your signature and vote - not to be your Senator for a 4th year, but to be Your President.
+  </div>
+
+  
     
+  <script>
+    function copyNames() {
+      const text = "Robert Echevarria\nIllan Saji";
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        const content = document.getElementById('btnContent');
+        const originalHTML = content.innerHTML;
+        const originalClass = content.className;
 
-<div class="overlay" id="overlay">
-    <div class="overlay-box">
-        <h2>Link Copied!</h2>
-        <p>Paste into your web browser:</p>
-        <a href="https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1"
-           target="_blank"
-           class="open-link" style="color:white">Open in New Tab</a>
-        <button class="close-btn" onclick="closeOverlay()">Close</button>
-    </div>
-</div>
+        content.className = 'copied-text';
+        content.innerHTML = 'Copied!';
 
+        setTimeout(() => {
+          content.className = originalClass;
+          content.innerHTML = originalHTML;
+        }, 1800);
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = "Robert Echevarria\nIllan Saji";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
 
-    
-    
-    
-    
-    
-<div class="share-message" id="shareMessage">
+        const content = document.getElementById('btnContent');
+        const originalHTML = content.innerHTML;
+        const originalClass = content.className;
+        content.className = 'copied-text';
+        content.innerHTML = 'Copied!';
+        setTimeout(() => {
+          content.className = originalClass;
+          content.innerHTML = originalHTML;
+        }, 1800);
+      });
+    }
 
-<div class="copy-link" onclick="copyVoteLink()">bcbrooklyn.com/vote</div>
-</div>
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
 
-<script>
-const voteLink = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
-const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
-const shareLink = "bcbrooklyn.com/vote";
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
 
-function copyAndOpen() {
-  const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
-
-    document.getElementById("shareMessage").style.display="block";
-
-  // Try modern clipboard API first
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(link).catch(() => {});
-  } else {
-    fallbackCopy(link);
-  }
-
-  // Open the link in a new tab (mobile-safe because inside click)
-  window.open(link, "_blank");
-
-}
-
-
-function closeOverlay(){
-    document.getElementById("overlay").style.display="none";
-}
-
-function copyVoteLink(){
-    navigator.clipboard.writeText(shareLink);
-    alert("Link copied, share with your friends!");
-}
-    
-function toggleLink() {
-  const container = document.getElementById("linkContainer");
-
-  if (container.innerHTML !== "") {
-    container.innerHTML = "";
-    return;
-  }
-
-  const link = "https://www.clubs.brooklyn.cuny.edu/survey?club_url=SAIL&survey_uid=1b2a4cae-ea3c-11ef-91a2-0affd37d29fb&start=1";
-
-  container.innerHTML = `
-    <a href="${link}" target="_blank" rel="noopener">
-      ${link}
-    </a>
-  `;
-}
-    
-    
-</script>
+    function toggleCampaign(btn) {
+      const box = document.getElementById('campaignText');
+      box.classList.toggle('open');
+      btn.textContent = box.classList.contains('open')
+        ? '📋 Hide Robert\'s Campaign ▴'
+        : '📋 View Robert\'s Campaign ▾';
+    }
+  </script>
 
 </body>
 </html>
