@@ -189,7 +189,7 @@
 
   <p class="section-label">1. Click to Copy Our Names for Write-Ins</p>
   <button class="copy-btn" id="copyBtn" onclick="copyNames()">
-    <span id="btnContent" class="names">Robert Echevarria<br>Illan Saji</span>
+    <span id="btnContent" class="names">Robert Echevarria,<br>Illan Saji</span>
   </button>
 
   <br>
@@ -256,7 +256,7 @@
     }
 
     function copyNames() {
-      var text = "Robert Echevarria\nIllan Saji";
+      var text = "Robert Echevarria,\nIllan Saji";
       var content = document.getElementById('btnContent');
       var originalHTML = content.innerHTML;
       var originalClass = content.className;
