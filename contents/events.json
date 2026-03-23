@@ -289,19 +289,19 @@
       "flyer": "SoftballVsSarahLawrence_e44w.jpg"
     },
     {
-      "id": 25,
-      "title": "Men's Volleyball vs Lehman",
+      "id": 26,
+      "title": "Men's Volleyball Vs Lehman",
       "club": "",
       "date": "2026-03-31",
       "time": "6PM",
-      "room": "West Quad Gym",
-      "description": "Volleyball Game",
+      "room": "West Quad Gymnasium",
+      "description": "Come watch the game and support the bulldogs!",
       "type": "sports game",
       "priority": 1,
-      "flyer": null
+      "flyer": "MensVolleyballVsLehman_4mtx.png"
     },
     {
-      "id": 26,
+      "id": 27,
       "title": "The Thin Place",
       "club": "",
       "date": "2026-03-28",
@@ -313,22 +313,10 @@
       "flyer": "TheThinPlace_43z1.jpg"
     },
     {
-      "id": 27,
-      "title": "The Thin Place",
-      "club": "",
-      "date": "2026-03-28",
-      "time": "7:30 – 9:30 PM",
-      "room": "New Workshop Theater - Whitman Hall",
-      "description": "PERFORMANCE:\nLinda and Hilda explore the boundary between life and death, but in order to determine what is real and what isn’t, they must first define reality.\nLucas Hnath’s eerie and thought-provoking drama raises the question: What makes us believe in something we can’t see—and what makes us doubt?\n\nGet Tickets:\nhttps://tickets.brooklyn.edu/eventperformances.asp?evt=496",
-      "type": "performance",
-      "priority": 1,
-      "flyer": null
-    },
-    {
       "id": 28,
       "title": "The Thin Place",
       "club": "",
-      "date": "2026-03-31",
+      "date": "2026-03-28",
       "time": "7:30 – 9:30 PM",
       "room": "New Workshop Theater - Whitman Hall",
       "description": "PERFORMANCE:\nLinda and Hilda explore the boundary between life and death, but in order to determine what is real and what isn’t, they must first define reality.\nLucas Hnath’s eerie and thought-provoking drama raises the question: What makes us believe in something we can’t see—and what makes us doubt?\n\nGet Tickets:\nhttps://tickets.brooklyn.edu/eventperformances.asp?evt=496",
@@ -340,7 +328,7 @@
       "id": 29,
       "title": "The Thin Place",
       "club": "",
-      "date": "2026-03-30",
+      "date": "2026-03-31",
       "time": "7:30 – 9:30 PM",
       "room": "New Workshop Theater - Whitman Hall",
       "description": "PERFORMANCE:\nLinda and Hilda explore the boundary between life and death, but in order to determine what is real and what isn’t, they must first define reality.\nLucas Hnath’s eerie and thought-provoking drama raises the question: What makes us believe in something we can’t see—and what makes us doubt?\n\nGet Tickets:\nhttps://tickets.brooklyn.edu/eventperformances.asp?evt=496",
@@ -350,6 +338,18 @@
     },
     {
       "id": 30,
+      "title": "The Thin Place",
+      "club": "",
+      "date": "2026-03-30",
+      "time": "7:30 – 9:30 PM",
+      "room": "New Workshop Theater - Whitman Hall",
+      "description": "PERFORMANCE:\nLinda and Hilda explore the boundary between life and death, but in order to determine what is real and what isn’t, they must first define reality.\nLucas Hnath’s eerie and thought-provoking drama raises the question: What makes us believe in something we can’t see—and what makes us doubt?\n\nGet Tickets:\nhttps://tickets.brooklyn.edu/eventperformances.asp?evt=496",
+      "type": "performance",
+      "priority": 1,
+      "flyer": "TheThinPlace_43z1.jpg"
+    },
+    {
+      "id": 31,
       "title": "Softball Vs Sarah Lawrence",
       "club": "",
       "date": "2026-03-28",
@@ -358,7 +358,7 @@
       "description": "",
       "type": "sports game",
       "priority": 5,
-      "flyer": "SoftballVsSarahLawrence_gv5s.jpg"
+      "flyer": "SoftballVsSarahLawrence_bvpm.jpg"
     }
   ]
 }
