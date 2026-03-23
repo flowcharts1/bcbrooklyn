@@ -3,10 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="images/super bulldog.png">
-<title>BC Clubs and Events</title>
+<title>bcbrooklyn</title>
 
 <style>
+    
+/*start*/
+    
+    
+    
+    /*end*/
 :root {
     --maroon: #882346;
     --light-gray: #FAF0C5;
@@ -261,7 +266,7 @@ body {
     margin: 12px auto 0;
 }
 
-/* --- Top control bar: Upcoming ▾  &  Filters ▾ --- */
+/* --- Top control bar --- */
 .events-controls {
     display: flex;
     justify-content: space-between;
@@ -270,6 +275,102 @@ body {
     margin-bottom: 10px;
     position: relative;
 }
+
+/* --- Timeframe nav: < Upcoming > --- */
+/* Wrapper keeps the three pieces together without affecting the filter side */
+.evt-timeframe-nav {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+/* The nav arrows reuse .evt-ctrl-btn visuals but are separate elements */
+.evt-nav-arrow {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;   /* slightly larger than label for tap comfort */
+    font-weight: bold;
+    color: white;
+    padding: 4px 6px;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    /* same glow as original ctrl btn */
+    text-shadow:
+        0 0 10px rgba(133, 61, 81,0.9),
+        0px 0px 10px rgba(133, 61, 81,0.9);
+    -webkit-transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease;
+}
+/* dimmed state when no more modes in that direction */
+.evt-nav-arrow.disabled {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Sliding label container — clips during animation */
+.evt-label-clip {
+    overflow: hidden;
+    /* width is set to match the widest label so the layout never jumps */
+     min-width: 0;        /* shrinks to content */
+    width: 100px;        /* fixed width wide enough for longest label */
+    min-width: 90px;
+    text-align: center;
+    
+}
+/* Inner track holding current + incoming label side by side */
+.evt-label-track {
+    display: -webkit-box;
+    display: flex;
+    width: 200%;   /* two slots */
+    -webkit-transition: -webkit-transform 0.28s ease;
+    transition: transform 0.28s ease;
+    
+    
+}
+/* Each slot is exactly half the track = full clip width */
+.evt-label-slot {
+    background: transparent;
+    border: none;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: white;
+    padding: 4px 2px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    text-shadow:
+        0 0 10px rgba(133, 61, 81,0.9),
+        0px 0px 10px rgba(133, 61, 81,0.9);
+    display: block;
+    width: 100%;
+    text-align: center;
+    width: 50%;
+    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+    
+    
+}
+/* The actual text — inherits ctrl-btn style exactly */
+.evt-label-text {
+    background: transparent;
+    border: none;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: white;
+    padding: 4px 2px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    text-shadow:
+        0 0 10px rgba(133, 61, 81,0.9),
+        0px 0px 10px rgba(133, 61, 81,0.9);
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* --- Filter button (unchanged visuals) --- */
 .evt-ctrl-btn {
     background: transparent;
     border: none;
@@ -279,11 +380,9 @@ body {
     color: white;
     padding: 4px 2px;
     letter-spacing: 0.01em;
-    /* white glow via text-shadow (old iOS safe) */
     text-shadow:
         0 0 10px rgba(133, 61, 81,0.9),
         0px 0px 10px rgba(133, 61, 81,0.9);
-    
     -webkit-tap-highlight-color: transparent;
     outline: none;
 }
@@ -291,20 +390,18 @@ body {
     display: inline-block;
     -webkit-transition: -webkit-transform 0.25s ease;
     transition: transform 0.25s ease;
-    
-  text-shadow:
+    text-shadow:
         0 0 5px rgba(133, 61, 81,0.9),
         0px 0px 5px rgba(133, 61, 81,0.9), 0 0 10px rgba(133, 61, 81,0.9), 0 0 10px rgba(133, 61, 81,0.9),
         0px 0px 10px rgba(133, 61, 81,0.9),
         0px 0px 10px rgba(133, 61, 81,0.9);
 }
-
 .evt-ctrl-btn.open .arrow {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }
 
-/* --- Dropdown boxes --- */
+/* --- Filter dropdown (unchanged) --- */
 .evt-dropdown {
     display: none;
     position: absolute;
@@ -317,102 +414,11 @@ body {
 .evt-dropdown.open {
     display: block;
 }
-/* Date picker anchors left of its parent wrapper */
-.evt-dropdown.date-picker {
-    left: 0;
-    background: #fff0ee;
-    width: 280px;
-    max-width: 80vw;
-}
-/* Filter anchors right of its parent wrapper */
 .evt-dropdown.filter-picker {
     right: 0;
     background: #edf4ff;
     min-width: 150px;
 }
-
-/* --- Calendar strip inside date picker --- */
-.cal-days-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2px;
-}
-.cal-nav {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 2px 4px;
-    color: #555;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    flex-shrink: 0;
-}
-.cal-days {
-    display: flex;
-    justify-content: space-around;
-    flex: 1;
-    overflow: hidden; /* clip during slide */
-}
-/* single day column */
-.cal-day-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 0;
-    flex: 1;
-}
-.cal-label {
-    font-size: 0.7rem;
-    color: #888;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-.cal-date-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    -webkit-transition: background 0.15s, color 0.15s;
-    transition: background 0.15s, color 0.15s;
-}
-.cal-date-btn.selected {
-    background: #e06060;
-    color: white;
-}
-/* slide animation wrapper */
-.cal-days-anim {
-    overflow: hidden;
-    flex: 1;
-}
-.cal-days-inner {
-    display: flex;
-    width: 200%; /* two weeks side by side */
-    -webkit-transition: -webkit-transform 0.3s ease;
-    transition: transform 0.3s ease;
-}
-.cal-week {
-    width: 50%;
-    display: flex;
-    justify-content: space-around;
-}
-
-/* --- Filter options --- */
 .filter-opts {
     display: flex;
     flex-direction: column;
@@ -468,8 +474,6 @@ body {
     transition: opacity 0.12s;
     min-width:0px;
 }
-    
-
 .evt-box:active {
     opacity: 0.75;
 }
@@ -479,7 +483,7 @@ body {
     border-radius: 6px;
     flex-shrink: 0;
     overflow: hidden;
-    background: transparent; /* blank if no image */
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -492,7 +496,7 @@ body {
     display: block;
 }
 .evt-text {
-     flex: 1 1 1px;        /* allow shrinking */
+     flex: 1 1 1px;
     min-width: 0;
     max-width: 100%;
     width: 0;  
@@ -515,11 +519,6 @@ body {
     min-width:0px;
 }
 
-    
-    
-    
-    
-    
 /* --- Overlay / detail --- */
 #evtOverlay {
     position: fixed;
@@ -533,7 +532,6 @@ body {
     transition: opacity 0.25s ease;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    /* no flex centering — card anchors to top and scrolls naturally */
 }
 #evtOverlay.active {
     opacity: 1;
@@ -542,7 +540,6 @@ body {
 }
 .evt-detail {
     position: relative;
-    /* top margin clears the device toolbar, auto left/right centers it */
     margin: 54px auto 40px;
     padding: 0 20px 30px;
     display: -webkit-box;
@@ -658,7 +655,6 @@ body {
     -webkit-tap-highlight-color: transparent;
     -webkit-transition: background 0.1s ease, color 0.1s ease;
     transition: background 0.1s ease, color 0.1s ease;
-    /* prevent text selection on long hold */
     -webkit-user-select: none;
     user-select: none;
 }
@@ -675,22 +671,27 @@ body {
 var primarySelected = "clubs";
 var subSelected = "tab1";
 var clubDataJSON = {};
+var _labelTimer = null; /* pending label-reset timeout */
 
 /* ========== EVENTS STATE ========== */
 var eventsDataJSON = [];
-var evtMode = "upcoming"; /* "upcoming" | "date" | "filter" */
-var evtSelectedDate = null; /* "YYYY-MM-DD" or null */
-var evtSelectedFilter = "all"; /* "all"|"sports game"|"performance"|"club event"|"other" */
-var evtDropOpen = null; /* null | "date" | "filter" */
 
-/* Calendar week offset — 0 = current week, but we start on the *upcoming* week.
-   If today is Sat or Sun, bump forward so Mon is the first useful day shown. */
-var calWeekOffset = (function(){
-    var day = new Date().getDay(); /* 0=Sun, 6=Sat */
-    return (day === 0 || day === 6) ? 1 : 0;
-}());
+/* How many days "Upcoming" shows when no filter is active */
+var UPCOMING_DAYS = 5;
 
-var touchStartX = 0;
+/* Active filter — "all" means none selected */
+var evtSelectedFilter = "all";
+
+/* Filter dropdown open state */
+var evtDropOpen = null;
+
+/* --- Timeframe nav state ---
+   evtModes: built once data loads — array of mode objects in nav order.
+   evtModeIdx: current position in that array.
+   A mode object: { id: string, label: string, startDate: "YYYY-MM-DD"|null, endDate: "YYYY-MM-DD"|null }
+   Special id "upcoming" has no date range — uses UPCOMING_DAYS logic instead. */
+var evtModes = [];
+var evtModeIdx = 0;   /* "Upcoming" will always be index 0 */
 
 /* ================= PRIMARY TAB SWITCH ================= */
 function selectPrimary(tab) {
@@ -781,22 +782,24 @@ window.onload = function() {
             .catch(function(err){
                 console.error("clubs.json error:", err);
                 clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-                //selectSub("tab1");
             });
         /* Load events.json */
         fetch("contents/events.json")
             .then(function(res){ return res.json(); })
             .then(function(data){
                 eventsDataJSON = data.events || [];
-            if (primarySelected === "events") renderEvents();
+                /* Build mode list now that we have event dates */
+                buildTimeframeModes();
+                if (primarySelected === "events") renderEvents();
             })
             .catch(function(err){
                 console.error("events.json error:", err);
                 eventsDataJSON = [];
+                buildTimeframeModes();
             });
     } else {
         clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-        //selectSub("tab1");
+        buildTimeframeModes();
     }
 };
 
@@ -809,11 +812,12 @@ document.addEventListener('click', function(e) {
 
 /* ============================================================
    EVENTS LOGIC
-   ============================================================ */
+   =========================================================== */
 
 /* helpers */
 function padZ(n){ return n < 10 ? "0"+n : ""+n; }
 function dateStr(d){ return d.getFullYear()+"-"+padZ(d.getMonth()+1)+"-"+padZ(d.getDate()); }
+
 function todayDate(){
     var n = new Date();
     return new Date(n.getFullYear(), n.getMonth(), n.getDate());
@@ -832,9 +836,7 @@ function fmtHeading(dateS){
 }
 function fmtTime(t){
     if (!t || t === "") return "";
-    // If already formatted with AM/PM, return as-is
     if (t.indexOf("AM") !== -1 || t.indexOf("PM") !== -1) return t.trim();
-    // Otherwise parse as HH:MM (24hr)
     var parts = t.split(":");
     var h = parseInt(parts[0]), m = parseInt(parts[1]);
     if (isNaN(h)) return "";
@@ -842,47 +844,183 @@ function fmtTime(t){
     var h12 = h % 12 || 12;
     return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
 }
-
-   /*  
 function isEventExpired(evt){
-    // true if end time was more than 1 hour ago 
-    var now = new Date();
-    var p = evt.date.split("-");
-    var tp = evt.endTime.split(":");
-    var end = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]),parseInt(tp[0]),parseInt(tp[1]));
-    return (now - end) > 3600000;
+    return false;
 }
-  */
+
+/* --- Get Monday of the week containing date d --- */
+function getMondayOf(d){
+    var day = d.getDay(); /* 0=Sun */
+    var diff = (day === 0) ? -6 : 1 - day;
+    var m = new Date(d);
+    m.setDate(d.getDate() + diff);
+    return m;
+}
+
+/* --- Get Sunday of the week containing date d --- */
+function getSundayOf(d){
+    var mon = getMondayOf(d);
+    var sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    return sun;
+}
+
+/* -------------------------------------------------------
+   buildTimeframeModes()
+   Called once after events load.
+   Builds evtModes array:
+     [0] Upcoming  (always index 0)
+     [1] This Week
+     [2..] Next Week, Week of MM/DD ... (future weeks that have events)
+   Also inserts Last Week before index 0 only if it has events.
+   The array can grow leftward (past weeks) and rightward (future).
+   But we only include weeks that actually contain at least one event.
+------------------------------------------------------- */
+function buildTimeframeModes(){
+    var today = todayDate();
+    var todayS = dateStr(today);
+
+    /* Collect all event dates (past and future, expired or not) */
+    var dateset = {};
+    for (var i = 0; i < eventsDataJSON.length; i++){
+        dateset[eventsDataJSON[i].date] = true;
+    }
+
+    /* Find which weeks have events */
+    var weekKeys = {};
+    for (var ds in dateset){
+        var mon = getMondayOf(parseDate(ds));
+        weekKeys[dateStr(mon)] = true;
+    }
+
+    /* Sort week mondays oldest -> newest */
+    var weekMondays = [];
+    for (var k in weekKeys) weekMondays.push(k);
+    weekMondays.sort();
+
+// New
+    /* "This week" anchor: Mon-Fri -> current week's Monday.
+        Sat-Sun -> NEXT week's Monday (week hasn't started yet). */
+    var todayDay = today.getDay(); /* 0=Sun, 6=Sat */
+    var anchorMon = getMondayOf(today);
+    if (todayDay === 0 || todayDay === 6){
+        /* Weekend: push anchor forward to next Monday */
+        anchorMon = new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7);
+    }
+    var thisMonS = dateStr(anchorMon);
+
+    var modes = [];
+
+    /* LEFT side: all weeks before anchor, oldest first */
+    for (var wi = 0; wi < weekMondays.length; wi++){
+        if (weekMondays[wi] < thisMonS) modes.push(makeModeForWeek(weekMondays[wi]));
+    }
+
+    /* This week immediately left of Upcoming */
+    if (weekKeys[thisMonS]) modes.push(makeModeForWeek(thisMonS));
+
+    /* Upcoming is the center/default */
+    modes.push({ id: "upcoming", label: "Upcoming" });
+    evtModeIdx = modes.length - 1;
+
+    /* RIGHT side: all weeks after anchor */
+    for (var wi = 0; wi < weekMondays.length; wi++){
+        if (weekMondays[wi] > thisMonS) modes.push(makeModeForWeek(weekMondays[wi]));
+    }
+
+    evtModes = modes;
+    updateNavLabel(null);
+    updateNavArrows();
+}
+
+/* Build a mode object for the week starting on mondayStr */
+function makeModeForWeek(mondayStr){
+    var mon = parseDate(mondayStr);
+    var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+    var today = todayDate();
+    var todayDay = today.getDay();
+    /* Same anchor logic as buildTimeframeModes */
+    var anchorMon = getMondayOf(today);
+    if (todayDay === 0 || todayDay === 6){
+        anchorMon = new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7);
+    }
+    var thisMonS = dateStr(anchorMon);
+    var lastMonS = dateStr(new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() - 7));
+    var nextMonS = dateStr(new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7));
+
+    var label;
+    if (mondayStr === thisMonS) {
+        label = "This Week";
+    } else if (mondayStr === lastMonS) {
+        label = "Last Week";
+    } else if (mondayStr === nextMonS) {
+        label = "Next Week";
+    } else {
+        /* Week of M/D  e.g. "Week of 3/23" */
+        label = "Week of " + (mon.getMonth()+1) + "/" + mon.getDate();
+    }
+
+    return {
+        id: "week_" + mondayStr,
+        label: label,
+        startDate: mondayStr,
+        endDate: dateStr(sun)
+    };
+}
+
 /* --- build filtered+sorted event list for display --- */
 function getDisplayEvents(){
-    var now = new Date();
-    var todayS = dateStr(todayDate());
-
-    /* Start with all events */
+    var today = todayDate();
+    var todayS = dateStr(today);
+    var mode = evtModes[evtModeIdx];
+    if (!mode) return [];
     var list = eventsDataJSON.slice();
 
-    if (evtMode === "date" && evtSelectedDate) {
-        /* Date mode: show ALL events for that date regardless of expiry */
-        list = list.filter(function(e){ return e.date === evtSelectedDate; });
+    if (mode.id === "upcoming") {
+        /* Drop expired and past */
+        list = list.filter(function(e){ return !isEventExpired(e) && e.date >= todayS; });
+
+        if (evtSelectedFilter !== "all"){
+            /* Filtered upcoming: show all future matching, no day cap */
+            list = list.filter(function(e){ return e.type === evtSelectedFilter; });
+        } else {
+            /* Unfiltered: cap to next UPCOMING_DAYS event-days */
+            var dateSeen = {};
+            var seenDates = [];
+            var tempSorted = list.slice().sort(function(a,b){
+                return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+            });
+            for (var di = 0; di < tempSorted.length; di++){
+                var ds = tempSorted[di].date;
+                if (!dateSeen[ds]){
+                    dateSeen[ds] = true;
+                    seenDates.push(ds);
+                    if (seenDates.length === UPCOMING_DAYS) break;
+                }
+            }
+            list = list.filter(function(e){ return dateSeen[e.date]; });
+        }
+
     } else {
-        // Upcoming / filter mode: drop expired (DISABLED)
-        //list = list.filter(function(e){ return !isEventExpired(e); });
-        /* Also drop purely past dates */
-        list = list.filter(function(e){ return e.date >= todayS; });
-        if (evtMode === "filter" && evtSelectedFilter !== "all") {
+        /* Week mode: full Mon-Sun of whatever week the mode covers.
+           No expiry filtering on week views — show everything scheduled. */
+        list = list.filter(function(e){
+            return e.date >= mode.startDate && e.date <= mode.endDate;
+        });
+
+        if (evtSelectedFilter !== "all"){
             list = list.filter(function(e){ return e.type === evtSelectedFilter; });
         }
     }
 
-    /* Sort by date then startTime then priority desc */
+    /* Sort by date then startTime then priority */
     list.sort(function(a,b){
         if (a.date !== b.date) return a.date < b.date ? -1 : 1;
         if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
-       return (a.priority||3) - (b.priority||3);
+        return (a.priority||3) - (b.priority||3);
     });
     return list;
 }
-
 /* --- Render the event list --- */
 function renderEvents(){
     var container = document.getElementById("eventContainer");
@@ -910,9 +1048,7 @@ function renderEvents(){
     }
 }
 
-/* --- derive icon filename from full flyer filename ---
-   "ChessClub.jpg"  ->  "ChessClub-icon.jpg"
-   Works for .png .jpg .jpeg .webp etc.                  */
+/* --- derive icon filename from full flyer filename --- */
 function iconFromFlyer(flyer){
     var dot = flyer.lastIndexOf(".");
     if (dot === -1) return flyer + "-icon";
@@ -924,7 +1060,6 @@ function buildEventBox(evt){
     box.className = "evt-box";
     box.setAttribute("data-evtid", evt.id);
 
-    /* Icon wrap */
     var iconWrap = document.createElement("div");
     iconWrap.className = "evt-icon-wrap";
     if (evt.flyer) {
@@ -939,7 +1074,6 @@ function buildEventBox(evt){
     }
     box.appendChild(iconWrap);
 
-    /* Text */
     var text = document.createElement("div");
     text.className = "evt-text";
 
@@ -950,10 +1084,10 @@ function buildEventBox(evt){
 
     var meta = document.createElement("div");
     meta.className = "evt-meta";
-   var timeStr = fmtTime(evt.startTime);
-var endStr  = fmtTime(evt.endTime);
-if (endStr) timeStr += " \u2013 " + endStr;
-meta.textContent = timeStr + "  \u00b7  " + evt.room;
+    var timeStr = fmtTime(evt.startTime);
+    var endStr  = fmtTime(evt.endTime);
+    if (endStr) timeStr += " \u2013 " + endStr;
+    meta.textContent = (evt.time || "") + "  \u00b7  " + evt.room;
 
     text.appendChild(title);
     text.appendChild(meta);
@@ -970,18 +1104,14 @@ function openEvtDetail(evt){
     detail.innerHTML = "";
 
     if (evt.flyer) {
-        /* Has a flyer: reserve space with an img, lazy-load it, animate in */
         var flyer = document.createElement("img");
         flyer.className = "evt-detail-flyer";
         flyer.onclick = function(e) {
-    e.stopPropagation(); // don't trigger overlay close
-    openFlyerExpand(this.src);
-};
-        
-        
+            e.stopPropagation();
+            openFlyerExpand(this.src);
+        };
         flyer.alt = evt.title;
         flyer.onerror = function(){
-            /* Image failed — collapse to zero height so no blank gap */
             flyer.style.display = "none";
         };
         detail.appendChild(flyer);
@@ -989,7 +1119,6 @@ function openEvtDetail(evt){
         var body = buildDetailBody(evt);
         detail.appendChild(body);
 
-        /* Show overlay first, then kick off animation */
         overlay.classList.add("active");
         document.body.style.overflow = "hidden";
 
@@ -999,7 +1128,6 @@ function openEvtDetail(evt){
             body.classList.add("shown");
         }, 30);
     } else {
-        /* No flyer: just render body text immediately, no spacer */
         var body2 = buildDetailBody(evt);
         detail.appendChild(body2);
         overlay.classList.add("active");
@@ -1017,66 +1145,57 @@ function buildDetailBody(evt){
     t.textContent = evt.title;
 
     var desc = document.createElement("div");
-desc.className = "evt-detail-desc";
-// Split on <br> tags that came from the Apps Script line-break encoding.
-// All text nodes are set via textContent — no innerHTML, no XSS risk.
-var descParts = (evt.description || "").split("<br>");
-for (var dp = 0; dp < descParts.length; dp++) {
-    if (dp > 0) desc.appendChild(document.createElement("br"));
-    desc.appendChild(document.createTextNode(descParts[dp]));
-}   //anchor links - change textContent to innerHTML - could result in cross site scripting  XSS security breaches.
+    desc.className = "evt-detail-desc";
+    var descParts = (evt.description || "").split("<br>");
+    for (var dp = 0; dp < descParts.length; dp++) {
+        if (dp > 0) desc.appendChild(document.createElement("br"));
+        desc.appendChild(document.createTextNode(descParts[dp]));
+    }
 
     var info = document.createElement("div");
     info.className = "evt-detail-info";
     var dTimeStr = fmtTime(evt.startTime);
-var dEndStr  = fmtTime(evt.endTime);
-if (dEndStr) dTimeStr += " \u2013 " + dEndStr;
-info.textContent = fmtHeading(evt.date) + "  \u00b7  " + dTimeStr + "  \u00b7  " + evt.room;
+    var dEndStr  = fmtTime(evt.endTime);
+    if (dEndStr) dTimeStr += " \u2013 " + dEndStr;
+    info.textContent = fmtHeading(evt.date) + "  \u00b7  " + (evt.time || "") + "  \u00b7  " + evt.room;
+
     var club = document.createElement("div");
     club.className = "evt-detail-club";
     club.textContent = evt.club || "";
 
     var close = document.createElement("button");
-close.className = "evt-close-btn";
-close.textContent = "CLOSE ✕";
+    close.className = "evt-close-btn";
+    close.textContent = "CLOSE \u2715";
 
-// Track whether pointer is still held over the button
-var holdActive = false;
+    var holdActive = false;
 
-function onHoldStart() {
-    holdActive = true;
-    close.classList.add("holding");
-}
-function onHoldEnd() {
-    if (holdActive) {
-        closeEvtDetail();
+    function onHoldStart() {
+        holdActive = true;
+        close.classList.add("holding");
     }
-    holdActive = false;
-    close.classList.remove("holding");
-}
-function onHoldAbort() {
-    // Finger slid off — abort, don't close
-    holdActive = false;
-    close.classList.remove("holding");
-}
+    function onHoldEnd() {
+        if (holdActive) { closeEvtDetail(); }
+        holdActive = false;
+        close.classList.remove("holding");
+    }
+    function onHoldAbort() {
+        holdActive = false;
+        close.classList.remove("holding");
+    }
 
-// Mouse events (desktop)
-close.addEventListener("mousedown",  onHoldStart);
-close.addEventListener("mouseup",    onHoldEnd);
-close.addEventListener("mouseleave", onHoldAbort);
-
-// Touch events (mobile — more reliable than onclick for this pattern)
-close.addEventListener("touchstart",  function(e){ e.preventDefault(); onHoldStart(); }, {passive: false});
-close.addEventListener("touchend",    function(e){ e.preventDefault(); onHoldEnd();   }, {passive: false});
-close.addEventListener("touchcancel", function(e){ onHoldAbort(); });
-// If finger moves more than ~10px off the button, abort
-close.addEventListener("touchmove", function(e) {
-    var touch = e.touches[0];
-    var rect = close.getBoundingClientRect();
-    var outside = touch.clientX < rect.left - 10 || touch.clientX > rect.right + 10 ||
-                  touch.clientY < rect.top  - 10 || touch.clientY > rect.bottom + 10;
-    if (outside) onHoldAbort();
-}, {passive: true});
+    close.addEventListener("mousedown",  onHoldStart);
+    close.addEventListener("mouseup",    onHoldEnd);
+    close.addEventListener("mouseleave", onHoldAbort);
+    close.addEventListener("touchstart",  function(e){ e.preventDefault(); onHoldStart(); }, {passive: false});
+    close.addEventListener("touchend",    function(e){ e.preventDefault(); onHoldEnd();   }, {passive: false});
+    close.addEventListener("touchcancel", function(e){ onHoldAbort(); });
+    close.addEventListener("touchmove", function(e) {
+        var touch = e.touches[0];
+        var rect = close.getBoundingClientRect();
+        var outside = touch.clientX < rect.left - 10 || touch.clientX > rect.right + 10 ||
+                      touch.clientY < rect.top  - 10 || touch.clientY > rect.bottom + 10;
+        if (outside) onHoldAbort();
+    }, {passive: true});
 
     body.appendChild(t);
     body.appendChild(desc);
@@ -1091,9 +1210,9 @@ function closeEvtDetail(){
     overlay.classList.remove("active");
     document.body.style.overflow = "";
 }
-    
-    
-/* ---- Tap-outside-content to close overlay ----*/ document.addEventListener("DOMContentLoaded", function(){
+
+/* ---- Tap-outside-content to close overlay ---- */
+document.addEventListener("DOMContentLoaded", function(){
 (function(){
     var downX = 0, downY = 0;
 
@@ -1104,246 +1223,218 @@ function closeEvtDetail(){
         downX = e.touches[0].clientX; downY = e.touches[0].clientY;
     }, {passive: true});
 
-  function handleClose(e) {
-    var overlay = document.getElementById("evtOverlay");
-    if (!overlay.classList.contains("active")) return;
-    var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-    var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-    var dist = Math.sqrt(Math.pow(upX - downX, 2) + Math.pow(upY - downY, 2));
-    if (dist > 8) return;
-    var target = e.target;
-    if (target.closest(".evt-close-btn")) return;
-    if (target.closest(".evt-detail-flyer")) return;
-    e.stopPropagation();
-    e.preventDefault();
-    closeEvtDetail();
-}
+    function handleClose(e) {
+        var overlay = document.getElementById("evtOverlay");
+        if (!overlay.classList.contains("active")) return;
+        var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+        var dist = Math.sqrt(Math.pow(upX - downX, 2) + Math.pow(upY - downY, 2));
+        if (dist > 8) return;
+        var target = e.target;
+        if (target.closest(".evt-close-btn")) return;
+        if (target.closest(".evt-detail-flyer")) return;
+        e.stopPropagation();
+        e.preventDefault();
+        closeEvtDetail();
+    }
 
     document.getElementById("evtOverlay").addEventListener("mouseup",   handleClose);
     document.getElementById("evtOverlay").addEventListener("touchend",  handleClose, {passive: false});
 }());
-
-
-
 });
 
-    
-    
-    
-    
-    
-/* --- Calendar strip logic --- */
-/* Returns Mon of the week that contains `d` */
-function getMondayOf(d){
-    var day = d.getDay(); /* 0=Sun */
-    var diff = (day === 0) ? -6 : 1 - day;
-    var m = new Date(d);
-    m.setDate(d.getDate() + diff);
-    return m;
-}
+/* ============================================================
+   TIMEFRAME NAV  < Upcoming >
+   =========================================================== */
 
-function getWeekDates(offset){
-    /* Returns array of 5 Date objects (Mon-Fri) for the week at `offset` from current week */
-    var base = getMondayOf(todayDate());
-    base.setDate(base.getDate() + offset * 7);
-    var days = [];
-    for (var i = 0; i < 5; i++) {
-        var d = new Date(base);
-        d.setDate(base.getDate() + i);
-        days.push(d);
+/* Update the visible label with optional slide animation.
+   dir: null=no anim, -1=slide right-to-left (going right), 1=slide left-to-right (going left) */
+// New
+function updateNavLabel(dir){
+    var mode = evtModes[evtModeIdx];
+    if (!mode) return;
+    var track = document.getElementById("evtLabelTrack");
+    if (!track) return;
+    var slotA = document.querySelector("#evtLabelSlotA .evt-label-text");
+    var slotB = document.querySelector("#evtLabelSlotB .evt-label-text");
+    if (!slotA || !slotB) return;
+
+    /* Kill any pending cleanup from a previous animation */
+    if (_labelTimer){ clearTimeout(_labelTimer); _labelTimer = null; }
+
+    if (dir === null){
+        /* No animation — instant set */
+        slotA.textContent = mode.label;
+        slotB.textContent = "";
+        track.style.webkitTransition = "none";
+        track.style.transition = "none";
+        track.style.webkitTransform = "translateX(0)";
+        track.style.transform = "translateX(0)";
+        return;
     }
-    return days;
-}
 
-function buildWeekHTML(weekDays){
-    var html = "";
-    for (var i = 0; i < weekDays.length; i++) {
-        var d = weekDays[i];
-        var ds = dateStr(d);
-        var selected = (evtSelectedDate === ds) ? " selected" : "";
-        html += '<div class="cal-day-col">' +
-            '<span class="cal-label">' + DAY_NAMES[d.getDay()].charAt(0) + '</span>' +
-            '<button class="cal-date-btn' + selected + '" data-date="' + ds + '" onclick="pickDate(\'' + ds + '\')">' +
-            d.getDate() +
-            '</button></div>';
-    }
-    return html;
-}
+    if (dir === 1){
+        /* Pressed > : new label enters from right.
+           slotA = old (currently visible), slotB = new (waiting right).
+           Slide track left so slotB comes into view. */
+        slotB.textContent = mode.label;
+        track.style.webkitTransition = "none";
+        track.style.transition = "none";
+        track.style.webkitTransform = "translateX(0)";
+        track.style.transform = "translateX(0)";
+        void track.offsetWidth;
+        track.style.webkitTransition = "-webkit-transform 0.28s ease";
+        track.style.transition = "transform 0.28s ease";
+        track.style.webkitTransform = "translateX(-50%)";
+        track.style.transform = "translateX(-50%)";
+        /* After slide: reset track so slotA holds new label at position 0 */
+        _labelTimer = setTimeout(function(){
+            slotA.textContent = mode.label;
+            slotB.textContent = "";
+            track.style.webkitTransition = "none";
+            track.style.transition = "none";
+            track.style.webkitTransform = "translateX(0)";
+            track.style.transform = "translateX(0)";
+            _labelTimer = null;
+        }, 300);
 
-/* Build / rebuild the full calendar strip (two-week buffer for slide) */
-function buildCalStrip(){
-    var inner = document.getElementById("calInner");
-    if (!inner) return;
-    var weekA = getWeekDates(calWeekOffset);
-    var weekB = getWeekDates(calWeekOffset + 1); /* second week pre-loaded to right */
-    inner.innerHTML =
-        '<div class="cal-week" id="calWeekA">' + buildWeekHTML(weekA) + '</div>' +
-        '<div class="cal-week" id="calWeekB">' + buildWeekHTML(weekB) + '</div>';
-    /* reset transform to show weekA */
-    inner.style.webkitTransition = "none";
-    inner.style.transition = "none";
-    inner.style.webkitTransform = "translateX(0)";
-    inner.style.transform = "translateX(0)";
-}
-
-function slideWeek(dir){ /* dir: 1=next, -1=prev */
-    var inner = document.getElementById("calInner");
-    if (!inner) return;
-    /* Prepare the second slot with the target week */
-    var targetOffset = calWeekOffset + dir;
-    var targetDays = getWeekDates(targetOffset);
-    if (dir === 1) {
-        document.getElementById("calWeekB").innerHTML = buildWeekHTML(targetDays);
-        /* slide left to reveal B */
-        inner.style.webkitTransition = "-webkit-transform 0.3s ease";
-        inner.style.transition = "transform 0.3s ease";
-        inner.style.webkitTransform = "translateX(-50%)";
-        inner.style.transform = "translateX(-50%)";
     } else {
-        /* prepend the target week before A */
-        inner.innerHTML =
-            '<div class="cal-week" id="calWeekPrev">' + buildWeekHTML(targetDays) + '</div>' +
-            '<div class="cal-week" id="calWeekA">' + buildWeekHTML(getWeekDates(calWeekOffset)) + '</div>';
-        /* start at showing A (right slot) */
-        inner.style.webkitTransition = "none";
-        inner.style.transition = "none";
-        inner.style.webkitTransform = "translateX(-50%)";
-        inner.style.transform = "translateX(-50%)";
-        /* force reflow */
-        void inner.offsetWidth;
-        inner.style.webkitTransition = "-webkit-transform 0.3s ease";
-        inner.style.transition = "transform 0.3s ease";
-        inner.style.webkitTransform = "translateX(0)";
-        inner.style.transform = "translateX(0)";
+        /* Pressed < : new label enters from left.
+           Put new label in slotA, old label in slotB.
+           Start track shifted so slotB (old, right) is showing.
+           Slide track right so slotA (new, left) comes into view. */
+        var oldLabel = slotA.textContent;
+        slotA.textContent = mode.label;  /* new text — immediately correct */
+        slotB.textContent = oldLabel;    /* old text sits off to the right */
+        track.style.webkitTransition = "none";
+        track.style.transition = "none";
+        track.style.webkitTransform = "translateX(-50%)"; /* start showing slotB */
+        track.style.transform = "translateX(-50%)";
+        void track.offsetWidth;
+        track.style.webkitTransition = "-webkit-transform 0.28s ease";
+        track.style.transition = "transform 0.28s ease";
+        track.style.webkitTransform = "translateX(0)";    /* slide to show slotA */
+        track.style.transform = "translateX(0)";
+        /* After slide: just clear slotB */
+        _labelTimer = setTimeout(function(){
+            slotB.textContent = "";
+            _labelTimer = null;
+        }, 300);
     }
-    /* After animation, rebuild cleanly */
-    setTimeout(function(){
-        calWeekOffset = targetOffset;
-        buildCalStrip();
-    }, 320);
+}
+/* Dim/enable the < and > arrows based on position in evtModes */
+function updateNavArrows(){
+    var leftBtn  = document.getElementById("evtNavLeft");
+    var rightBtn = document.getElementById("evtNavRight");
+    if (!leftBtn || !rightBtn) return;
+    /* Left arrow: disabled when at index 0 */
+    if (evtModeIdx <= 0){
+        leftBtn.classList.add("disabled");
+    } else {
+        leftBtn.classList.remove("disabled");
+    }
+    /* Right arrow: disabled when at last index */
+    if (evtModeIdx >= evtModes.length - 1){
+        rightBtn.classList.add("disabled");
+    } else {
+        rightBtn.classList.remove("disabled");
+    }
 }
 
-function pickDate(ds){
-    evtSelectedDate = ds;
-    evtMode = "date";
-    evtSelectedFilter = "all";
-    var d = parseDate(ds);
-    document.getElementById("evtUpcomingBtn").innerHTML = DAY_FULL[d.getDay()] + ", " + MON_SHORT[d.getMonth()] + " " + d.getDate() + ' <span class="arrow">\u25be</span>';
-    buildCalStrip();
-    closeDropdowns();   /* close after picking — like filter */
+/* Called when user taps < or > */
+function navTimeframe(dir){ /* dir: -1 = left (<), +1 = right (>) */
+    var newIdx = evtModeIdx + dir;
+    if (newIdx < 0 || newIdx >= evtModes.length) return; /* already at edge */
+    evtModeIdx = newIdx;
+    updateNavLabel(dir);   /* dir -1 = going left visually = slide right-to-left? */
+    /* Slide direction: pressing > (dir +1) means content slides left (incoming from right) */
+    /* updateNavLabel receives: -1 for "incoming from right", +1 for "incoming from left" */
+    /* We already called with dir above which matches that convention exactly */
+    updateNavArrows();
     renderEvents();
 }
 
-/* --- Filter logic --- */
+/* ============================================================
+   FILTER LOGIC
+   =========================================================== */
+
 function pickFilter(type){
     evtSelectedFilter = type;
-    if (type === "all") {
-        evtMode = "upcoming";
-        evtSelectedDate = null;
-        document.getElementById("evtUpcomingBtn").innerHTML = 'Upcoming <span class="arrow">▾</span>';
-    } else {
-        evtMode = "filter";
-        evtSelectedDate = null;
-        document.getElementById("evtUpcomingBtn").innerHTML = 'Upcoming <span class="arrow">▾</span>';
+
+    /* Update filter button label to show selected filter name */
+    var flBtn = document.getElementById("evtFilterBtn");
+    if (flBtn){
+        var label = type === "all" ? "Filters" : filterLabel(type);
+        flBtn.innerHTML = label + ' <span class="arrow">\u25be</span>';
     }
-    /* Update filter button selected state */
+
+    /* Update filter option selected states */
     var opts = document.querySelectorAll(".filter-opt");
-    for (var i = 0; i < opts.length; i++) {
-        if (opts[i].getAttribute("data-type") === type) {
+    for (var i = 0; i < opts.length; i++){
+        if (opts[i].getAttribute("data-type") === type){
             opts[i].classList.add("selected");
         } else {
             opts[i].classList.remove("selected");
         }
     }
+
     closeDropdowns();
     renderEvents();
 }
 
-/* --- Dropdown open/close --- */
+/* Maps filter data-type to a readable label for the button */
+function filterLabel(type){
+    var map = {
+        "all": "Filters",
+        "sports game": "Sports Games",
+        "performance": "Performances",
+        "club event": "Club Events",
+        "other": "Other"
+    };
+    return map[type] || type;
+}
+
+/* --- Dropdown open/close (filter only now) --- */
 function toggleDropdown(which){
-    var dateBox   = document.getElementById("evtDateDrop");
     var filterBox = document.getElementById("evtFilterDrop");
-    var upBtn     = document.getElementById("evtUpcomingBtn");
     var flBtn     = document.getElementById("evtFilterBtn");
 
-    if (evtDropOpen === which) {
-        /* clicking same button again: close */
-        dateBox.classList.remove("open");
+    if (evtDropOpen === which){
         filterBox.classList.remove("open");
-        upBtn.classList.remove("open");
         flBtn.classList.remove("open");
         evtDropOpen = null;
     } else {
-        /* open requested — close whatever is currently open */
-        dateBox.classList.remove("open");
-        filterBox.classList.remove("open");
-        upBtn.classList.remove("open");
-        flBtn.classList.remove("open");
+        filterBox.classList.add("open");
+        flBtn.classList.add("open");
         evtDropOpen = which;
-        if (which === "date") {
-            buildCalStrip();
-            dateBox.classList.add("open");
-            upBtn.classList.add("open");
-        } else {
-            filterBox.classList.add("open");
-            flBtn.classList.add("open");
-        }
     }
 }
 
 function closeDropdowns(){
-    var dateBox   = document.getElementById("evtDateDrop");
     var filterBox = document.getElementById("evtFilterDrop");
-    var upBtn     = document.getElementById("evtUpcomingBtn");
     var flBtn     = document.getElementById("evtFilterBtn");
-    if (dateBox)   dateBox.classList.remove("open");
     if (filterBox) filterBox.classList.remove("open");
-    if (upBtn)     upBtn.classList.remove("open");
     if (flBtn)     flBtn.classList.remove("open");
     evtDropOpen = null;
 }
 
-/* Touch swipe on calendar strip */
-function calTouchStart(e){
-    touchStartX = e.touches[0].clientX;
-}
-function calTouchEnd(e){
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) {
-        slideWeek(dx < 0 ? 1 : -1);
-    }
-}
-
-/* ---- Click-outside: close dropdowns ---- */
+/* ---- Click-outside: close filter dropdown ---- */
 document.addEventListener("click", function(e){
     if (evtDropOpen === null) return;
-    /* If click is inside either dropdown or either control button, do nothing */
-    var dateDrop   = document.getElementById("evtDateDrop");
     var filterDrop = document.getElementById("evtFilterDrop");
-    var upBtn      = document.getElementById("evtUpcomingBtn");
     var flBtn      = document.getElementById("evtFilterBtn");
-    if (!dateDrop || !filterDrop) return;
-    var inDate   = dateDrop.contains(e.target)   || upBtn.contains(e.target);
+    if (!filterDrop) return;
     var inFilter = filterDrop.contains(e.target) || flBtn.contains(e.target);
-    if (!inDate && !inFilter) {
-        closeDropdowns();
-    }
+    if (!inFilter) closeDropdowns();
 });
 
-/* ---- Click overlay background to close detail ---- */
-
-    
-    
-    
-    
-    
-    function openFlyerExpand(src) {
+/* ---- Flyer expand ---- */
+function openFlyerExpand(src) {
     var el = document.getElementById("flyerExpand");
     var img = document.getElementById("flyerExpandImg");
     img.src = src;
     el.style.display = "-webkit-box";
     el.style.display = "flex";
-    // force reflow so transition fires
     void el.offsetWidth;
     el.classList.add("active");
 }
@@ -1392,26 +1483,25 @@ function closeFlyerExpand() {
     <!-- Controls row -->
     <div class="events-controls">
 
-        <!-- Upcoming / Date picker button + dropdown -->
-        <div style="position:relative;">
-            <button id="evtUpcomingBtn" class="evt-ctrl-btn" onclick="toggleDropdown('date')">
-                Upcoming <span class="arrow">▾</span>
-            </button>
-            <div id="evtDateDrop" class="evt-dropdown date-picker">
-                <!-- Calendar strip -->
-                <div class="cal-days-row">
-                    <button class="cal-nav" onclick="slideWeek(-1)">&#8249;</button>
-                    <div class="cal-days-anim"
-                         ontouchstart="calTouchStart(event)"
-                         ontouchend="calTouchEnd(event)"
-                         style="position:relative;overflow:hidden;">
-                        <div id="calInner" class="cal-days-inner">
-                            <!-- built by JS -->
-                        </div>
+        <!-- Timeframe nav: < Upcoming > -->
+        <div class="evt-timeframe-nav">
+            <!-- Left arrow -->
+            <button id="evtNavLeft" class="evt-nav-arrow disabled" onclick="navTimeframe(-1)">&#8249;</button>
+
+            <!-- Sliding label -->
+            <div class="evt-label-clip">
+                <div id="evtLabelTrack" class="evt-label-track">
+                    <div class="evt-label-slot" id="evtLabelSlotA">
+                        <span class="evt-label-text">Upcoming</span>
                     </div>
-                    <button class="cal-nav" onclick="slideWeek(1)">&#8250;</button>
+                    <div class="evt-label-slot" id="evtLabelSlotB">
+                        <span class="evt-label-text"></span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Right arrow -->
+            <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">&#8250;</button>
         </div>
 
         <!-- Filter button + dropdown -->
@@ -1421,7 +1511,7 @@ function closeFlyerExpand() {
             </button>
             <div id="evtFilterDrop" class="evt-dropdown filter-picker">
                 <div class="filter-opts">
-                    <button class="filter-opt selected" data-type="all"        onclick="pickFilter('all')">All</button>
+                    <button class="filter-opt selected" data-type="all"          onclick="pickFilter('all')">All</button>
                     <button class="filter-opt"           data-type="sports game"  onclick="pickFilter('sports game')">Sports Games</button>
                     <button class="filter-opt"           data-type="performance"  onclick="pickFilter('performance')">Performances</button>
                     <button class="filter-opt"           data-type="club event"   onclick="pickFilter('club event')">Club Events</button>
@@ -1443,7 +1533,7 @@ function closeFlyerExpand() {
       onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">
   bcbrooklyn
 </span>
-    <span data-email="bcbrooklyn55@gmail.com" class="contact-btn email">Contact Me</span>
+    <span data-email="mkravets49@gmail.com" class="contact-btn email">Contact Me</span>
 </div>
 
 </div><!-- /page-wrap -->
