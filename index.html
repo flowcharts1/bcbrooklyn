@@ -6,12 +6,6 @@
 <title>bcbrooklyn</title>
 
 <style>
-    
-/*start*/
-    
-    
-    
-    /*end*/
 :root {
     --maroon: #882346;
     --light-gray: #FAF0C5;
@@ -31,20 +25,17 @@
   margin: 0 auto;
   position: relative;
   z-index: 1;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 html, body {
   height: 100%;
-}  
+}
 .mobile-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 110vh;
+  top: 0; left: 0;
+  width: 100vw; height: 110vh;
   overflow: hidden;
   z-index: -1;
   transform: translateZ(0);
@@ -52,62 +43,41 @@ html, body {
   backface-visibility: hidden;
 }
 .mobile-bg img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
 }
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-dark);
-    margin:0;
-    text-align:center;
+    margin: 0;
+    text-align: center;
     display: flex;
     flex-direction: column;
 }
-/* ===== HERO TEXT ===== */
-.herop{
-    position: absolute;
-    top: 1px;
-    left: 50%;
-    transform: translateX(-50%);
-}
+
+/* ===== HERO ===== */
 .hero h1 {
-    padding-top:15px;
     padding: 10px;
     text-align: center;
     font-size: clamp(2.5rem, 4vw, 20rem);
-    line-height: 0.1; 
     font-weight: 500;
     line-height: 1;
     color: var(--hero);
     letter-spacing: -0.5px;
-    text-shadow:
-    0 0 16px rgba(255, 255, 255,0.8),
-    0 0 16px rgba(255, 255, 255,0.8); 
-} 
+    text-shadow: 0 0 16px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.8);
+}
 .heroh {
     padding-top: 10px;
     border-top: 1px solid transparent;
     text-align: center;
-    color:var(--hero);
-    text-shadow:
-      0 0 16px rgba(255, 255, 255,10),
-      0 0 16px rgba(255, 255, 255,0.8);
+    color: var(--hero);
+    text-shadow: 0 0 16px rgba(255,255,255,10), 0 0 16px rgba(255,255,255,0.8);
 }
-.title-break {
-  display: none;
-}
-@media (max-width: 560px) {
-  .title-break {
-    display: inline;
-  }
-}
-@media (min-width: 768px) {}
-    
-/* ==== MAIN CONTENT ==== */    
-.primary-tabs {
-    margin-top: 10px;
-}
+.title-break { display: none; }
+@media (max-width: 560px) { .title-break { display: inline; } }
+
+/* ===== PRIMARY TABS ===== */
+.primary-tabs { margin-top: 10px; }
 .primary-tab {
     display: inline-block;
     padding: 1px 10px 1px;
@@ -119,43 +89,30 @@ body {
     border: 3px solid var(--yellow);
     background: transparent;
     color: var(--yellow);
-    -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
+    -webkit-transition: 0.2s ease;
 }
 .primary-tab.active {
     background: var(--yellow);
     color: white;
     border: 3px solid var(--yellow);
 }
-/* ======== SUB TABS (OFF) ======== */
-.sub-tabs {
-    margin-top: 40px;
-    display:none;
-    pointer-events: none;
-}
+
+/* ===== SUB TABS (OFF) ===== */
+.sub-tabs { margin-top: 40px; display: none; pointer-events: none; }
 .sub-tab {
-    display: none;
-    pointer-events: none;
-    padding: 15px 50px;
-    margin: 10px;
-    border-radius: 12px;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    border: 3px solid var(--yellow);
-    background: transparent;
-    color: var(--yellow);
-    -webkit-transition: 0.2s ease;
-    transition: 0.2s ease;
+    display: none; pointer-events: none;
+    padding: 15px 50px; margin: 10px;
+    border-radius: 12px; font-size: 24px; font-weight: bold;
+    cursor: pointer; border: 3px solid var(--yellow);
+    background: transparent; color: var(--yellow);
+    transition: 0.2s ease; -webkit-transition: 0.2s ease;
 }
-.sub-tab.active {
-    background: var(--yellow);
-    color: white;
-}
-/* ========= CLUB LIST ======= */
+.sub-tab.active { background: var(--yellow); color: white; }
+
+/* ===== CLUB LIST ===== */
 #clubContainer {
-    width: 90%;
-    max-width: 1000px;
+    width: 90%; max-width: 1000px;
     margin: 10px auto;
 }
 .club-box {
@@ -165,549 +122,542 @@ body {
     margin-bottom: var(--box-spacing);
     text-align: left;
     box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
 }
-.club-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+.club-box:active { opacity: 0.75; }
+.club-wrapper { display: flex; align-items: center; gap: 10px; }
 .club-icon {
-    width: 60px;
-    height: 60px;
+    width: 60px; height: 60px;
     border-radius: 30px;
     object-fit: cover;
     background: transparent;
+    flex-shrink: 0;
 }
-.club-text {
-    flex: 1;
-}
-.club-line1 {
-    font-size: 1em;
-    font-weight: bold;
-    margin-bottom: 1px;
-}
-.club-line {
-    font-size: 1em;
-    margin: 3px 0;
-}
-.club-line a {
-    text-decoration: none;
-    font-weight: bold;
-    color: #3366cc;
-}
-.club-line span {
-    text-decoration: none;
-    font-weight: bold;
-    color: #3366cc;
-}
-.club-line a:hover { text-decoration: underline; }
-.club-line span:hover { text-decoration: underline; }
+.club-text { flex: 1; }
+.club-line1 { font-size: 1em; font-weight: bold; margin-bottom: 1px; }
+.club-line  { font-size: 0.88em; color: #555; margin: 2px 0; }
 
+/* spinner */
 .spinner {
-  display: inline-block;
-  cursor: pointer;
-  transform-origin: center center;
-  flex: 0 0 auto;
+    display: inline-block; cursor: pointer;
+    transform-origin: center center; flex: 0 0 auto;
 }
 .spin {
-  -webkit-animation: spinOnce 0.6s linear;
-  animation: spinOnce 0.6s linear;
+    -webkit-animation: spinOnce 0.6s linear;
+    animation: spinOnce 0.6s linear;
 }
-@-webkit-keyframes spinOnce {
-  from { -webkit-transform: rotate(0deg); }
-  to   { -webkit-transform: rotate(360deg); }
-}
-@keyframes spinOnce {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-    
-/* ===== BOTTOM BAR ===== */
-.bike-icon {
-  height: 1.2em;
-  display: block;
-  filter: invert(1);
-}
-.bottom-bar {
-    background: var(--maroon);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 20px;
-    font-size: 0.85rem;
-    margin-top: auto;
-}
-.bottom-bar a {
-    color: white;
-    text-decoration: none;
-}
-.contact-btn {
-    padding: 4px 10px;
-    border: 1px solid white;
-    border-radius: 4px;
-    -webkit-transition: background 0.15s ease;
-    transition: background 0.15s ease;
-}
-.contact-btn:hover {
-    background: white;
-    color: var(--maroon);
-}
+@-webkit-keyframes spinOnce { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+@keyframes spinOnce { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
+/* ===== BOTTOM BAR ===== */
+.bottom-bar {
+    background: var(--maroon); color: white;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 20px; font-size: 0.85rem; margin-top: auto;
+}
+.bottom-bar a { color: white; text-decoration: none; }
+.contact-btn {
+    padding: 4px 10px; border: 1px solid white; border-radius: 4px;
+    transition: background 0.15s ease; -webkit-transition: background 0.15s ease; cursor: pointer;
+}
+.contact-btn:hover { background: white; color: var(--maroon); }
 
 /* ===================================================
    EVENTS SECTION
    =================================================== */
-
 #eventsSection {
-    display: none;
-    width: 90%;
-    max-width: 1000px;
+    display: none; width: 90%; max-width: 1000px;
     margin: 12px auto 0;
 }
-
-/* --- Top control bar --- */
 .events-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 4px;
-    margin-bottom: 10px;
-    position: relative;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 4px; margin-bottom: 10px; position: relative;
 }
-
-/* --- Timeframe nav: < Upcoming > --- */
-/* Wrapper keeps the three pieces together without affecting the filter side */
-.evt-timeframe-nav {
-    display: flex;
-    align-items: center;
-    gap: 0px;
-}
-
-/* The nav arrows reuse .evt-ctrl-btn visuals but are separate elements */
+.evt-timeframe-nav { display: flex; align-items: center; gap: 0px; }
 .evt-nav-arrow {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.15rem;   /* slightly larger than label for tap comfort */
-    font-weight: bold;
-    color: white;
-    padding: 4px 6px;
-    line-height: 1;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    /* same glow as original ctrl btn */
-    text-shadow:
-        0 0 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9);
-    -webkit-transition: opacity 0.2s ease;
-    transition: opacity 0.2s ease;
+    background: transparent; border: none; cursor: pointer;
+    font-size: 1.5rem; font-weight: bold; color: white;
+    padding: 4px 17px; line-height: 1;
+    -webkit-tap-highlight-color: transparent; outline: none;
+    text-shadow: 0 0 10px rgba(133,61,81,0.9), 0px 0px 10px rgba(133,61,81,0.9);
+    transition: opacity 0.2s ease; -webkit-transition: opacity 0.2s ease;
 }
-/* dimmed state when no more modes in that direction */
-.evt-nav-arrow.disabled {
-    opacity: 0.25;
-    cursor: default;
-    pointer-events: none;
-}
-
-/* Sliding label container — clips during animation */
+.evt-nav-arrow.disabled { opacity: 0.25; cursor: default; pointer-events: none; }
 .evt-label-clip {
-    overflow: hidden;
-    /* width is set to match the widest label so the layout never jumps */
-     min-width: 0;        /* shrinks to content */
-    width: 100px;        /* fixed width wide enough for longest label */
-    min-width: 90px;
-    text-align: center;
-    
+    overflow: hidden; width: 140px; min-width: 90px; text-align: center;
 }
-/* Inner track holding current + incoming label side by side */
 .evt-label-track {
-    display: -webkit-box;
-    display: flex;
-    width: 200%;   /* two slots */
-    -webkit-transition: -webkit-transform 0.28s ease;
-    transition: transform 0.28s ease;
-    
-    
+    display: flex; -webkit-display: -webkit-box; width: 200%;
+    transition: transform 0.28s ease; -webkit-transition: -webkit-transform 0.28s ease;
 }
-/* Each slot is exactly half the track = full clip width */
 .evt-label-slot {
-    background: transparent;
-    border: none;
-    font-size: 1.05rem;
-    font-weight: bold;
-    color: white;
-    padding: 4px 2px;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-    text-shadow:
-        0 0 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9);
-    display: block;
-    width: 100%;
-    text-align: center;
-    width: 50%;
-    flex-shrink: 0;
-    -webkit-flex-shrink: 0;
-    
-    
+    width: 50%; flex-shrink: 0; -webkit-flex-shrink: 0; text-align: center;
 }
-/* The actual text — inherits ctrl-btn style exactly */
 .evt-label-text {
-    background: transparent;
-    border: none;
-    font-size: 1.05rem;
-    font-weight: bold;
-    color: white;
-    padding: 4px 2px;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-    text-shadow:
-        0 0 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9);
-    display: block;
-    width: 100%;
-    text-align: center;
+    background: transparent; border: none; font-size: 1.05rem;
+    font-weight: bold; color: white; padding: 4px 2px;
+    letter-spacing: 0.01em; white-space: nowrap;
+    text-shadow: 0 0 10px rgba(133,61,81,0.9), 0px 0px 10px rgba(133,61,81,0.9);
+    display: block; width: 100%; text-align: center;
 }
-
-/* --- Filter button (unchanged visuals) --- */
 .evt-ctrl-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.05rem;
-    font-weight: bold;
-    color: white;
-    padding: 4px 2px;
-    letter-spacing: 0.01em;
-    text-shadow:
-        0 0 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9);
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
+    background: transparent; border: none; cursor: pointer;
+    font-size: 1.05rem; font-weight: bold; color: white;
+    padding: 4px 2px; letter-spacing: 0.01em;
+    text-shadow: 0 0 10px rgba(133,61,81,0.9), 0px 0px 10px rgba(133,61,81,0.9);
+    -webkit-tap-highlight-color: transparent; outline: none;
 }
 .evt-ctrl-btn .arrow {
     display: inline-block;
-    -webkit-transition: -webkit-transform 0.25s ease;
-    transition: transform 0.25s ease;
-    text-shadow:
-        0 0 5px rgba(133, 61, 81,0.9),
-        0px 0px 5px rgba(133, 61, 81,0.9), 0 0 10px rgba(133, 61, 81,0.9), 0 0 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9),
-        0px 0px 10px rgba(133, 61, 81,0.9);
+    transition: transform 0.25s ease; -webkit-transition: -webkit-transform 0.25s ease;
 }
-.evt-ctrl-btn.open .arrow {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-}
-
-/* --- Filter dropdown (unchanged) --- */
+.evt-ctrl-btn.open .arrow { transform: rotate(180deg); -webkit-transform: rotate(180deg); }
 .evt-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    z-index: 50;
-    border-radius: 10px;
-    padding: 10px 12px;
+    display: none; position: absolute;
+    top: calc(100% + 6px); z-index: 50;
+    border-radius: 10px; padding: 10px 12px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.22);
 }
-.evt-dropdown.open {
-    display: block;
-}
+.evt-dropdown.open { display: block; }
 .evt-dropdown.filter-picker {
-    right: 0;
-    background: #edf4ff;
-    min-width: 150px;
+    right: 0; background: #edf4ff; min-width: 150px;
 }
-.filter-opts {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+.filter-opts { display: flex; flex-direction: column; gap: 6px; }
 .filter-opt {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.92rem;
-    font-weight: bold;
-    color: #335;
-    text-align: left;
-    padding: 3px 2px;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
+    background: none; border: none; cursor: pointer;
+    font-size: 0.92rem; font-weight: bold; color: #335;
+    text-align: left; padding: 3px 2px;
+    -webkit-tap-highlight-color: transparent; outline: none;
 }
-.filter-opt.selected {
-    color: #2255cc;
-    text-decoration: underline;
-}
-
-/* --- Event list --- */
-#eventContainer {
-    margin-top: 4px;
-    padding-bottom: 16px;
-    min-width:0px;
-}
+.filter-opt.selected { color: #2255cc; text-decoration: underline; }
+#eventContainer { margin-top: 4px; padding-bottom: 16px; min-width: 0; }
 .evt-day-head {
-    font-size: 0.78rem;
-    font-weight: bold;
-    color: rgba(255,255,255,0.85);
+    font-size: 0.78rem; font-weight: bold; color: rgba(255,255,255,0.85);
     text-shadow: 0 0 8px rgba(0,0,0,0.4);
-    text-align: left;
-    margin: 10px 0 4px;
-    padding-left: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    text-align: left; margin: 10px 0 4px; padding-left: 2px;
+    text-transform: uppercase; letter-spacing: 0.04em;
 }
 .evt-box {
-    background: white;
-    border-radius: 8px;
-    padding: 7px 10px;
-    margin-bottom: 6px;
-    text-align: left;
+    background: white; border-radius: 8px; padding: 7px 10px;
+    margin-bottom: 6px; text-align: left;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    cursor: pointer; display: flex; align-items: center; gap: 8px;
     -webkit-tap-highlight-color: transparent;
-    -webkit-transition: opacity 0.12s;
-    transition: opacity 0.12s;
-    min-width:0px;
+    transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
+    min-width: 0;
 }
-.evt-box:active {
-    opacity: 0.75;
-}
+.evt-box:active { opacity: 0.75; }
 .evt-icon-wrap {
-    width: 38px;
-    height: 38px;
-    border-radius: 6px;
-    flex-shrink: 0;
-    overflow: hidden;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 38px; height: 38px; border-radius: 6px;
+    flex-shrink: 0; overflow: hidden; background: transparent;
+    display: flex; align-items: center; justify-content: center;
 }
 .evt-icon-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 6px; display: block;
 }
-.evt-text {
-     flex: 1 1 1px;
-    min-width: 0;
-    max-width: 100%;
-    width: 0;  
-}
+.evt-text { flex: 1 1 1px; min-width: 0; max-width: 100%; width: 0; }
 .evt-title {
-    font-size: 0.88rem;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    min-width:0px;
+    font-size: 0.88rem; font-weight: bold;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
 }
 .evt-meta {
-    font-size: 0.78rem;
-    color: #555;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    margin-top: 1px;
-    min-width:0px;
+    font-size: 0.78rem; color: #555;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 1px; min-width: 0;
 }
 
-/* --- Overlay / detail --- */
+/* ===== EVENT DETAIL OVERLAY ===== */
 #evtOverlay {
-    position: fixed;
-    top: 0; left: 0;
+    position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    -webkit-transition: opacity 0.25s ease;
-    transition: opacity 0.25s ease;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    z-index: 200; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease; -webkit-transition: opacity 0.25s ease;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 #evtOverlay.active {
-    opacity: 1;
-    pointer-events: auto;
-    background: rgba(0,0,0,0.78);
+    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.88);
 }
 .evt-detail {
-    position: relative;
-    margin: 54px auto 40px;
+    position: relative; margin: 54px auto 40px;
     padding: 0 20px 30px;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    max-width: 460px;
-    width: 90vw;
-    white-space: pre-line;
+    display: flex; -webkit-display: -webkit-box;
+    flex-direction: column; -webkit-box-orient: vertical; -webkit-box-direction: normal;
+    align-items: center; -webkit-box-align: center;
+    max-width: 460px; width: 90vw; white-space: pre-line;
 }
-    
- #flyerExpand {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.92);
-    z-index: 500;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    -webkit-transition: opacity 0.2s ease;
-    transition: opacity 0.2s ease;
-    cursor: pointer;
-}
-#flyerExpand.active {
-    display: -webkit-box;
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
-}
-#flyerExpand img {
-    max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 20px);
-    border-radius: 8px;
-    object-fit: contain;
-    display: block;
-}   
-    
 .evt-detail-flyer {
-    width: 93%;
-    max-width: 550px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-bottom: 4px;
+    width: 93%; max-width: 550px; border-radius: 10px;
+    object-fit: cover; margin-bottom: 4px;
     opacity: 0;
-    -webkit-transform: translate(-16px, 16px) scale(0.82);
     transform: translate(-16px, 16px) scale(0.82);
-    -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+    -webkit-transform: translate(-16px, 16px) scale(0.82);
     transition: opacity 0.35s ease, transform 0.35s ease;
-    display: block;
+    -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+    display: block; cursor: pointer;
 }
-.evt-detail-flyer.shown {
-    opacity: 1;
-    -webkit-transform: translate(0,0) scale(1);
-    transform: translate(0,0) scale(1);
-}
-.evt-detail-noflyer {
-    display: none;
-}
+.evt-detail-flyer.shown { opacity: 1; transform: translate(0,0) scale(1); -webkit-transform: translate(0,0) scale(1); }
 .evt-detail-body {
-    margin-top: 16px;
-    color: white;
-    text-align: center;
-    width: 100%;
+    margin-top: 16px; color: white; text-align: center; width: 100%;
     opacity: 0;
-    -webkit-transition: opacity 0.35s ease 0.2s;
-    transition: opacity 0.35s ease 0.2s;
+    transition: opacity 0.35s ease 0.2s; -webkit-transition: opacity 0.35s ease 0.2s;
 }
-.evt-detail-body.shown {
-    opacity: 1;
-}
-.evt-detail-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: rgba(255,255,255,0.95);
-    margin-bottom: 6px;
-}
-.evt-detail-desc {
-    font-size: 0.88rem;
-    line-height: 1.45;
-    margin-bottom: 10px;
-    color: rgba(255,255,255,0.8);
-    line-height: 1.05;
-}
-.evt-detail-info {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 4px;
-}
-.evt-detail-club {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 18px;
-    font-style: italic;
-}
+.evt-detail-body.shown { opacity: 1; }
+.evt-detail-title { font-size: 1.2rem; font-weight: bold; color: rgba(255,255,255,0.95); margin-bottom: 6px; }
+.evt-detail-desc { font-size: 0.88rem; line-height: 1.45; margin-bottom: 10px; color: rgba(255,255,255,0.8); }
+.evt-detail-info { font-size: 1rem; color: rgba(255,255,255,0.9); margin-bottom: 4px; }
+.evt-detail-club { font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 18px; font-style: italic; }
 .evt-close-btn {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    background: none;
-    border: 2px solid white;
-    border-radius: 6px;
-    padding: 6px 24px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
+    font-size: 1.1rem; font-weight: bold; color: white;
+    background: none; border: 2px solid white; border-radius: 6px;
+    padding: 6px 24px; cursor: pointer; letter-spacing: 0.05em;
     -webkit-tap-highlight-color: transparent;
-    -webkit-transition: background 0.1s ease, color 0.1s ease;
     transition: background 0.1s ease, color 0.1s ease;
-    -webkit-user-select: none;
-    user-select: none;
+    -webkit-transition: background 0.1s ease, color 0.1s ease;
+    -webkit-user-select: none; user-select: none;
 }
-.evt-close-btn.holding {
-    background: white;
-    color: black;
+.evt-close-btn.holding { background: white; color: black; }
+
+/* ===== FLYER EXPAND ===== */
+#flyerExpand {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92); z-index: 500;
+    align-items: center; -webkit-box-align: center;
+    justify-content: center; -webkit-box-pack: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease; -webkit-transition: opacity 0.2s ease;
+    cursor: pointer;
+}
+#flyerExpand.active { display: flex; -webkit-display: -webkit-box; opacity: 1; pointer-events: auto; }
+#flyerExpand img {
+    max-width: calc(100vw - 20px); max-height: calc(100vh - 20px);
+    border-radius: 8px; object-fit: contain; display: block;
 }
 
-/* end events styles */
+/* ===================================================
+   CLUB DETAIL OVERLAY
+   =================================================== */
+#clubOverlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0);
+    z-index: 100; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease; -webkit-transition: opacity 0.25s ease;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+#clubOverlay.active {
+    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.82);
+}
+.club-detail {
+    position: relative; margin: 40px auto 60px;
+    padding: 0 16px 30px;
+    display: flex; flex-direction: column; align-items: center;
+    max-width: 500px; width: 92vw;
+}
+
+/* Featured image / icon at top */
+.club-detail-hero {
+    width: 90%; position: relative;
+    margin-bottom: 14px;
+}
+/* Featured image mode */
+.club-detail-featured {
+    width: 100%; border-radius: 12px;
+    object-fit: cover; display: block;
+    max-height: 240px;
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+    -webkit-transform: translateY(10px) scale(0.96);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+    cursor: pointer;
+}
+.club-detail-featured.shown { opacity: 1; transform: translateY(0) scale(1); -webkit-transform: translateY(0) scale(1); }
+/* Icon badge over featured image */
+.club-detail-icon-badge {
+    position: absolute; top: -20px; left: -20px;
+    width: 80px; height: 80px;
+    border-radius: 40px;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+/* Icon-only mode (no featured image) */
+.club-detail-icon-solo {
+    width: 120px; height: 120px;
+    border-radius: 60px;
+    object-fit: cover;
+    border: 0px solid rgba(255,255,255,0.8);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    display: block;
+    margin: 0 auto 10px;
+    opacity: 0;
+    transform: scale(0.85);
+    -webkit-transform: scale(0.85);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease;
+    cursor: pointer;
+}
+.club-detail-icon-solo.shown { opacity: 1; transform: scale(1); -webkit-transform: scale(1); }
+
+/* Text block */
+.club-detail-body {
+    color: white; text-align: center; width: 100%;
+    opacity: 0;
+    transition: opacity 0.35s ease 0.15s; -webkit-transition: opacity 0.35s ease 0.15s;
+}
+.club-detail-body.shown { opacity: 1; }
+.club-detail-name {
+    font-size: 1.35rem; font-weight: bold;
+    color: rgba(255,255,255,0.97); margin-bottom: 3px;
+}
+.club-detail-subtitle {
+    font-size: 0.82rem; color: rgba(255,255,255,0.6);
+    margin-bottom: 10px; font-style: italic;
+}
+.club-detail-desc {
+    font-size: 1rem; line-height: 1.55;
+    color: rgba(255,255,255,0.82); margin-bottom: 14px;
+    white-space: pre-line; text-align: center;
+}
+
+/* Links */
+.club-detail-links {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 8px;
+    margin-bottom: 18px;
+}
+.club-detail-link {
+    color: white; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 0.82rem; font-weight: bold;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    -webkit-transition: background 0.15s ease, border-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.club-detail-link:hover { background: rgba(255,255,255,0.15); border-color: white; }
+
+/* ===== CLUB INNER TABS (Events / Gallery) ===== */
+.club-inner-section { width: 100%; margin-top: 4px; }
+.club-inner-label {
+    font-size: 0.88rem; font-weight: bold;
+    color: rgba(255,255,255,0.7); letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 10px;
+    text-align: center;
+}
+.club-inner-tabs {
+    display: flex; justify-content: center; gap: 10px;
+    margin-bottom: 12px;
+}
+.club-inner-tab {
+    background: transparent; border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 16px; color: rgba(255,255,255,0.7);
+    font-size: 0.8rem; font-weight: bold;
+    padding: 4px 16px; cursor: pointer;
+    transition: all 0.18s ease; -webkit-transition: all 0.18s ease;
+    -webkit-tap-highlight-color: transparent; outline: none;
+    text-transform: uppercase; letter-spacing: 0.04em;
+}
+.club-inner-tab.active {
+    background: rgba(255,255,255,0.18);
+    border-color: white; color: white;
+}
+.club-inner-panel { display: none; }
+.club-inner-panel.active { display: block; }
+
+/* ===== FLYER GRID (inside club detail) ===== */
+.club-flyer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.club-flyer-card {
+    border-radius: 8px; overflow: hidden;
+    cursor: pointer; background: rgba(255,255,255,0.07);
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
+    aspect-ratio: 3/4;
+}
+.club-flyer-card:active { opacity: 0.75; }
+.club-flyer-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    border-radius: 8px;
+}
+.club-no-events {
+    font-size: 0.85rem; color: rgba(255,255,255,0.5);
+    text-align: center; padding: 40px 10px;
+    font-style: italic;
+}
+
+/* Divider for past events (future use) */
+.club-past-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 16px 0 10px; color: rgba(255,255,255,0.4);
+    font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.club-past-divider::before,
+.club-past-divider::after {
+    content: ""; flex: 1; height: 1px;
+    background: rgba(255,255,255,0.2);
+}
+
+/* ===== GALLERY GRID ===== */
+.club-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+.club-gallery-img {
+    width: 100%; aspect-ratio: 1;
+    object-fit: cover; border-radius: 5px;
+    display: block; cursor: pointer;
+    transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
+}
+.club-gallery-img:active { opacity: 0.75; }
 </style>
+
+    
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBk3RyolpOBCEmGR9iqqvphkl8r-JNtDFY",
+  authDomain: "bcbrooklyn-data.firebaseapp.com",
+  projectId: "bcbrooklyn-data",
+  storageBucket: "bcbrooklyn-data.firebasestorage.app",
+  messagingSenderId: "420950247250",
+  appId: "1:420950247250:web:42259d89031803474f9c8b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+window._db = db; // expose to your existing non-module script
+window._getDocs = getDocs;
+window._collection = collection;
+    
+</script>
+</head>
+<body>
+
+<div class="mobile-bg">
+  <img src="images/mobileimage.jpg" alt="">
+</div>
+
+<div class="page-wrap">
+
+<div class="hero">
+  <h1>Brooklyn College <br class="title-break"> Student Life</h1>
+  <h3 class="heroh"><i>go be a part of something</i></h3>
+</div>
+
+<!-- PRIMARY TABS -->
+<div class="primary-tabs">
+    <div id="clubsTab"  class="primary-tab" onclick="selectPrimary('clubs')">CLUBS</div>
+    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">EVENTS</div>
+</div>
+
+<!-- SUB TABS (off) -->
+<div id="subTabs" class="sub-tabs">
+    <div id="tab1" class="sub-tab active" onclick="selectSub('tab1')">Tab1</div>
+    <div id="tab2" class="sub-tab" onclick="selectSub('tab2')">Tab2</div>
+    <div id="tab3" class="sub-tab" onclick="selectSub('tab3')">Tab3</div>
+    <div id="tab4" class="sub-tab" onclick="selectSub('tab4')">Tab4</div>
+</div>
+
+<!-- CLUB LIST -->
+<div id="clubContainer"></div>
+
+<!-- EVENTS SECTION -->
+<div id="eventsSection">
+    <div class="events-controls">
+        <div class="evt-timeframe-nav">
+            <button id="evtNavLeft"  class="evt-nav-arrow disabled" onclick="navTimeframe(-1)">&#8249;</button>
+            <div class="evt-label-clip">
+                <div id="evtLabelTrack" class="evt-label-track">
+                    <div class="evt-label-slot" id="evtLabelSlotA"><span class="evt-label-text">Upcoming</span></div>
+                    <div class="evt-label-slot" id="evtLabelSlotB"><span class="evt-label-text"></span></div>
+                </div>
+            </div>
+            <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">&#8250;</button>
+        </div>
+        <div style="position:relative;">
+            <button id="evtFilterBtn" class="evt-ctrl-btn" onclick="toggleDropdown('filter')">
+                Filters <span class="arrow">▾</span>
+            </button>
+            <div id="evtFilterDrop" class="evt-dropdown filter-picker">
+                <div class="filter-opts">
+                    <button class="filter-opt selected" data-type="all"         onclick="pickFilter('all')">All</button>
+                    <button class="filter-opt" data-type="sports game"          onclick="pickFilter('sports game')">Sports Games</button>
+                    <button class="filter-opt" data-type="performance"          onclick="pickFilter('performance')">Performances</button>
+                    <button class="filter-opt" data-type="club event"           onclick="pickFilter('club event')">Club Events</button>
+                    <button class="filter-opt" data-type="other"                onclick="pickFilter('other')">Other</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="eventContainer"></div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+    <span class="spinner"
+      onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">bcbrooklyn</span>
+    <span data-email="bcbrooklyn55@gmail.com" class="contact-btn email">Contact Me</span>
+</div>
+
+</div><!-- /page-wrap -->
+
+<!-- CLUB DETAIL OVERLAY -->
+<div id="clubOverlay">
+    <div class="club-detail" id="clubDetail"></div>
+</div>
+
+<!-- EVENT DETAIL OVERLAY -->
+<div id="evtOverlay">
+    <div class="evt-detail" id="evtDetail"></div>
+</div>
+
+<!-- FLYER EXPAND -->
+<div id="flyerExpand" onclick="closeFlyerExpand()">
+    <img id="flyerExpandImg" src="" alt="">
+</div>
 
 <script>
 /* ================= STATE ================= */
 var primarySelected = "clubs";
 var subSelected = "tab1";
-var clubDataJSON = {};
-var _labelTimer = null; /* pending label-reset timeout */
+var clubDataJSON  = [];   /* flat array from clubs.json */
+var _labelTimer   = null;
 
-/* ========== EVENTS STATE ========== */
-var eventsDataJSON = [];
-
-/* How many days "Upcoming" shows when no filter is active */
-var UPCOMING_DAYS = 5;
-
-/* Active filter — "all" means none selected */
+/* ===== EVENTS STATE ===== */
+var eventsDataJSON    = [];
+var UPCOMING_DAYS     = 5;
 var evtSelectedFilter = "all";
-
-/* Filter dropdown open state */
-var evtDropOpen = null;
-
-/* --- Timeframe nav state ---
-   evtModes: built once data loads — array of mode objects in nav order.
-   evtModeIdx: current position in that array.
-   A mode object: { id: string, label: string, startDate: "YYYY-MM-DD"|null, endDate: "YYYY-MM-DD"|null }
-   Special id "upcoming" has no date range — uses UPCOMING_DAYS logic instead. */
-var evtModes = [];
-var evtModeIdx = 0;   /* "Upcoming" will always be index 0 */
+var evtDropOpen       = null;
+var evtModes          = [];
+var evtModeIdx        = 0;
 
 /* ================= PRIMARY TAB SWITCH ================= */
 function selectPrimary(tab) {
     primarySelected = tab;
-
     document.getElementById("clubsTab").classList.remove("active");
     document.getElementById("eventsTab").classList.remove("active");
     document.getElementById(tab + "Tab").classList.add("active");
 
     if (tab === "clubs") {
-        document.getElementById("subTabs").style.display = "block";
+        document.getElementById("subTabs").style.display    = "block";
         document.getElementById("clubContainer").style.display = "block";
         document.getElementById("eventsSection").style.display = "none";
         renderClubs();
     } else {
-        document.getElementById("subTabs").style.display = "none";
+        document.getElementById("subTabs").style.display    = "none";
         document.getElementById("clubContainer").style.display = "none";
         document.getElementById("eventsSection").style.display = "block";
         renderEvents();
@@ -723,316 +673,511 @@ function selectSub(tab) {
     renderClubs();
 }
 
-/* ================= RENDER CLUBS ================= */
+/* ================= RENDER CLUB LIST ================= */
 function renderClubs() {
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
-    var list = clubDataJSON[subSelected];
-    if (!list) return;
+    var list = clubDataJSON;
+    if (!list.length) return;
     for (var i = 0; i < list.length; i++) {
         var club = list[i];
-        var box = document.createElement("div");
-        box.className = "club-box";
-        var wrapper = document.createElement("div");
-        wrapper.className = "club-wrapper";
-        var icon = document.createElement("img");
-        icon.className = "club-icon";
-        var baseName = club.line1.replace(/\s+/g, "");
-        var iconFolder = "images/icons/";
-        var sources = [iconFolder + baseName + ".png", iconFolder + baseName + ".jpg"];
-        if (club.icon) sources.push(iconFolder + club.icon);
-        sources.push(iconFolder + "default.svg");
-        var tried = 0;
-        icon.src = sources[tried];
-        icon.onerror = (function(srcArr) {
-            var t = { v: 0 };
-            return function() {
-                t.v++;
-                if (t.v < srcArr.length) {
-                    this.onerror = arguments.callee;
-                    this.src = srcArr[t.v];
-                }
-            };
-        })(sources);
-        var textContainer = document.createElement("div");
-        textContainer.className = "club-text";
-        textContainer.innerHTML =
-            '<div class="club-line1">' + (club.line1||"") + '</div>' +
-            '<div class="club-line">'  + (club.line2||"") + '</div>' +
-            '<div class="club-line">'  + (club.line3||"") + '</div>' +
-            '<div class="club-line">'  + (club.line4||"") + '</div>';
-        wrapper.appendChild(icon);
-        wrapper.appendChild(textContainer);
-        box.appendChild(wrapper);
-        container.appendChild(box);
+        (function(c){
+            var box = document.createElement("div");
+            box.className = "club-box";
+            var wrapper = document.createElement("div");
+            wrapper.className = "club-wrapper";
+            var icon = document.createElement("img");
+            icon.className = "club-icon";
+            icon.src = c.icon || "";
+            icon.onerror = function(){ this.style.display = "none"; };
+            var textEl = document.createElement("div");
+            textEl.className = "club-text";
+            textEl.innerHTML =
+                '<div class="club-line1">' + esc(c.name) + '</div>' +
+                '<div class="club-line">'  + esc(c.subtitle || "") + '</div>';
+            wrapper.appendChild(icon);
+            wrapper.appendChild(textEl);
+            box.appendChild(wrapper);
+            container.appendChild(box);
+            box.onclick = function(){ openClubDetail(c); };
+        })(club);
     }
 }
 
 /* ================= INITIAL LOAD ================= */
 window.onload = function() {
     selectPrimary("events");
-    /* Load clubs.json */
-    if (typeof fetch !== "undefined") {
-        fetch("contents/clubs.json")
-            .then(function(res){ return res.json(); })
-            .then(function(data){
-                clubDataJSON = data;
-                selectSub("tab1");
-            })
-            .catch(function(err){
-                console.error("clubs.json error:", err);
-                clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-            });
-        /* Load events.json */
-        fetch("contents/events.json")
-            .then(function(res){ return res.json(); })
-            .then(function(data){
-                eventsDataJSON = data.events || [];
-                /* Build mode list now that we have event dates */
-                buildTimeframeModes();
-                if (primarySelected === "events") renderEvents();
-            })
-            .catch(function(err){
-                console.error("events.json error:", err);
-                eventsDataJSON = [];
-                buildTimeframeModes();
-            });
-    } else {
-        clubDataJSON = { "tab1":[], "tab2":[], "tab3":[], "tab4":[] };
-        buildTimeframeModes();
-    }
-};
+    var db         = window._db;
+    var getDocs    = window._getDocs;
+    var collection = window._collection;
 
-/* ================= EMAIL CLICK ================= */
+    getDocs(collection(db, "clubs")).then(function(snap) {
+        clubDataJSON = [];
+        snap.forEach(function(doc) { clubDataJSON.push(doc.data()); });
+        if (primarySelected === "clubs") renderClubs();
+    }).catch(function(err) { console.error("clubs error:", err); });
+
+    getDocs(collection(db, "events")).then(function(snap) {
+        eventsDataJSON = [];
+        snap.forEach(function(doc) { eventsDataJSON.push(doc.data()); });
+        buildTimeframeModes();
+        if (primarySelected === "events") renderEvents();
+    }).catch(function(err) {
+        console.error("events error:", err);
+        buildTimeframeModes();
+    });
+};
+/* ===== EMAIL CLICK ===== */
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('email')) {
         e.target.textContent = e.target.dataset.email;
     }
 });
 
-/* ============================================================
-   EVENTS LOGIC
-   =========================================================== */
+/* ===================================================
+   CLUB DETAIL OVERLAY
+   =================================================== */
 
-/* helpers */
-function padZ(n){ return n < 10 ? "0"+n : ""+n; }
-function dateStr(d){ return d.getFullYear()+"-"+padZ(d.getMonth()+1)+"-"+padZ(d.getDate()); }
+var _clubDownX = 0, _clubDownY = 0;
 
-function todayDate(){
-    var n = new Date();
-    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+function openClubDetail(club) {
+    var overlay = document.getElementById("clubOverlay");
+    var detail  = document.getElementById("clubDetail");
+    detail.innerHTML = "";
+
+    /* ---- Hero: featured image or solo icon ---- */
+    if (club.featuredImageToggle && club.featuredImage) {
+        /* Featured image + badge icon */
+        var heroDiv = document.createElement("div");
+        heroDiv.className = "club-detail-hero";
+
+        var featImg = document.createElement("img");
+        featImg.className = "club-detail-featured";
+        featImg.alt = club.name;
+        featImg.onerror = function(){ featImg.style.display = "none"; };
+        featImg.onclick = function(e){ e.stopPropagation(); openFlyerExpand(featImg.src); };
+        heroDiv.appendChild(featImg);
+
+        if (club.icon) {
+            var badge = document.createElement("img");
+            badge.className = "club-detail-icon-badge";
+            badge.src = club.icon;
+            badge.alt = "";
+            badge.onerror = function(){ badge.style.display = "none"; };
+            heroDiv.appendChild(badge);
+        }
+        detail.appendChild(heroDiv);
+
+        /* Animate in */
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+        setTimeout(function(){
+            featImg.src = club.featuredImage.indexOf("/") === -1
+                ? club.featuredImage
+                : club.featuredImage;
+            featImg.classList.add("shown");
+            buildClubBody(club, detail);
+        }, 30);
+
+    } else {
+        /* Solo icon */
+        if (club.icon) {
+            var soloIcon = document.createElement("img");
+            soloIcon.className = "club-detail-icon-solo";
+            soloIcon.src = club.icon;
+            soloIcon.alt = club.name;
+            soloIcon.onerror = function(){ soloIcon.style.display = "none"; };
+            soloIcon.onclick = function(e){ e.stopPropagation(); openFlyerExpand(soloIcon.src); };
+            detail.appendChild(soloIcon);
+        }
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+        setTimeout(function(){
+            if (club.icon) {
+                detail.querySelector(".club-detail-icon-solo").classList.add("shown");
+            }
+            buildClubBody(club, detail);
+        }, 30);
+    }
 }
-function parseDate(s){ /* "YYYY-MM-DD" -> local Date */
-    var p = s.split("-");
-    return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
+
+function buildClubBody(club, detail) {
+    var body = document.createElement("div");
+    body.className = "club-detail-body";
+
+    /* Name */
+    var nameEl = document.createElement("div");
+    nameEl.className = "club-detail-name";
+    nameEl.textContent = club.name;
+
+    /* Subtitle */
+    var subEl = document.createElement("div");
+    subEl.className = "club-detail-subtitle";
+    subEl.textContent = club.subtitle || "";
+
+    /* Description with line breaks */
+    var descEl = document.createElement("div");
+    descEl.className = "club-detail-desc";
+    var descParts = (club.description || "").split(/\\n|\n/);
+    for (var dp = 0; dp < descParts.length; dp++) {
+        if (dp > 0) descEl.appendChild(document.createElement("br"));
+        descEl.appendChild(document.createTextNode(descParts[dp]));
+    }
+
+    /* Links */
+    var linksEl = document.createElement("div");
+    linksEl.className = "club-detail-links";
+    if (club.links && club.links.length) {
+        for (var li = 0; li < club.links.length; li++) {
+            var lnk = document.createElement("a");
+            lnk.className = "club-detail-link";
+            lnk.href = club.links[li].url;
+            lnk.target = "_blank";
+            lnk.rel = "noopener noreferrer";
+            lnk.textContent = club.links[li].label;
+            lnk.onclick = function(e){ e.stopPropagation(); };
+            linksEl.appendChild(lnk);
+        }
+    }
+
+    body.appendChild(nameEl);
+    body.appendChild(subEl);
+    body.appendChild(descEl);
+    body.appendChild(linksEl);
+
+    /* ---- Inner section: Events / Gallery ---- */
+    var hasGallery = club.galleryImages && club.galleryImages.length > 1;
+
+var clubEvents = eventsDataJSON.filter(function(e){ return e.clubId === club.clubId; });
+    /* Only show events that have a loadable flyer — we'll validate lazily via onerror */
+    var hasEvents = clubEvents.length > 0;
+
+    if (hasEvents || hasGallery) {
+        var innerSec = document.createElement("div");
+        innerSec.className = "club-inner-section";
+
+        if (hasEvents && hasGallery) {
+            /* Two tabs */
+            var tabsRow = document.createElement("div");
+            tabsRow.className = "club-inner-tabs";
+
+            var tabEvt = document.createElement("button");
+            tabEvt.className = "club-inner-tab active";
+            tabEvt.textContent = "Events";
+            tabEvt.onclick = function(e){
+                e.stopPropagation();
+                switchInnerTab("events", innerSec);
+            };
+
+            var tabGal = document.createElement("button");
+            tabGal.className = "club-inner-tab";
+            tabGal.textContent = "Gallery";
+            tabGal.onclick = function(e){
+                e.stopPropagation();
+                switchInnerTab("gallery", innerSec);
+            };
+
+            tabsRow.appendChild(tabEvt);
+            tabsRow.appendChild(tabGal);
+            innerSec.appendChild(tabsRow);
+        } else {
+            /* Single label */
+            var labelEl = document.createElement("div");
+            labelEl.className = "club-inner-label";
+            labelEl.textContent = hasEvents ? "Events" : "Gallery";
+            innerSec.appendChild(labelEl);
+        }
+
+        /* Events panel */
+        if (hasEvents) {
+            var evtPanel = document.createElement("div");
+            evtPanel.className = "club-inner-panel active";
+            evtPanel.setAttribute("data-panel", "events");
+            evtPanel.appendChild(buildFlyerGrid(clubEvents));
+            innerSec.appendChild(evtPanel);
+        }
+
+        /* Gallery panel */
+        if (hasGallery) {
+            var galPanel = document.createElement("div");
+            galPanel.className = "club-inner-panel" + (hasEvents ? "" : " active");
+            galPanel.setAttribute("data-panel", "gallery");
+            galPanel.appendChild(buildGalleryGrid(club.galleryImages));
+            innerSec.appendChild(galPanel);
+        }
+
+        body.appendChild(innerSec);
+    }
+
+    detail.appendChild(body);
+    setTimeout(function(){ body.classList.add("shown"); }, 30);
 }
+
+function switchInnerTab(which, innerSec) {
+    var tabs   = innerSec.querySelectorAll(".club-inner-tab");
+    var panels = innerSec.querySelectorAll(".club-inner-panel");
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.toggle("active", tabs[i].textContent.toLowerCase() === which);
+    }
+    for (var j = 0; j < panels.length; j++) {
+        panels[j].classList.toggle("active", panels[j].getAttribute("data-panel") === which);
+    }
+}
+
+/* Build 2-column flyer grid — removes card if image fails to load */
+function buildFlyerGrid(events) {
+    var grid = document.createElement("div");
+    grid.className = "club-flyer-grid";
+
+    var loaded = 0;
+    for (var i = 0; i < events.length; i++) {
+        (function(evt) {
+            if (!evt.flyer) return;
+            var card = document.createElement("div");
+            card.className = "club-flyer-card";
+
+            var img = document.createElement("img");
+            img.alt = evt.title || "";
+            img.onerror = function() {
+                /* No flyer = no card */
+                if (grid.contains(card)) grid.removeChild(card);
+                checkEmpty(grid);
+            };
+            img.onload = function() {
+                loaded++;
+            };
+            img.src = evt.flyer;
+
+            card.appendChild(img);
+            card.onclick = function(e) {
+                e.stopPropagation();
+                openEvtDetail(evt);
+            };
+            grid.appendChild(card);
+        })(events[i]);
+    }
+
+    /* If grid ends up empty after onerrors, show message */
+    setTimeout(function(){ checkEmpty(grid); }, 2000);
+    return grid;
+}
+
+function checkEmpty(grid) {
+    if (grid.children.length === 0) {
+        var msg = document.createElement("div");
+        msg.className = "club-no-events";
+        msg.textContent = "No upcoming events.";
+        grid.appendChild(msg);
+    }
+}
+
+/* Build 3-column gallery grid */
+function buildGalleryGrid(images) {
+    var grid = document.createElement("div");
+    grid.className = "club-gallery-grid";
+    for (var i = 0; i < images.length; i++) {
+        (function(url) {
+            url = typeof url === 'string' ? url : url.url;
+            var img = document.createElement("img");
+            img.className = "club-gallery-img";
+            img.alt = "";
+            img.src = url;
+            img.onerror = function() {
+                if (grid.contains(img)) grid.removeChild(img);
+            };
+            img.onclick = function(e) {
+                e.stopPropagation();
+                openFlyerExpand(img.src);
+            };
+            grid.appendChild(img);
+        })(images[i]);
+    }
+    return grid;
+}
+
+function closeClubDetail() {
+    var overlay = document.getElementById("clubOverlay");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+/* Tap-outside to close club overlay */
+document.addEventListener("DOMContentLoaded", function() {
+    (function() {
+        document.getElementById("clubOverlay").addEventListener("mousedown", function(e) {
+            _clubDownX = e.clientX; _clubDownY = e.clientY;
+        });
+        document.getElementById("clubOverlay").addEventListener("touchstart", function(e) {
+            _clubDownX = e.touches[0].clientX; _clubDownY = e.touches[0].clientY;
+        }, { passive: true });
+
+        function handleClubClose(e) {
+            var overlay = document.getElementById("clubOverlay");
+            if (!overlay.classList.contains("active")) return;
+            var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+            var dist = Math.sqrt(Math.pow(upX - _clubDownX, 2) + Math.pow(upY - _clubDownY, 2));
+            if (dist > 8) return;
+            /* Don't close if tapping interactive elements */
+            var t = e.target;
+            if (t.closest(".club-detail-link")) return;
+            if (t.closest(".club-detail-featured")) return;
+            if (t.closest(".club-detail-icon-solo")) return;
+            if (t.closest(".club-detail-icon-badge")) return;
+            if (t.closest(".club-flyer-card")) return;
+            if (t.closest(".club-gallery-img")) return;
+            if (t.closest(".club-inner-tab")) return;
+            e.stopPropagation();
+            e.preventDefault();
+            closeClubDetail();
+        }
+
+        document.getElementById("clubOverlay").addEventListener("mouseup",  handleClubClose);
+        document.getElementById("clubOverlay").addEventListener("touchend", handleClubClose, { passive: false });
+    }());
+});
+
+/* ===================================================
+   HELPERS
+   =================================================== */
+//start day stuff
+function esc(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function padZ(n) { return n < 10 ? "0"+n : ""+n; }
+function dateStr(d) { return d.getFullYear()+"-"+padZ(d.getMonth()+1)+"-"+padZ(d.getDate()); }
+function todayDate() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+function parseDate(s) { var p = s.split("-"); return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])); }
+
 var DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAY_FULL  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var MON_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-function fmtHeading(dateS){
+//end day stuffday
+function fmtHeading(dateS) {
     var d = parseDate(dateS);
     return DAY_FULL[d.getDay()] + " " + MON_SHORT[d.getMonth()] + " " + d.getDate();
 }
-function fmtTime(t){
+function fmtTime(t) {
     if (!t || t === "") return "";
     if (t.indexOf("AM") !== -1 || t.indexOf("PM") !== -1) return t.trim();
-    var parts = t.split(":");
-    var h = parseInt(parts[0]), m = parseInt(parts[1]);
+    var parts = t.split(":"); var h = parseInt(parts[0]), m = parseInt(parts[1]);
     if (isNaN(h)) return "";
     var suffix = h >= 12 ? "PM" : "AM";
     var h12 = h % 12 || 12;
     return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
 }
-function isEventExpired(evt){
-    return false;
-}
-
-/* --- Get Monday of the week containing date d --- */
-function getMondayOf(d){
-    var day = d.getDay(); /* 0=Sun */
+function isEventExpired(evt) { return false; }
+function getMondayOf(d) {
+    var day = d.getDay();
     var diff = (day === 0) ? -6 : 1 - day;
-    var m = new Date(d);
-    m.setDate(d.getDate() + diff);
-    return m;
+    var m = new Date(d); m.setDate(d.getDate() + diff); return m;
+}
+function getSundayOf(d) {
+    var mon = getMondayOf(d); var sun = new Date(mon); sun.setDate(mon.getDate() + 6); return sun;
 }
 
-/* --- Get Sunday of the week containing date d --- */
-function getSundayOf(d){
-    var mon = getMondayOf(d);
-    var sun = new Date(mon);
-    sun.setDate(mon.getDate() + 6);
-    return sun;
-}
-
-/* -------------------------------------------------------
-   buildTimeframeModes()
-   Called once after events load.
-   Builds evtModes array:
-     [0] Upcoming  (always index 0)
-     [1] This Week
-     [2..] Next Week, Week of MM/DD ... (future weeks that have events)
-   Also inserts Last Week before index 0 only if it has events.
-   The array can grow leftward (past weeks) and rightward (future).
-   But we only include weeks that actually contain at least one event.
-------------------------------------------------------- */
-function buildTimeframeModes(){
-    var today = todayDate();
+/* ===================================================
+   EVENTS LOGIC
+   =================================================== */
+function buildTimeframeModes() {
+    var today  = todayDate();
     var todayS = dateStr(today);
-
-    /* Collect all event dates (past and future, expired or not) */
     var dateset = {};
-    for (var i = 0; i < eventsDataJSON.length; i++){
-        dateset[eventsDataJSON[i].date] = true;
-    }
-
-    /* Find which weeks have events */
+    for (var i = 0; i < eventsDataJSON.length; i++) dateset[eventsDataJSON[i].date] = true;
     var weekKeys = {};
-    for (var ds in dateset){
-        var mon = getMondayOf(parseDate(ds));
-        weekKeys[dateStr(mon)] = true;
-    }
-
-    /* Sort week mondays oldest -> newest */
+    for (var ds in dateset) { var mon = getMondayOf(parseDate(ds)); weekKeys[dateStr(mon)] = true; }
     var weekMondays = [];
     for (var k in weekKeys) weekMondays.push(k);
     weekMondays.sort();
 
-// New
-    /* "This week" anchor: Mon-Fri -> current week's Monday.
-        Sat-Sun -> NEXT week's Monday (week hasn't started yet). */
-    var todayDay = today.getDay(); /* 0=Sun, 6=Sat */
+    var todayDay = today.getDay();
     var anchorMon = getMondayOf(today);
-    if (todayDay === 0 || todayDay === 6){
-        /* Weekend: push anchor forward to next Monday */
+    if (todayDay === 0 || todayDay === 6) {
         anchorMon = new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7);
     }
     var thisMonS = dateStr(anchorMon);
-
     var modes = [];
-
-    /* LEFT side: all weeks before anchor, oldest first */
-    for (var wi = 0; wi < weekMondays.length; wi++){
+    for (var wi = 0; wi < weekMondays.length; wi++) {
         if (weekMondays[wi] < thisMonS) modes.push(makeModeForWeek(weekMondays[wi]));
     }
-
-    /* This week immediately left of Upcoming */
     if (weekKeys[thisMonS]) modes.push(makeModeForWeek(thisMonS));
-
-    /* Upcoming is the center/default */
     modes.push({ id: "upcoming", label: "Upcoming" });
     evtModeIdx = modes.length - 1;
-
-    /* RIGHT side: all weeks after anchor */
-    for (var wi = 0; wi < weekMondays.length; wi++){
-        if (weekMondays[wi] > thisMonS) modes.push(makeModeForWeek(weekMondays[wi]));
+    for (var wi2 = 0; wi2 < weekMondays.length; wi2++) {
+        if (weekMondays[wi2] > thisMonS) modes.push(makeModeForWeek(weekMondays[wi2]));
     }
-
     evtModes = modes;
     updateNavLabel(null);
     updateNavArrows();
 }
 
-/* Build a mode object for the week starting on mondayStr */
-function makeModeForWeek(mondayStr){
-    var mon = parseDate(mondayStr);
-    var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-    var today = todayDate();
+function makeModeForWeek(mondayStr) {
+    var mon  = parseDate(mondayStr);
+    var sun  = new Date(mon); sun.setDate(mon.getDate() + 6);
+    var today    = todayDate();
     var todayDay = today.getDay();
-    /* Same anchor logic as buildTimeframeModes */
     var anchorMon = getMondayOf(today);
-    if (todayDay === 0 || todayDay === 6){
+    if (todayDay === 0 || todayDay === 6) {
         anchorMon = new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7);
     }
     var thisMonS = dateStr(anchorMon);
     var lastMonS = dateStr(new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() - 7));
     var nextMonS = dateStr(new Date(anchorMon.getFullYear(), anchorMon.getMonth(), anchorMon.getDate() + 7));
-
     var label;
-    if (mondayStr === thisMonS) {
-        label = "This Week";
-    } else if (mondayStr === lastMonS) {
-        label = "Last Week";
-    } else if (mondayStr === nextMonS) {
-        label = "Next Week";
-    } else {
-        /* Week of M/D  e.g. "Week of 3/23" */
-        label = "Week of " + (mon.getMonth()+1) + "/" + mon.getDate();
-    }
-
-    return {
-        id: "week_" + mondayStr,
-        label: label,
-        startDate: mondayStr,
-        endDate: dateStr(sun)
-    };
+    if      (mondayStr === thisMonS) label = "This Week";
+    else if (mondayStr === lastMonS) label = "Last Week";
+    else if (mondayStr === nextMonS) label = "Next Week";
+    else label = "Week of " + (mon.getMonth()+1) + "/" + mon.getDate();
+    return { id: "week_" + mondayStr, label: label, startDate: mondayStr, endDate: dateStr(sun) };
 }
 
-/* --- build filtered+sorted event list for display --- */
-function getDisplayEvents(){
-    var today = todayDate();
+function getDisplayEvents() {
+    var today  = todayDate();
     var todayS = dateStr(today);
-    var mode = evtModes[evtModeIdx];
+    var mode   = evtModes[evtModeIdx];
     if (!mode) return [];
-    var list = eventsDataJSON.slice();
-
+    var list   = eventsDataJSON.slice();
     if (mode.id === "upcoming") {
-        /* Drop expired and past */
         list = list.filter(function(e){ return !isEventExpired(e) && e.date >= todayS; });
-
-        if (evtSelectedFilter !== "all"){
-            /* Filtered upcoming: show all future matching, no day cap */
+        if (evtSelectedFilter !== "all") {
             list = list.filter(function(e){ return e.type === evtSelectedFilter; });
         } else {
-            /* Unfiltered: cap to next UPCOMING_DAYS event-days */
-            var dateSeen = {};
-            var seenDates = [];
-            var tempSorted = list.slice().sort(function(a,b){
-                return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
-            });
-            for (var di = 0; di < tempSorted.length; di++){
+            var dateSeen = {}, seenDates = [];
+            var tempSorted = list.slice().sort(function(a,b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+            for (var di = 0; di < tempSorted.length; di++) {
                 var ds = tempSorted[di].date;
-                if (!dateSeen[ds]){
-                    dateSeen[ds] = true;
-                    seenDates.push(ds);
-                    if (seenDates.length === UPCOMING_DAYS) break;
-                }
+                if (!dateSeen[ds]) { dateSeen[ds] = true; seenDates.push(ds); if (seenDates.length === UPCOMING_DAYS) break; }
             }
             list = list.filter(function(e){ return dateSeen[e.date]; });
         }
-
     } else {
-        /* Week mode: full Mon-Sun of whatever week the mode covers.
-           No expiry filtering on week views — show everything scheduled. */
-        list = list.filter(function(e){
-            return e.date >= mode.startDate && e.date <= mode.endDate;
-        });
-
-        if (evtSelectedFilter !== "all"){
-            list = list.filter(function(e){ return e.type === evtSelectedFilter; });
-        }
+        list = list.filter(function(e){ return e.date >= mode.startDate && e.date <= mode.endDate; });
+        if (evtSelectedFilter !== "all") list = list.filter(function(e){ return e.type === evtSelectedFilter; });
     }
+    list.sort(function(a, b) {
+    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
 
-    /* Sort by date then startTime then priority */
-    list.sort(function(a,b){
-        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
-        if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
-        return (a.priority||3) - (b.priority||3);
-    });
+    var pa = (a.priority ?? 4);
+    var pb = (b.priority ?? 4);
+    if (pa !== pb) return pa - pb;
+
+    if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
+
+    return 0;
+});
     return list;
 }
-/* --- Render the event list --- */
-function renderEvents(){
+
+function renderEvents() {
     var container = document.getElementById("eventContainer");
     if (!container) return;
     container.innerHTML = "";
     var list = getDisplayEvents();
-    if (list.length === 0) {
+    if (!list.length) {
         var msg = document.createElement("div");
         msg.style.cssText = "color:rgba(255,255,255,0.7);font-size:0.9rem;margin-top:20px;text-align:center;";
         msg.textContent = "No events to show.";
-        container.appendChild(msg);
-        return;
+        container.appendChild(msg); return;
     }
     var lastDate = null;
     for (var i = 0; i < list.length; i++) {
@@ -1048,57 +1193,43 @@ function renderEvents(){
     }
 }
 
-/* --- derive icon filename from full flyer filename --- */
-function iconFromFlyer(flyer){
+function iconFromFlyer(flyer) {
     var dot = flyer.lastIndexOf(".");
     if (dot === -1) return flyer + "-icon";
     return flyer.slice(0, dot) + "-icon" + flyer.slice(dot);
 }
 
-function buildEventBox(evt){
+function buildEventBox(evt) {
     var box = document.createElement("div");
     box.className = "evt-box";
-    box.setAttribute("data-evtid", evt.id);
-
     var iconWrap = document.createElement("div");
     iconWrap.className = "evt-icon-wrap";
     if (evt.flyer) {
         var img = document.createElement("img");
         img.className = "evt-icon-img";
-        img.src = "flyers/" + iconFromFlyer(evt.flyer);
+        img.src = evt.flyerIcon;
         img.alt = "";
-        img.onerror = function(){
-            if (iconWrap.contains(this)) iconWrap.removeChild(this);
-        };
+        img.onerror = function(){ if (iconWrap.contains(this)) iconWrap.removeChild(this); };
         iconWrap.appendChild(img);
     }
     box.appendChild(iconWrap);
-
-    var text = document.createElement("div");
-    text.className = "evt-text";
-
-    var title = document.createElement("div");
-    title.className = "evt-title";
-    title.textContent = evt.title;
+    var text  = document.createElement("div"); text.className  = "evt-text";
+    var title = document.createElement("div"); title.className = "evt-title"; title.textContent = evt.title;
     if (evt.title.length > 32) title.style.fontSize = "0.78rem";
-
-    var meta = document.createElement("div");
-    meta.className = "evt-meta";
-    var timeStr = fmtTime(evt.startTime);
-    var endStr  = fmtTime(evt.endTime);
+    var meta  = document.createElement("div"); meta.className  = "evt-meta";
+    var timeStr = fmtTime(evt.startTime), endStr = fmtTime(evt.endTime);
     if (endStr) timeStr += " \u2013 " + endStr;
-    meta.textContent = (evt.time || "") + "  \u00b7  " + evt.room;
-
-    text.appendChild(title);
-    text.appendChild(meta);
+    meta.textContent = (evt.time || "") + "  ·  " + evt.room;
+    text.appendChild(title); text.appendChild(meta);
     box.appendChild(text);
-
     box.onclick = function(){ openEvtDetail(evt); };
     return box;
 }
 
-/* --- Event detail overlay --- */
-function openEvtDetail(evt){
+/* ===== EVENT DETAIL ===== */
+var _evtDownX = 0, _evtDownY = 0;
+
+function openEvtDetail(evt) {
     var overlay = document.getElementById("evtOverlay");
     var detail  = document.getElementById("evtDetail");
     detail.innerHTML = "";
@@ -1106,27 +1237,17 @@ function openEvtDetail(evt){
     if (evt.flyer) {
         var flyer = document.createElement("img");
         flyer.className = "evt-detail-flyer";
-        flyer.onclick = function(e) {
-            e.stopPropagation();
-            openFlyerExpand(this.src);
-        };
+        flyer.onclick = function(e){ e.stopPropagation(); openFlyerExpand(flyer.src); };
         flyer.alt = evt.title;
-        flyer.onerror = function(){
-            flyer.style.display = "none";
-        };
+        flyer.onerror = function(){ flyer.style.display = "none"; };
         detail.appendChild(flyer);
-
         var body = buildDetailBody(evt);
         detail.appendChild(body);
-
         overlay.classList.add("active");
         document.body.style.overflow = "hidden";
-
-        setTimeout(function(){
-            flyer.src = "flyers/" + evt.flyer;
-            flyer.classList.add("shown");
-            body.classList.add("shown");
-        }, 30);
+        setTimeout(function(){ flyer.src = evt.flyer; 
+        flyer.classList.add("shown"); 
+        body.classList.add("shown"); }, 30);
     } else {
         var body2 = buildDetailBody(evt);
         detail.appendChild(body2);
@@ -1136,281 +1257,176 @@ function openEvtDetail(evt){
     }
 }
 
-function buildDetailBody(evt){
-    var body = document.createElement("div");
-    body.className = "evt-detail-body";
-
-    var t = document.createElement("div");
-    t.className = "evt-detail-title";
-    t.textContent = evt.title;
-
-    var desc = document.createElement("div");
-    desc.className = "evt-detail-desc";
+function buildDetailBody(evt) {
+    var body = document.createElement("div"); body.className = "evt-detail-body";
+    var t = document.createElement("div"); t.className = "evt-detail-title"; t.textContent = evt.title;
+    var desc = document.createElement("div"); desc.className = "evt-detail-desc";
     var descParts = (evt.description || "").split("<br>");
     for (var dp = 0; dp < descParts.length; dp++) {
         if (dp > 0) desc.appendChild(document.createElement("br"));
         desc.appendChild(document.createTextNode(descParts[dp]));
     }
+    var info = document.createElement("div"); info.className = "evt-detail-info";
 
-    var info = document.createElement("div");
-    info.className = "evt-detail-info";
-    var dTimeStr = fmtTime(evt.startTime);
-    var dEndStr  = fmtTime(evt.endTime);
-    if (dEndStr) dTimeStr += " \u2013 " + dEndStr;
-    info.textContent = fmtHeading(evt.date) + "  \u00b7  " + (evt.time || "") + "  \u00b7  " + evt.room;
+    info.textContent = fmtHeading(evt.date) + "  ·  " + (evt.time || "") + "  ·  " + evt.room;
+    var club = document.createElement("div"); club.className = "evt-detail-club"; club.textContent = evt.club || "";
 
-    var club = document.createElement("div");
-    club.className = "evt-detail-club";
-    club.textContent = evt.club || "";
-
-    var close = document.createElement("button");
-    close.className = "evt-close-btn";
-    close.textContent = "CLOSE \u2715";
-
+    var close = document.createElement("button"); close.className = "evt-close-btn"; close.textContent = "CLOSE \u2715";
     var holdActive = false;
+    function onHoldStart() { holdActive = true; close.classList.add("holding"); }
+    function onHoldEnd()   { if (holdActive) closeEvtDetail(); holdActive = false; close.classList.remove("holding"); }
+    function onHoldAbort() { holdActive = false; close.classList.remove("holding"); }
+    close.addEventListener("mousedown",   onHoldStart);
+    close.addEventListener("mouseup",     onHoldEnd);
+    close.addEventListener("mouseleave",  onHoldAbort);
+    close.addEventListener("touchstart",  function(e){ e.preventDefault(); onHoldStart(); }, {passive:false});
+    close.addEventListener("touchend",    function(e){ e.preventDefault(); onHoldEnd();   }, {passive:false});
+    close.addEventListener("touchcancel", onHoldAbort);
+    close.addEventListener("touchmove", function(e){
+        var touch = e.touches[0], rect = close.getBoundingClientRect();
+        if (touch.clientX < rect.left-10 || touch.clientX > rect.right+10 ||
+            touch.clientY < rect.top-10  || touch.clientY > rect.bottom+10) onHoldAbort();
+    }, {passive:true});
 
-    function onHoldStart() {
-        holdActive = true;
-        close.classList.add("holding");
-    }
-    function onHoldEnd() {
-        if (holdActive) { closeEvtDetail(); }
-        holdActive = false;
-        close.classList.remove("holding");
-    }
-    function onHoldAbort() {
-        holdActive = false;
-        close.classList.remove("holding");
-    }
-
-    close.addEventListener("mousedown",  onHoldStart);
-    close.addEventListener("mouseup",    onHoldEnd);
-    close.addEventListener("mouseleave", onHoldAbort);
-    close.addEventListener("touchstart",  function(e){ e.preventDefault(); onHoldStart(); }, {passive: false});
-    close.addEventListener("touchend",    function(e){ e.preventDefault(); onHoldEnd();   }, {passive: false});
-    close.addEventListener("touchcancel", function(e){ onHoldAbort(); });
-    close.addEventListener("touchmove", function(e) {
-        var touch = e.touches[0];
-        var rect = close.getBoundingClientRect();
-        var outside = touch.clientX < rect.left - 10 || touch.clientX > rect.right + 10 ||
-                      touch.clientY < rect.top  - 10 || touch.clientY > rect.bottom + 10;
-        if (outside) onHoldAbort();
-    }, {passive: true});
-
-    body.appendChild(t);
-    body.appendChild(desc);
-    body.appendChild(info);
-    body.appendChild(club);
-    body.appendChild(close);
+    body.appendChild(t); body.appendChild(desc); body.appendChild(info);
+    body.appendChild(club); body.appendChild(close);
     return body;
 }
 
-function closeEvtDetail(){
+function closeEvtDetail() {
     var overlay = document.getElementById("evtOverlay");
     overlay.classList.remove("active");
-    document.body.style.overflow = "";
+    /* Don't reset body overflow — club overlay may still be open */
+    var clubOverlay = document.getElementById("clubOverlay");
+    if (!clubOverlay.classList.contains("active")) {
+        document.body.style.overflow = "";
+    }
 }
 
-/* ---- Tap-outside-content to close overlay ---- */
-document.addEventListener("DOMContentLoaded", function(){
-(function(){
-    var downX = 0, downY = 0;
+/* Tap-outside for event overlay */
+document.addEventListener("DOMContentLoaded", function() {
+    (function() {
+        document.getElementById("evtOverlay").addEventListener("mousedown", function(e){
+            _evtDownX = e.clientX; _evtDownY = e.clientY;
+        });
+        document.getElementById("evtOverlay").addEventListener("touchstart", function(e){
+            _evtDownX = e.touches[0].clientX; _evtDownY = e.touches[0].clientY;
+        }, { passive: true });
 
-    document.getElementById("evtOverlay").addEventListener("mousedown", function(e){
-        downX = e.clientX; downY = e.clientY;
-    });
-    document.getElementById("evtOverlay").addEventListener("touchstart", function(e){
-        downX = e.touches[0].clientX; downY = e.touches[0].clientY;
-    }, {passive: true});
+        function handleEvtClose(e) {
+            var overlay = document.getElementById("evtOverlay");
+            if (!overlay.classList.contains("active")) return;
+            var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+            var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+            var dist = Math.sqrt(Math.pow(upX - _evtDownX, 2) + Math.pow(upY - _evtDownY, 2));
+            if (dist > 8) return;
+            var t = e.target;
+            if (t.closest(".evt-close-btn"))    return;
+            if (t.closest(".evt-detail-flyer")) return;
+            e.stopPropagation();
+            e.preventDefault();
+            closeEvtDetail();
+        }
 
-    function handleClose(e) {
-        var overlay = document.getElementById("evtOverlay");
-        if (!overlay.classList.contains("active")) return;
-        var upX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
-        var upY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-        var dist = Math.sqrt(Math.pow(upX - downX, 2) + Math.pow(upY - downY, 2));
-        if (dist > 8) return;
-        var target = e.target;
-        if (target.closest(".evt-close-btn")) return;
-        if (target.closest(".evt-detail-flyer")) return;
-        e.stopPropagation();
-        e.preventDefault();
-        closeEvtDetail();
-    }
-
-    document.getElementById("evtOverlay").addEventListener("mouseup",   handleClose);
-    document.getElementById("evtOverlay").addEventListener("touchend",  handleClose, {passive: false});
-}());
+        document.getElementById("evtOverlay").addEventListener("mouseup",  handleEvtClose);
+        document.getElementById("evtOverlay").addEventListener("touchend", handleEvtClose, { passive: false });
+    }());
 });
 
-/* ============================================================
-   TIMEFRAME NAV  < Upcoming >
-   =========================================================== */
-
-/* Update the visible label with optional slide animation.
-   dir: null=no anim, -1=slide right-to-left (going right), 1=slide left-to-right (going left) */
-// New
-function updateNavLabel(dir){
-    var mode = evtModes[evtModeIdx];
+/* ===================================================
+   TIMEFRAME NAV
+   =================================================== */
+function updateNavLabel(dir) {
+    var mode  = evtModes[evtModeIdx];
     if (!mode) return;
     var track = document.getElementById("evtLabelTrack");
     if (!track) return;
     var slotA = document.querySelector("#evtLabelSlotA .evt-label-text");
     var slotB = document.querySelector("#evtLabelSlotB .evt-label-text");
     if (!slotA || !slotB) return;
-
-    /* Kill any pending cleanup from a previous animation */
     if (_labelTimer){ clearTimeout(_labelTimer); _labelTimer = null; }
-
-    if (dir === null){
-        /* No animation — instant set */
-        slotA.textContent = mode.label;
-        slotB.textContent = "";
-        track.style.webkitTransition = "none";
-        track.style.transition = "none";
-        track.style.webkitTransform = "translateX(0)";
-        track.style.transform = "translateX(0)";
+    if (dir === null) {
+        slotA.textContent = mode.label; slotB.textContent = "";
+        track.style.webkitTransition = track.style.transition = "none";
+        track.style.webkitTransform  = track.style.transform  = "translateX(0)";
         return;
     }
-
-    if (dir === 1){
-        /* Pressed > : new label enters from right.
-           slotA = old (currently visible), slotB = new (waiting right).
-           Slide track left so slotB comes into view. */
+    if (dir === 1) {
         slotB.textContent = mode.label;
-        track.style.webkitTransition = "none";
-        track.style.transition = "none";
-        track.style.webkitTransform = "translateX(0)";
-        track.style.transform = "translateX(0)";
+        track.style.webkitTransition = track.style.transition = "none";
+        track.style.webkitTransform  = track.style.transform  = "translateX(0)";
         void track.offsetWidth;
         track.style.webkitTransition = "-webkit-transform 0.28s ease";
         track.style.transition = "transform 0.28s ease";
-        track.style.webkitTransform = "translateX(-50%)";
-        track.style.transform = "translateX(-50%)";
-        /* After slide: reset track so slotA holds new label at position 0 */
+        track.style.webkitTransform = track.style.transform = "translateX(-50%)";
         _labelTimer = setTimeout(function(){
-            slotA.textContent = mode.label;
-            slotB.textContent = "";
-            track.style.webkitTransition = "none";
-            track.style.transition = "none";
-            track.style.webkitTransform = "translateX(0)";
-            track.style.transform = "translateX(0)";
+            slotA.textContent = mode.label; slotB.textContent = "";
+            track.style.webkitTransition = track.style.transition = "none";
+            track.style.webkitTransform  = track.style.transform  = "translateX(0)";
             _labelTimer = null;
         }, 300);
-
     } else {
-        /* Pressed < : new label enters from left.
-           Put new label in slotA, old label in slotB.
-           Start track shifted so slotB (old, right) is showing.
-           Slide track right so slotA (new, left) comes into view. */
         var oldLabel = slotA.textContent;
-        slotA.textContent = mode.label;  /* new text — immediately correct */
-        slotB.textContent = oldLabel;    /* old text sits off to the right */
-        track.style.webkitTransition = "none";
-        track.style.transition = "none";
-        track.style.webkitTransform = "translateX(-50%)"; /* start showing slotB */
-        track.style.transform = "translateX(-50%)";
+        slotA.textContent = mode.label; slotB.textContent = oldLabel;
+        track.style.webkitTransition = track.style.transition = "none";
+        track.style.webkitTransform  = track.style.transform  = "translateX(-50%)";
         void track.offsetWidth;
         track.style.webkitTransition = "-webkit-transform 0.28s ease";
         track.style.transition = "transform 0.28s ease";
-        track.style.webkitTransform = "translateX(0)";    /* slide to show slotA */
-        track.style.transform = "translateX(0)";
-        /* After slide: just clear slotB */
+        track.style.webkitTransform = track.style.transform = "translateX(0)";
         _labelTimer = setTimeout(function(){
-            slotB.textContent = "";
-            _labelTimer = null;
+            slotB.textContent = ""; _labelTimer = null;
         }, 300);
     }
 }
-/* Dim/enable the < and > arrows based on position in evtModes */
-function updateNavArrows(){
+
+function updateNavArrows() {
     var leftBtn  = document.getElementById("evtNavLeft");
     var rightBtn = document.getElementById("evtNavRight");
     if (!leftBtn || !rightBtn) return;
-    /* Left arrow: disabled when at index 0 */
-    if (evtModeIdx <= 0){
-        leftBtn.classList.add("disabled");
-    } else {
-        leftBtn.classList.remove("disabled");
-    }
-    /* Right arrow: disabled when at last index */
-    if (evtModeIdx >= evtModes.length - 1){
-        rightBtn.classList.add("disabled");
-    } else {
-        rightBtn.classList.remove("disabled");
-    }
+    leftBtn.classList.toggle("disabled",  evtModeIdx <= 0);
+    rightBtn.classList.toggle("disabled", evtModeIdx >= evtModes.length - 1);
 }
 
-/* Called when user taps < or > */
-function navTimeframe(dir){ /* dir: -1 = left (<), +1 = right (>) */
+function navTimeframe(dir) {
     var newIdx = evtModeIdx + dir;
-    if (newIdx < 0 || newIdx >= evtModes.length) return; /* already at edge */
+    if (newIdx < 0 || newIdx >= evtModes.length) return;
     evtModeIdx = newIdx;
-    updateNavLabel(dir);   /* dir -1 = going left visually = slide right-to-left? */
-    /* Slide direction: pressing > (dir +1) means content slides left (incoming from right) */
-    /* updateNavLabel receives: -1 for "incoming from right", +1 for "incoming from left" */
-    /* We already called with dir above which matches that convention exactly */
+    updateNavLabel(dir);
     updateNavArrows();
     renderEvents();
 }
 
-/* ============================================================
-   FILTER LOGIC
-   =========================================================== */
-
-function pickFilter(type){
+/* ===================================================
+   FILTER
+   =================================================== */
+function pickFilter(type) {
     evtSelectedFilter = type;
-
-    /* Update filter button label to show selected filter name */
     var flBtn = document.getElementById("evtFilterBtn");
-    if (flBtn){
-        var label = type === "all" ? "Filters" : filterLabel(type);
-        flBtn.innerHTML = label + ' <span class="arrow">\u25be</span>';
-    }
-
-    /* Update filter option selected states */
+    if (flBtn) flBtn.innerHTML = (type === "all" ? "Filters" : filterLabel(type)) + ' <span class="arrow">\u25be</span>';
     var opts = document.querySelectorAll(".filter-opt");
-    for (var i = 0; i < opts.length; i++){
-        if (opts[i].getAttribute("data-type") === type){
-            opts[i].classList.add("selected");
-        } else {
-            opts[i].classList.remove("selected");
-        }
+    for (var i = 0; i < opts.length; i++) {
+        opts[i].classList.toggle("selected", opts[i].getAttribute("data-type") === type);
     }
-
-    closeDropdowns();
-    renderEvents();
+    closeDropdowns(); renderEvents();
 }
 
-/* Maps filter data-type to a readable label for the button */
-function filterLabel(type){
-    var map = {
-        "all": "Filters",
-        "sports game": "Sports Games",
-        "performance": "Performances",
-        "club event": "Club Events",
-        "other": "Other"
-    };
+function filterLabel(type) {
+    var map = { "all":"Filters","sports game":"Sports Games","performance":"Performances","club event":"Club Events","other":"Other" };
     return map[type] || type;
 }
 
-/* --- Dropdown open/close (filter only now) --- */
-function toggleDropdown(which){
+function toggleDropdown(which) {
     var filterBox = document.getElementById("evtFilterDrop");
     var flBtn     = document.getElementById("evtFilterBtn");
-
-    if (evtDropOpen === which){
-        filterBox.classList.remove("open");
-        flBtn.classList.remove("open");
-        evtDropOpen = null;
+    if (evtDropOpen === which) {
+        filterBox.classList.remove("open"); flBtn.classList.remove("open"); evtDropOpen = null;
     } else {
-        filterBox.classList.add("open");
-        flBtn.classList.add("open");
-        evtDropOpen = which;
+        filterBox.classList.add("open"); flBtn.classList.add("open"); evtDropOpen = which;
     }
 }
 
-function closeDropdowns(){
+function closeDropdowns() {
     var filterBox = document.getElementById("evtFilterDrop");
     var flBtn     = document.getElementById("evtFilterBtn");
     if (filterBox) filterBox.classList.remove("open");
@@ -1418,22 +1434,19 @@ function closeDropdowns(){
     evtDropOpen = null;
 }
 
-/* ---- Click-outside: close filter dropdown ---- */
-document.addEventListener("click", function(e){
+document.addEventListener("click", function(e) {
     if (evtDropOpen === null) return;
     var filterDrop = document.getElementById("evtFilterDrop");
     var flBtn      = document.getElementById("evtFilterBtn");
     if (!filterDrop) return;
-    var inFilter = filterDrop.contains(e.target) || flBtn.contains(e.target);
-    if (!inFilter) closeDropdowns();
+    if (!filterDrop.contains(e.target) && !flBtn.contains(e.target)) closeDropdowns();
 });
 
-/* ---- Flyer expand ---- */
+/* ===== FLYER EXPAND ===== */
 function openFlyerExpand(src) {
-    var el = document.getElementById("flyerExpand");
+    var el  = document.getElementById("flyerExpand");
     var img = document.getElementById("flyerExpandImg");
     img.src = src;
-    el.style.display = "-webkit-box";
     el.style.display = "flex";
     void el.offsetWidth;
     el.classList.add("active");
@@ -1445,107 +1458,5 @@ function closeFlyerExpand() {
     setTimeout(function(){ el.style.display = "none"; }, 220);
 }
 </script>
-
-</head>
-
-<body>
-<div class="mobile-bg">
-  <img src="images/mobileimage.jpg" alt="">
-</div>
-
-<div class="page-wrap">
-
-<div class="hero">
-<h1>Brooklyn College <br class="title-break"> Student Life</h1>
-<h3 class="heroh"><i>go be a part of something</i></h3>
-</div>
-
-<!-- PRIMARY TABS -->
-<div class="primary-tabs">
-    <div id="clubsTab" class="primary-tab" onclick="selectPrimary('clubs')">CLUBS</div>
-    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">EVENTS</div>
-</div>
-
-<!-- SUB TABS (off) -->
-<div id="subTabs" class="sub-tabs">
-    <div id="tab1" class="sub-tab active" onclick="selectSub('tab1')">Tab1</div>
-    <div id="tab2" class="sub-tab" onclick="selectSub('tab2')">Tab2</div>
-    <div id="tab3" class="sub-tab" onclick="selectSub('tab3')">Tab3</div>
-    <div id="tab4" class="sub-tab" onclick="selectSub('tab4')">Tab4</div>
-</div>
-
-<!-- CLUB LIST -->
-<div id="clubContainer"></div>
-
-<!-- ===== EVENTS SECTION ===== -->
-<div id="eventsSection">
-
-    <!-- Controls row -->
-    <div class="events-controls">
-
-        <!-- Timeframe nav: < Upcoming > -->
-        <div class="evt-timeframe-nav">
-            <!-- Left arrow -->
-            <button id="evtNavLeft" class="evt-nav-arrow disabled" onclick="navTimeframe(-1)">&#8249;</button>
-
-            <!-- Sliding label -->
-            <div class="evt-label-clip">
-                <div id="evtLabelTrack" class="evt-label-track">
-                    <div class="evt-label-slot" id="evtLabelSlotA">
-                        <span class="evt-label-text">Upcoming</span>
-                    </div>
-                    <div class="evt-label-slot" id="evtLabelSlotB">
-                        <span class="evt-label-text"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right arrow -->
-            <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">&#8250;</button>
-        </div>
-
-        <!-- Filter button + dropdown -->
-        <div style="position:relative;">
-            <button id="evtFilterBtn" class="evt-ctrl-btn" onclick="toggleDropdown('filter')">
-                Filters <span class="arrow">▾</span>
-            </button>
-            <div id="evtFilterDrop" class="evt-dropdown filter-picker">
-                <div class="filter-opts">
-                    <button class="filter-opt selected" data-type="all"          onclick="pickFilter('all')">All</button>
-                    <button class="filter-opt"           data-type="sports game"  onclick="pickFilter('sports game')">Sports Games</button>
-                    <button class="filter-opt"           data-type="performance"  onclick="pickFilter('performance')">Performances</button>
-                    <button class="filter-opt"           data-type="club event"   onclick="pickFilter('club event')">Club Events</button>
-                    <button class="filter-opt"           data-type="other"        onclick="pickFilter('other')">Other</button>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /events-controls -->
-
-    <!-- Event list -->
-    <div id="eventContainer"></div>
-
-</div><!-- /eventsSection -->
-
-<!-- BOTTOM BAR -->
-<div class="bottom-bar">
-    <span class="spinner"
-      onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">
-  bcbrooklyn
-</span>
-    <span data-email="bcbrooklyn55@gmail.com" class="contact-btn email">Contact Me</span>
-</div>
-
-</div><!-- /page-wrap -->
-
-<!-- EVENT DETAIL OVERLAY -->
-<div id="evtOverlay">
-    <div class="evt-detail" id="evtDetail"></div>
-</div>
-    
-<div id="flyerExpand" onclick="closeFlyerExpand()">
-    <img id="flyerExpandImg" src="" alt="">
-</div>
-
 </body>
 </html>
