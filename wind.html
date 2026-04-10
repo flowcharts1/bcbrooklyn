@@ -24,7 +24,7 @@
 
   .title-main {
     font-size: clamp(36px, 5vw, 52px);
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
     letter-spacing: 1px;
        
   }
@@ -32,7 +32,7 @@
   .title-sub {
     font-size: clamp(24px, 4vw, 34px);
     font-weight: 400;
-    margin: 0 0 35px 0;
+    margin: 0 0 5px 0;
   }
 
   .main-image {
@@ -52,21 +52,21 @@
   }
 
   .notify-section {
-    margin: 30px 0 30px 0;
+    margin: 2px 0 15px 0;
   }
 
   .notify-title {
-    font-size: clamp(20px, 4vw, 22px);
-    margin-bottom: 10px;
+    font-size: clamp(17px, 4vw, 22px);
+    margin-bottom: 8px;
   }
 
   .notify-button {
     display: inline-block;
-    padding: 14px 40px;
+    padding: 4px 10px;
     border: 2px solid #1a1a1a;
     border-radius: 4px;
     text-decoration: none;
-    font-size: clamp(20px, 4vw, 28px);
+    font-size: clamp(17px, 4vw, 28px);
     transition: all 0.25s ease;
   }
 
@@ -77,8 +77,8 @@
 
   .secondary-info {
     margin-top: 20px;
-    padding-top: 30px;
-    border-top: 2px solid #e2e2e2;
+    padding-top: 0px;
+   
     color: #444;
   }
 
@@ -145,27 +145,30 @@
 <body>
 
 <div class="wrapper">
-
+    <h2 class="title-sub">Brooklyn College</h2>
   <h1 class="title-main">Wind Ensemble</h1>
   <h2 class="title-sub">Spring Concert</h2>
 
-  <img src="images/ensemble1.jpg" alt="Wind Ensemble" class="main-image">
+  <img src="ensemble1.jpg" alt="" class="main-image">
 
   <div class="date-block">
-    April 29th · 7PM
+    Wednesday, April 29th · 7PM
   </div>
 
-  <div class="notify-section">
-    <p class="notify-title">Don't miss the show...</p>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeimIPgZ-99l-9g9z3oUltS8TLaYDyQ_8klItUgvgZD-uUWfA/viewform" class="notify-button">Receive a Reminder</a>
-  </div>
+
 
   <div class="secondary-info">
     <p style="font-size: clamp(20px, 4vw, 22px);">Free for BC Students; $5 for Community</p>
     <p class="friends" style="font-size: clamp(20px, 4vw, 28px);">Come with friends!</p>
-
+      
+      <div style="height: 1px; background: #ccc;"></div>
+  <div class="notify-section">
+    <p class="notify-title">Don't miss the show...</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeimIPgZ-99l-9g9z3oUltS8TLaYDyQ_8klItUgvgZD-uUWfA/viewform" class="notify-button">Receive a Reminder</a>
+  </div>
+      <div style="height: 1px; background: #ccc;"></div>
     <div class="info-links">
-    <span onclick="toggleSection('tickets')">Tickets</span>
+    <span><a href="https://tickets.brooklyn.edu/eventperformances.asp?evt=7" target="_blank" style="color: inherit;">Buy Tickets</a></span>
       <span onclick="toggleSection('directions')">Directions</span>
       <span onclick="toggleSection('parking')">Parking</span>
       
@@ -180,13 +183,13 @@
     </div>
 
     <div id="parking" class="popup">
-      No parking on campus. <br> Paid parking available at 2201 Nostrand Ave.<br>
+      No parking on campus.  <br> Paid parking available at 2201 Nostrand Ave.<br>
       ~$4 per hour, usually not too busy.
     </div>
 
     <div id="tickets" class="popup">
-      Buy tickets at the door. <br>(Online tickets not yet available)<br>
-      <a href="#" target="_blank"></a>
+      Buy tickets at the door. <br>
+      <a href="https://tickets.brooklyn.edu/eventperformances.asp?evt=7" target="_blank">Buy Tickets Online</a>
     </div>
 
   </div>
@@ -232,7 +235,7 @@ function loadMap() {
   img.style.display = "block";
 
   if (!img.src) {
-    img.src = "images/whitmanmap.jpg";
+    img.src = "whitmanmap.jpg";
   }
 }
 </script>
