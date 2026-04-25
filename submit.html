@@ -6,6 +6,7 @@
 <title>bcbrooklyn / submit</title>
 
 <style>
+
 :root {
   --maroon: #882346;
   --hero: #1D4B52;
@@ -26,99 +27,182 @@
   --mono: 'IBM Plex Mono', monospace;
   --sans: 'IBM Plex Sans', sans-serif;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
 
-.topbar {
-  background: var(--hero); color: white; padding: 12px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
-.topbar-logo { font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.05em; opacity: 0.9; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--hero);
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-logo {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+}
 .topbar-logo span { opacity: 0.5; }
 
+/* ── TABS ── */
 .tab-bar {
-  display: flex; gap: 0; border-bottom: 2px solid var(--border);
-  background: var(--surface); padding: 0 24px;
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  background: var(--surface);
+  padding: 0 24px;
 }
 .tab-btn {
-  font-family: var(--mono); font-size: 1rem; font-weight: 600;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 14px 20px 12px; background: none; border: none;
-  border-bottom: 2px solid transparent; margin-bottom: -2px;
-  cursor: pointer; color: var(--text-muted); transition: color 0.15s, border-color 0.15s;
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 14px 20px 12px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.15s, border-color 0.15s;
 }
-.tab-btn.active { color: var(--hero); border-bottom-color: var(--hero); }
-
-/* sub-tabs (published / unpublished) */
-.sub-tab-bar {
-  display: flex; gap: 0; border-bottom: 1px solid var(--border);
-  background: var(--surface2); padding: 0 0; margin-bottom: 20px;
-  border-radius: 8px 8px 0 0; overflow: hidden;
-}
-.sub-tab-btn {
-  font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 10px 18px; background: none; border: none;
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
-  cursor: pointer; color: var(--text-muted); transition: color 0.15s, border-color 0.15s;
-  flex: 1; text-align: center;
-}
-.sub-tab-btn.active { color: var(--hero); border-bottom-color: var(--hero); background: var(--surface); }
-.sub-tab-btn .sub-badge {
-  display: inline-block; margin-left: 5px; font-size: 0.6rem;
-  background: var(--yellow); color: #333; border-radius: 3px; padding: 1px 4px;
-  vertical-align: middle; font-weight: 700;
+.tab-btn.active {
+  color: var(--hero);
+  border-bottom-color: var(--hero);
 }
 
+/* ── PAGE LAYOUT ── */
 .page { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
 
+/* ── SECTION HEADERS ── */
 .section-label {
-  font-family: var(--mono); font-size: 1rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
-  margin: 32px 0 12px; display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 32px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 .section-label:first-child { margin-top: 0; }
 
+/* ── CARD ── */
 .card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px; margin-bottom: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
 }
 
+/* ── FIELD ── */
 .field { margin-bottom: 18px; }
 .field:last-child { margin-bottom: 0; }
 .field-label {
-  font-family: var(--mono); font-size: 1.1rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
-  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.field input, .field textarea, .field select {
-  width: 100%; font-family: var(--sans); font-size: 0.95rem;
-  padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 6px;
-  background: var(--bg); color: var(--text); outline: none;
-  transition: border-color 0.15s; -webkit-appearance: none; appearance: none;
+.field-label .secret-badge {
+  font-size: 0.6rem;
+  background: var(--maroon);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  opacity: 0.7;
 }
-.field input:focus, .field textarea:focus, .field select:focus {
-  border-color: var(--border-focus); background: white;
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
 }
-.field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--border-focus);
+  background: white;
+}
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23777' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
-}
-.field input.staged-change, .field textarea.staged-change, .field select.staged-change {
-  border-color: var(--yellow); background: var(--staged-change);
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
 }
 
-.lookup-wrap { display: flex; gap: 8px; }
+/* staged states */
+.field input.staged-change,
+.field textarea.staged-change,
+.field select.staged-change {
+  border-color: var(--yellow);
+  background: var(--staged-change);
+}
+
+/* ── CLUB ID LOOKUP ── */
+.lookup-wrap {
+  display: flex;
+  gap: 8px;
+}
 .lookup-wrap input { flex: 1; }
-
 .btn {
-  font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
-  letter-spacing: 0.04em; padding: 9px 18px; border-radius: 6px; border: none;
-  cursor: pointer; transition: opacity 0.15s, background 0.15s;
-  white-space: nowrap; -webkit-tap-highlight-color: transparent;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 9px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 .btn:active { opacity: 0.8; }
 .btn-primary { background: var(--hero); color: white; }
@@ -128,180 +212,408 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
 .btn-full { width: 100%; text-align: center; display: block; }
 
 .lookup-result {
-  margin-top: 10px; font-family: var(--mono); font-size: 0.8rem;
-  padding: 8px 12px; border-radius: 6px; display: none;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: none;
 }
 .lookup-result.found { background: #e8f5e9; color: #2e7d32; display: block; }
 .lookup-result.not-found { background: #ffeaea; color: var(--red); display: block; }
 
+/* ── IMAGE CELLS ── */
 .img-cell {
-  position: relative; border-radius: 8px; overflow: hidden;
-  background: var(--surface2); border: 1.5px solid var(--border);
-  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.img-cell img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .img-cell .x-btn {
-  position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
-  background: rgba(0,0,0,0.65); color: white; border: none; border-radius: 50%;
-  font-size: 0.7rem; cursor: pointer; display: flex; align-items: center;
-  justify-content: center; line-height: 1; -webkit-tap-highlight-color: transparent;
-  z-index: 2; transition: background 0.15s;
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 22px; height: 22px;
+  background: rgba(0,0,0,0.65);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+  transition: background 0.15s;
 }
 .img-cell .x-btn:hover { background: var(--red); }
-.img-cell.staged-del { opacity: 0.4; outline: 2px solid var(--red); }
-.img-cell.staged-del .x-btn { background: var(--red); }
-.img-cell .reorder-btns { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); display: flex; gap: 3px; }
+.img-cell.staged-del {
+  opacity: 0.4;
+  outline: 2px solid var(--red);
+}
+.img-cell.staged-del .x-btn {
+  background: var(--red);
+}
+.img-cell .reorder-btns {
+  position: absolute;
+  bottom: 4px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+}
 .img-cell .reorder-btn {
-  background: rgba(0,0,0,0.55); color: white; border: none; border-radius: 4px;
-  font-size: 0.7rem; padding: 2px 6px; cursor: pointer;
-  -webkit-tap-highlight-color: transparent; line-height: 1.4;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.4;
 }
 .img-cell .reorder-btn:hover { background: rgba(0,0,0,0.8); }
 
+/* ── ICON / FEATURED IMAGE UPLOAD ZONES ── */
 .img-upload-zone {
-  border: 2px dashed var(--border); border-radius: 8px; padding: 24px 16px;
-  text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s;
-  background: var(--bg); display: flex; flex-direction: column; align-items: center;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: var(--bg);
 }
 .img-upload-zone:hover { border-color: var(--hero); background: #eef3f4; }
 .img-upload-zone input[type="file"] { display: none; }
-.img-upload-zone .upload-icon { font-size: 1.4rem; margin-bottom: 4px; line-height: 1; display: block; }
-.img-upload-zone .upload-label { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); }
+.img-upload-zone .upload-icon {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  line-height: 1;
+  display: block;
+}
+.img-upload-zone .upload-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.img-upload-zone.drag-over { border-color: var(--hero); background: #eef3f4; }
 
-.single-img-wrap { position: relative; display: inline-block; }
-.single-img-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; display: block; border: 1.5px solid var(--border); }
-.single-img-preview.icon-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+/* single image preview zone (icon, featured) */
+.single-img-wrap {
+  position: relative;
+  display: inline-block;
+}
+.single-img-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  border: 1.5px solid var(--border);
+}
+.single-img-preview.icon-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .single-img-x {
-  position: absolute; top: -6px; right: -6px; width: 22px; height: 22px;
-  background: var(--red); color: white; border: none; border-radius: 50%;
-  font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  -webkit-tap-highlight-color: transparent; z-index: 2;
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 22px; height: 22px;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
 }
 
-.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
-@media (max-width: 500px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+/* ── GALLERY GRID ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+@media (max-width: 500px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
 .gallery-caption-input {
-  width: 100%; font-family: var(--sans); font-size: 0.72rem; padding: 4px 6px;
-  border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;
-  background: var(--bg); color: var(--text); outline: none;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-top: 4px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
 }
 .gallery-caption-input:focus { border-color: var(--border-focus); }
 .gallery-item { display: flex; flex-direction: column; }
-.gallery-count { font-family: var(--mono); font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px; }
+.gallery-count {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
 .gallery-add-cell {
-  border: 2px dashed var(--border); border-radius: 8px; aspect-ratio: 1;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; background: var(--bg); transition: border-color 0.15s;
-  font-size: 1.3rem; color: var(--text-faint);
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--bg);
+  transition: border-color 0.15s;
+  font-size: 1.3rem;
+  color: var(--text-faint);
 }
 .gallery-add-cell:hover { border-color: var(--hero); color: var(--hero); }
 .gallery-add-cell input[type="file"] { display: none; }
 
+/* ── LINKS ── */
 .links-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 .link-row { display: flex; gap: 6px; align-items: center; }
 .link-row input { flex: 1; }
 .link-row .link-label-input { flex: 0 0 110px; }
 .link-remove-btn {
-  background: none; border: none; color: var(--text-faint);
-  cursor: pointer; font-size: 1rem; line-height: 1; padding: 4px;
-  -webkit-tap-highlight-color: transparent; transition: color 0.15s;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 4px;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s;
 }
 .link-remove-btn:hover { color: var(--red); }
 .link-row.staged-del { opacity: 0.45; }
 .link-row.staged-del input { text-decoration: line-through; }
 
-.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
+/* ── TOGGLE ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
 .toggle-label { font-size: 0.9rem; color: var(--text); }
-.toggle { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+.toggle {
+  position: relative;
+  width: 42px; height: 24px;
+  flex-shrink: 0;
+}
 .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
 .toggle-slider {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: var(--border); border-radius: 12px; cursor: pointer; transition: background 0.2s;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 .toggle-slider::before {
-  content: ''; position: absolute; width: 18px; height: 18px;
-  top: 3px; left: 3px; background: white; border-radius: 50%; transition: transform 0.2s;
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  top: 3px; left: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
 }
 .toggle input:checked + .toggle-slider { background: var(--hero); }
 .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
 
+/* ── DIFF INDICATOR ── */
+.diff-dot {
+  width: 7px; height: 7px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ── SAVE BAR ── */
 .save-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface);
-  border-top: 2px solid var(--yellow); padding: 12px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  z-index: 9999; transform: translateY(110%); transition: transform 0.25s ease;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 2px solid var(--yellow);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 9999;
+  transform: translateY(110%);
+  transition: transform 0.25s ease;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
 }
 .save-bar.visible { transform: translateY(0); }
-.save-bar-msg { font-family: var(--mono); font-size: 0.78rem; color: var(--text-muted); }
+.save-bar-msg {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
 .save-bar-msg .change-count { color: var(--yellow); font-weight: 600; }
 .save-bar-actions { display: flex; gap: 8px; }
 
+/* ── NOTICE ── */
 .notice {
-  padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 16px; display: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  display: none;
 }
 .notice.success { background: #e8f5e9; color: #2e7d32; display: block; }
 .notice.error   { background: #ffeaea; color: var(--red); display: block; }
 .notice.info    { background: #e3f0ff; color: #1a5fb4; display: block; }
 
+/* ── EVENT ID NOTICES (persistent, stacking) ── */
 #evtIdNoticeStack {
-  position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
-  z-index: 8888; display: flex; flex-direction: column; gap: 6px;
-  width: 90%; max-width: 600px; pointer-events: none;
+  position: fixed;
+  top: 56px; /* below topbar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8888;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 90%;
+  max-width: 600px;
+  pointer-events: none;
 }
 .evt-id-notice {
-  background: #1D4B52; color: white; border-radius: 8px; padding: 10px 14px;
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.22); pointer-events: auto;
+  background: #1D4B52;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  pointer-events: auto;
   animation: slideInDown 0.25s ease;
 }
-@keyframes slideInDown { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:translateY(0); } }
-.evt-id-notice-body { font-family: var(--mono); font-size: 0.78rem; line-height: 1.5; }
-.evt-id-notice-label { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
-.evt-id-notice-id { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.04em; color: var(--yellow); word-break: break-all; }
-.evt-id-notice-sub { font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.evt-id-notice-body {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+.evt-id-notice-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+.evt-id-notice-id {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--yellow);
+  word-break: break-all;
+}
+.evt-id-notice-sub {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 2px;
+}
 .evt-id-notice-close {
-  background: none; border: none; color: rgba(255,255,255,0.6); font-size: 1rem;
-  cursor: pointer; padding: 0; flex-shrink: 0; line-height: 1; margin-top: 1px;
-  -webkit-tap-highlight-color: transparent; transition: color 0.15s;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s;
 }
 .evt-id-notice-close:hover { color: white; }
 
+/* ── LOADING ── */
 .spinner-inline {
-  display: inline-block; width: 14px; height: 14px;
-  border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
-  border-radius: 50%; animation: spin 0.7s linear infinite;
-  vertical-align: middle; margin-left: 6px;
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-left: 6px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── CREATE NEW CLUB CTA ── */
 .create-cta {
-  background: #f0f7ff; border: 1.5px dashed #b0cce8;
-  border-radius: 8px; padding: 16px; text-align: center; display: none;
+  background: #f0f7ff;
+  border: 1.5px dashed #b0cce8;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  display: none;
 }
 .create-cta p { font-size: 0.88rem; color: #445; margin-bottom: 10px; }
 
+/* ── HIDDEN / SHOWN ── */
 .hidden { display: none !important; }
 .shown  { display: block; }
 
+/* ── TWO-COL ── */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
-
-.file-error { margin-top: 6px; font-family: var(--mono); font-size: 0.75rem; color: var(--red); display: none; }
-.file-error.visible { display: block; }
-
-/* read-only overlay for published tab in guest */
-.readonly-notice {
-  background: #fffbea; border: 1.5px solid var(--yellow);
-  border-radius: 8px; padding: 10px 14px; font-family: var(--mono);
-  font-size: 0.78rem; color: #7a6000; margin-bottom: 16px;
+    
+#evtFlyerSection {
+  display: flex;
+  justify-content: center;
 }
+
+/* ── FILE ERROR ── */
+.file-error {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--red);
+  display: none;
+}
+.file-error.visible { display: block; }
 </style>
 
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, setDoc, serverTimestamp }
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc, serverTimestamp }
                                  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL }
                                  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
@@ -319,21 +631,20 @@ const app     = initializeApp(firebaseConfig);
 const db      = getFirestore(app);
 const storage = getStorage(app);
 
-window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, ref, uploadBytes, getDownloadURL };
+window._fb = { db, storage, collection, getDocs, doc, setDoc, addDoc, serverTimestamp, ref, uploadBytes, getDownloadURL };
 </script>
 </head>
 <body>
 
-<!-- AUTH OVERLAY -->
+    <!-- AUTH OVERLAY 
 <div id="authOverlay" style="position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;align-items:center;justify-content:center;">
   <div style="text-align:center;">
     <input type="password" id="authInput" style="font-family:var(--mono);font-size:1rem;padding:10px 16px;border:1.5px solid var(--border);border-radius:6px;outline:none;background:var(--surface);color:var(--text);width:200px;" placeholder="···" onkeydown="if(event.key==='Enter')tryAuth()">
     <div id="authError" style="font-family:var(--mono);font-size:0.75rem;color:var(--red);margin-top:8px;display:none;">email: bcbrooklyn55@gmail.com for access if you are a club leader</div>
   </div>
 </div>
-   
-
-<!-- EVENT ID NOTICE STACK -->
+    -->
+<!-- EVENT ID NOTICE STACK (persistent, fixed) -->
 <div id="evtIdNoticeStack"></div>
 
 <!-- TOP BAR -->
@@ -341,11 +652,12 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
   <div class="topbar-logo">bcbrooklyn<span> / submit</span></div>
 </div>
 
-<!-- MAIN TABS -->
+<!-- TABS -->
 <div class="tab-bar">
-  <!--<button class="tab-btn" onclick="switchTab('clubs')" id="tabBtnClubs">Clubs</button> -->
-  <button class="tab-btn active" onclick="switchTab('events')" id="tabBtnEvents">Events</button>
+  <button class="tab-btn" onclick="switchTab('clubs')" id="tabBtnClubs">Clubs</button>
+  <button class="tab-btn active"       onclick="switchTab('events')" id="tabBtnEvents">Events</button>
 </div>
+
 
 
 <!-- ══════════════════════════════════════════════
@@ -353,6 +665,7 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
 ══════════════════════════════════════════════ -->
 <div id="tabClubs" class="page hidden">
 
+  <!-- LOOKUP -->
   <div class="section-label">Club ID Lookup</div>
   <div class="card">
     <div class="field">
@@ -363,26 +676,20 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
       </div>
       <div id="lookupResult" class="lookup-result"></div>
     </div>
-    <div id="createCta" class="create-cta">
+      <div id="createCta" class="create-cta">
       <p>No club found with that ID.</p>
-      <button class="btn btn-primary" onclick="createNewClub()">Create New Club</button>
+      <!-- <button class="btn btn-primary" onclick="createNewClub()">Create New Club</button> -->
     </div>
+    
   </div>
 
-  <div id="clubNotice" class="notice"></div>
+  <!-- NOTICE -->
+  <div id="clubNotice" class="notice">hello</div>
 
-  <!-- Club sub-tabs -->
-  <div id="clubSubTabBar" class="sub-tab-bar hidden">
-    <button class="sub-tab-btn" id="clubSubBtnPublished" onclick="switchClubSubTab('published')">Published</button>
-    <button class="sub-tab-btn active" id="clubSubBtnUnpublished" onclick="switchClubSubTab('unpublished')">Latest Unpublished <span class="sub-badge">EDIT</span></button>
-  </div>
-
-  <!-- Club Form -->
+  <!-- CLUB FORM (hidden until loaded/created) -->
   <div id="clubForm" class="hidden">
-    <div id="clubReadonlyNotice" class="readonly-notice hidden">
-      👁 Viewing published version. Switch to "Latest Unpublished" tab to make edits.
-    </div>
 
+    <!-- IDENTITY -->
     <div class="section-label">Identity</div>
     <div class="card">
       <div class="two-col">
@@ -409,7 +716,7 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
         </div>
       </div>
       <div class="field">
-        <div class="field-label">Subtitle</div>
+        <div class="field-label">Subtitle <span style="font-weight:400;color:var(--text-faint);">— short tagline</span></div>
         <input type="text" id="cf-subtitle" data-key="subtitle" oninput="markChanged(this)">
       </div>
       <div class="field">
@@ -418,9 +725,13 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
       </div>
     </div>
 
+    <!-- ICON -->
     <div class="section-label">Club Icon</div>
-    <div class="card"><div id="iconSection"></div></div>
+    <div class="card">
+      <div id="iconSection"></div>
+    </div>
 
+    <!-- FEATURED IMAGE -->
     <div class="section-label">Featured Image</div>
     <div class="card">
       <div class="field">
@@ -435,29 +746,32 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
       <div id="featuredSection"></div>
     </div>
 
+    <!-- LINKS -->
     <div class="section-label">Links <span style="font-weight:400;font-size:0.8em;color:var(--text-muted);">(up to 4)</span></div>
     <div class="card">
       <div id="linksContainer" class="links-list"></div>
       <button class="btn btn-secondary" onclick="addLink()" id="addLinkBtn">+ Add Link</button>
     </div>
 
+    <!-- GALLERY -->
     <div class="section-label">Gallery <span style="font-weight:400;font-size:0.8em;color:var(--text-muted);">(up to 8 images)</span></div>
     <div class="card">
       <div id="galleryGrid" class="gallery-grid"></div>
       <div class="gallery-count" id="galleryCount"></div>
     </div>
 
+    <!-- SPACER for save bar -->
     <div style="height:16px;"></div>
-  </div>
-</div>
 
+  </div><!-- /clubForm -->
+</div><!-- /tabClubs -->
 
 <!-- ══════════════════════════════════════════════
      EVENTS TAB
 ══════════════════════════════════════════════ -->
 <div id="tabEvents" class="page">
 
-  <!-- Lookup block -->
+  <!-- LOOKUP + CREATE -->
   <div id="evtLookupBlock">
     <div class="section-label">Event ID Lookup</div>
     <div class="card">
@@ -475,22 +789,13 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
 
   <div id="evtNotice" class="notice"></div>
 
-  <!-- Event sub-tabs -->
-  <div id="evtSubTabBar" class="sub-tab-bar hidden">
-    <button class="sub-tab-btn" id="evtSubBtnPublished" onclick="switchEvtSubTab('published')">Published</button>
-    <button class="sub-tab-btn active" id="evtSubBtnUnpublished" onclick="switchEvtSubTab('unpublished')">Latest Unpublished <span class="sub-badge">EDIT</span></button>
-  </div>
-
-  <!-- Event form -->
+  <!-- EVENT FORM — hidden until lookup or create -->
   <div id="evtForm" class="hidden">
+
+    <!-- CORE INFO -->
     <div style="margin-bottom:8px;">
       <button class="btn btn-secondary" style="font-size:0.75rem;padding:6px 12px;" onclick="resetEvtToLookup()">← Back</button>
     </div>
-
-    <div id="evtReadonlyNotice" class="readonly-notice hidden">
-      👁 Viewing published version. Switch to "Latest Unpublished" tab to make edits.
-    </div>
-
     <div class="section-label" id="evtFormLabel">New Event</div>
     <div class="card">
       <div class="field">
@@ -527,6 +832,7 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
       </div>
     </div>
 
+    <!-- CLUB -->
     <div class="section-label">Club</div>
     <div class="card">
       <div class="field">
@@ -535,77 +841,109 @@ window._fb = { db, storage, collection, getDocs, doc, setDoc, serverTimestamp, r
         <datalist id="clubNameList"></datalist>
       </div>
       <div class="field">
-        <div class="field-label">Club ID <span style="font-weight:400;color:var(--text-faint);">optional</span></div>
+        <div class="field-label">Club ID <span style="font-weight:400;color:var(--text-faint);">optional — used to link club page</span></div>
         <input type="text" id="ef-clubId" data-key="clubId" autocomplete="off" spellcheck="false" oninput="markEvtChanged(this)">
       </div>
     </div>
 
+    <!-- FLYER -->
     <div class="section-label">Flyer</div>
     <div class="card">
       <div id="evtFlyerSection" style="display:flex;justify-content:center;flex-direction:column;align-items:center;"></div>
       <div id="evtFlyerError" class="file-error"></div>
     </div>
 
+    <!-- LINKS (2) -->
     <div class="section-label">Links <span style="font-weight:400;font-size:0.8em;color:var(--text-muted);">(up to 2)</span></div>
     <div class="card">
       <div id="evtLinksContainer" class="links-list"></div>
       <button class="btn btn-secondary" onclick="addEvtLink()" id="addEvtLinkBtn">+ Add Link</button>
     </div>
 
+ 
+    <!-- SUBMIT / SAVE -->
     <div style="margin-top:24px;">
       <button class="btn btn-save btn-full" onclick="submitEvent()" id="evtSubmitBtn">Submit Event</button>
     </div>
-    <div style="height:20px;"></div>
-  </div>
-</div>
 
+    <div style="height:20px;"></div>
+  </div><!-- /evtForm -->
+</div><!-- /tabEvents -->
 
 <!-- SAVE BAR (clubs) -->
 <div class="save-bar" id="saveBar">
-  <div class="save-bar-msg"><span id="changeCount" class="change-count">0</span> staged change(s)</div>
+  <div class="save-bar-msg">
+    <span id="changeCount" class="change-count">0</span> staged change(s)
+  </div>
   <div class="save-bar-actions">
     <button class="btn btn-secondary" onclick="discardChanges()">Discard</button>
     <button class="btn btn-save" onclick="saveClub()" id="saveBtn">Save</button>
   </div>
 </div>
 
-<!-- EVT SAVE BAR -->
+<!-- EVT SAVE BAR (events edit) -->
 <div class="save-bar" id="evtSaveBar">
-  <div class="save-bar-msg"><span id="evtChangeCount" class="change-count">0</span> staged change(s)</div>
+  <div class="save-bar-msg">
+    <span id="evtChangeCount" class="change-count">0</span> staged change(s)
+  </div>
   <div class="save-bar-actions">
     <button class="btn btn-secondary" onclick="discardEvtChanges()">Discard</button>
     <button class="btn btn-save" onclick="submitEvent()" id="evtSaveBtn">Save Event</button>
   </div>
 </div>
 
-
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
 <script>
-/* ── AUTH ── */
+    
+    
 function tryAuth() {
-  if (document.getElementById('authInput').value === 'muffin') {
+  var pw = document.getElementById('authInput').value;
+  if (pw === 'muffin') {
     document.getElementById('authOverlay').style.display = 'none';
   } else {
     document.getElementById('authError').style.display = 'block';
     document.getElementById('authInput').value = '';
   }
 }
-window.tryAuth = tryAuth;
-
+window.tryAuth = tryAuth;    
+    
+    
 /* ══════════════════════════════════════════════════════
-   IMAGE PROCESSING
-══════════════════════════════════════════════════════ */
-var MAX_FILE_BYTES = 3 * 1024 * 1024;
-var MAX_PX = 1200;
-var THUMB_PX = 120;
-var JPEG_QUALITY = 0.82;
-var ACCEPTED_TYPES = ['image/jpeg', 'image/png'];
+   IMAGE PROCESSING PIPELINE
+   ══════════════════════════════════════════════════════
 
+   Accepted types: image/jpeg, image/png
+   Rejected types: image/webp, image/gif, others
+
+   Pipeline:
+   1. File size check (3MB raw limit)
+   2. Read EXIF orientation
+   3. Draw to canvas with orientation correction
+   4. Resize to max 1200px (longest side), preserving aspect ratio
+   5. Export: JPEG → image/jpeg q0.82 | PNG → image/png
+   6. For flyers: also produce 120×120 center-crop thumbnail (always PNG)
+*/
+
+var MAX_FILE_BYTES  = 3 * 1024 * 1024; // 3 MB
+var MAX_PX          = 1200;
+var THUMB_PX        = 120;
+var JPEG_QUALITY    = 0.82;
+var ACCEPTED_TYPES  = ['image/jpeg', 'image/png'];
+
+/* Validate file before processing */
 function validateImageFile(file) {
-  if (!ACCEPTED_TYPES.includes(file.type)) return 'Only JPEG and PNG files are accepted.';
-  if (file.size > MAX_FILE_BYTES) return 'File exceeds 3 MB limit (' + (file.size/1024/1024).toFixed(1) + ' MB).';
-  return null;
+  if (!ACCEPTED_TYPES.includes(file.type)) {
+    return 'Only JPEG and PNG files are accepted.';
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    return 'File exceeds 3 MB limit (' + (file.size / 1024 / 1024).toFixed(1) + ' MB). Please use a smaller file.';
+  }
+  return null; // ok
 }
 
+/* Read EXIF orientation tag from a File (JPEG only, async) */
 function getExifOrientation(file) {
   return new Promise(function(resolve) {
     if (file.type !== 'image/jpeg') { resolve(1); return; }
@@ -625,13 +963,20 @@ function getExifOrientation(file) {
           offset += 6;
           var little = view.getUint16(offset, false) === 0x4949;
           offset += view.getUint32(offset + 4, little);
-          var tags = view.getUint16(offset, little);
+          var tags  = view.getUint16(offset, little);
           offset += 2;
           for (var i = 0; i < tags; i++) {
-            if (view.getUint16(offset + i*12, little) === 0x0112) { resolve(view.getUint16(offset + i*12+8, little)); return; }
+            if (view.getUint16(offset + i * 12, little) === 0x0112) {
+              resolve(view.getUint16(offset + i * 12 + 8, little));
+              return;
+            }
           }
-        } else if ((marker & 0xFF00) !== 0xFF00) { break; }
-        else { if (offset+2>length) break; offset += view.getUint16(offset, false); }
+        } else if ((marker & 0xFF00) !== 0xFF00) {
+          break;
+        } else {
+          if (offset + 2 > length) break;
+          offset += view.getUint16(offset, false);
+        }
       }
       resolve(1);
     };
@@ -639,150 +984,206 @@ function getExifOrientation(file) {
   });
 }
 
-function applyExifRotation(ctx, o, w, h) {
-  switch(o) {
-    case 2: ctx.transform(-1,0,0,1,w,0); break;
-    case 3: ctx.transform(-1,0,0,-1,w,h); break;
-    case 4: ctx.transform(1,0,0,-1,0,h); break;
-    case 5: ctx.transform(0,1,1,0,0,0); break;
-    case 6: ctx.transform(0,1,-1,0,h,0); break;
-    case 7: ctx.transform(0,-1,-1,0,h,w); break;
-    case 8: ctx.transform(0,-1,1,0,0,w); break;
+/* Apply EXIF rotation to a canvas context before drawing */
+function applyExifRotation(ctx, orientation, width, height) {
+  switch (orientation) {
+    case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+    case 3: ctx.transform(-1, 0, 0, -1, width, height); break;
+    case 4: ctx.transform(1, 0, 0, -1, 0, height); break;
+    case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+    case 6: ctx.transform(0, 1, -1, 0, height, 0); break;
+    case 7: ctx.transform(0, -1, -1, 0, height, width); break;
+    case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+    default: break;
   }
 }
 
-function processImage(img, file, o) {
-  var sw=img.naturalWidth, sh=img.naturalHeight;
-  var swapped=[5,6,7,8].indexOf(o)!==-1;
-  var dw=swapped?sh:sw, dh=swapped?sw:sh;
-  var scale=Math.min(1,MAX_PX/Math.max(dw,dh));
-  var ow=Math.round(dw*scale), oh=Math.round(dh*scale);
-  var c=document.createElement('canvas'); c.width=ow; c.height=oh;
-  var ctx=c.getContext('2d'); ctx.save();
-  applyExifRotation(ctx,o,ow,oh);
-  if(swapped) ctx.drawImage(img,0,0,sh*scale,sw*scale);
-  else ctx.drawImage(img,0,0,ow,oh);
+/* Returns {blob, dataUrl} for processed full image */
+function processImage(img, file, orientation) {
+  var sw = img.naturalWidth, sh = img.naturalHeight;
+  /* Swap dimensions for 90/270-degree rotations */
+  var swapped = [5,6,7,8].indexOf(orientation) !== -1;
+  var drawW = swapped ? sh : sw;
+  var drawH = swapped ? sw : sh;
+
+  /* Scale to max 1200px */
+  var scale = Math.min(1, MAX_PX / Math.max(drawW, drawH));
+  var outW = Math.round(drawW * scale);
+  var outH = Math.round(drawH * scale);
+
+  var canvas = document.createElement('canvas');
+  canvas.width  = outW;
+  canvas.height = outH;
+  var ctx = canvas.getContext('2d');
+  ctx.save();
+  applyExifRotation(ctx, orientation, outW, outH);
+  /* Draw scaled */
+  if (swapped) {
+    ctx.drawImage(img, 0, 0, sh * scale, sw * scale);
+  } else {
+    ctx.drawImage(img, 0, 0, outW, outH);
+  }
   ctx.restore();
-  var mime=file.type==='image/jpeg'?'image/jpeg':'image/png';
-  var q=file.type==='image/jpeg'?JPEG_QUALITY:undefined;
-  return { dataUrl: q!==undefined?c.toDataURL(mime,q):c.toDataURL(mime), mime: mime };
+
+  var mime = file.type === 'image/jpeg' ? 'image/jpeg' : 'image/png';
+  var quality = file.type === 'image/jpeg' ? JPEG_QUALITY : undefined;
+  var dataUrl = quality !== undefined
+    ? canvas.toDataURL(mime, quality)
+    : canvas.toDataURL(mime);
+
+  return { dataUrl: dataUrl, mime: mime };
 }
 
-function makeThumbnail(img, o) {
-  var sw=img.naturalWidth, sh=img.naturalHeight;
-  var swapped=[5,6,7,8].indexOf(o)!==-1;
-  var dw=swapped?sh:sw, dh=swapped?sw:sh;
-  var scale=THUMB_PX/Math.min(dw,dh);
-  var sW=Math.round(dw*scale), sH=Math.round(dh*scale);
-  var cX=Math.round((sW-THUMB_PX)/2), cY=Math.round((sH-THUMB_PX)/2);
-  var c=document.createElement('canvas'); c.width=THUMB_PX; c.height=THUMB_PX;
-  var ctx=c.getContext('2d'); ctx.save();
-  ctx.translate(-cX,-cY);
-  applyExifRotation(ctx,o,sW,sH);
-  if(swapped) ctx.drawImage(img,0,0,sh*scale,sw*scale);
-  else ctx.drawImage(img,0,0,sW,sH);
+/* Returns {blob, dataUrl} for 120×120 center-crop thumbnail (always PNG) */
+function makeThumbnail(img, orientation) {
+  var sw = img.naturalWidth, sh = img.naturalHeight;
+  var swapped = [5,6,7,8].indexOf(orientation) !== -1;
+  var drawW = swapped ? sh : sw;
+  var drawH = swapped ? sw : sh;
+
+  /* Scale so shortest side = THUMB_PX */
+  var scale = THUMB_PX / Math.min(drawW, drawH);
+  var scaledW = Math.round(drawW * scale);
+  var scaledH = Math.round(drawH * scale);
+
+  /* Center crop */
+  var cropX = Math.round((scaledW - THUMB_PX) / 2);
+  var cropY = Math.round((scaledH - THUMB_PX) / 2);
+
+  var canvas = document.createElement('canvas');
+  canvas.width  = THUMB_PX;
+  canvas.height = THUMB_PX;
+  var ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.translate(-cropX, -cropY);
+  applyExifRotation(ctx, orientation, scaledW, scaledH);
+  if (swapped) {
+    ctx.drawImage(img, 0, 0, sh * scale, sw * scale);
+  } else {
+    ctx.drawImage(img, 0, 0, scaledW, scaledH);
+  }
   ctx.restore();
-  return c.toDataURL('image/png');
+
+  return canvas.toDataURL('image/png');
 }
 
+/* Master pipeline: file → {fullDataUrl, fullMime, thumbDataUrl} */
+/* withThumb: true for flyers, false for everything else */
 function processFile(file, withThumb) {
   return new Promise(function(resolve, reject) {
-    getExifOrientation(file).then(function(o) {
-      var reader=new FileReader();
-      reader.onload=function(e) {
-        var img=new Image();
-        img.onload=function() {
+    getExifOrientation(file).then(function(orientation) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
           try {
-            var full=processImage(img,file,o);
-            var thumb=withThumb?makeThumbnail(img,o):null;
-            resolve({ fullDataUrl:full.dataUrl, fullMime:full.mime, thumbDataUrl:thumb });
+            var full  = processImage(img, file, orientation);
+            var thumb = withThumb ? makeThumbnail(img, orientation) : null;
+            resolve({ fullDataUrl: full.dataUrl, fullMime: full.mime, thumbDataUrl: thumb });
           } catch(err) { reject(err); }
         };
-        img.onerror=function(){ reject(new Error('Could not decode image.')); };
-        img.src=e.target.result;
+        img.onerror = function() { reject(new Error('Could not decode image.')); };
+        img.src = e.target.result;
       };
-      reader.onerror=function(){ reject(new Error('Could not read file.')); };
+      reader.onerror = function() { reject(new Error('Could not read file.')); };
       reader.readAsDataURL(file);
     });
   });
 }
 
+/* DataURL → Blob */
 function dataUrlToBlob(dataUrl) {
-  var parts=dataUrl.split(',');
-  var mime=parts[0].match(/:(.*?);/)[1];
-  var binary=atob(parts[1]);
-  var arr=new Uint8Array(binary.length);
-  for(var i=0;i<binary.length;i++) arr[i]=binary.charCodeAt(i);
-  return new Blob([arr],{type:mime});
+  var parts = dataUrl.split(',');
+  var mime  = parts[0].match(/:(.*?);/)[1];
+  var binary = atob(parts[1]);
+  var arr = new Uint8Array(binary.length);
+  for (var i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+  return new Blob([arr], { type: mime });
 }
 
-/* ══════════════════════════════════════════════════════
-   STATE
-══════════════════════════════════════════════════════ */
-var currentTab = 'events';
+/* ── STATE ── */
+var currentTab     = 'events';
+var clubData       = null;
+var clubDocId      = null;
+var isNewClub      = false;
+var stagedChanges  = {};
+var stagedDeletes  = new Set();
+var galleryItems   = [];
+var iconState      = { url: null, staged: null, stagedDel: false, stagedFile: null, processedDataUrl: null, processedMime: null };
+var featuredState  = { url: null, staged: null, stagedDel: false, stagedFile: null, processedDataUrl: null, processedMime: null };
+var linksState     = [];
 
-/* Club state */
-var clubDocId       = null;
-var clubData        = null; // currently loaded data (for active sub-tab)
-var clubPubData     = null; // published version
-var clubUnpubData   = null; // unpublished version
-var isNewClub       = false;
-var clubSubTab      = 'unpublished'; // 'published' | 'unpublished'
-var stagedChanges   = {};
-var galleryItems    = [];
-var iconState       = { url:null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-var featuredState   = { url:null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-var linksState      = [];
+/* ── EVENT STATE ── */
+var evtData        = null;   // loaded original event doc
+var evtDocId       = null;   // firestore doc id
+var isNewEvent     = false;
+var evtStagedChanges = {};
+var evtLinks       = [];
+var evtFlyerState  = { url: null, iconUrl: null, stagedFile: null, processedDataUrl: null, processedThumbDataUrl: null, processedMime: null };
 
-/* Event state */
-var evtDocId          = null;
-var evtData           = null;
-var evtPubData        = null;
-var evtUnpubData      = null;
-var isNewEvent        = false;
-var evtSubTab         = 'unpublished'; // 'published' | 'unpublished'
-var evtStagedChanges  = {};
-var evtLinks          = [];
-var evtFlyerState     = { url:null, iconUrl:null, stagedFile:null, processedDataUrl:null, processedThumbDataUrl:null, processedMime:null };
-
-var allClubs = [];
+var allClubs       = [];
 
 /* ── TAB SWITCH ── */
 function switchTab(tab) {
   currentTab = tab;
-  document.getElementById('tabBtnClubs').classList.toggle('active', tab==='clubs');
+  document.getElementById('tabBtnClubs').classList.toggle('active',  tab==='clubs');
   document.getElementById('tabBtnEvents').classList.toggle('active', tab==='events');
-  document.getElementById('tabClubs').classList.toggle('hidden', tab!=='clubs');
+  document.getElementById('tabClubs').classList.toggle('hidden',  tab!=='clubs');
   document.getElementById('tabEvents').classList.toggle('hidden', tab!=='events');
 }
 
-/* ── CLUB SUB-TAB ── */
-function switchClubSubTab(tab) {
-  clubSubTab = tab;
-  document.getElementById('clubSubBtnPublished').classList.toggle('active', tab==='published');
-  document.getElementById('clubSubBtnUnpublished').classList.toggle('active', tab==='unpublished');
-
-  var data = tab === 'published' ? clubPubData : clubUnpubData;
-  if (!data) {
-    // tab not available
-    showNotice('clubNotice', 'info', tab === 'published' ? 'No published version exists yet.' : 'No unpublished edits exist yet.');
-    return;
+/* ── CLUB CHANGE TRACKING ── */
+function markChanged(el) {
+  var key = el.dataset.key;
+  var newVal = el.type === 'checkbox' ? el.checked : el.value;
+  if (key) {
+    var origVal = (clubData && clubData[key] !== undefined) ? clubData[key] : '';
+    if (String(newVal) !== String(origVal)) {
+      stagedChanges[key] = newVal;
+      el.classList.add('staged-change');
+    } else {
+      delete stagedChanges[key];
+      el.classList.remove('staged-change');
+    }
+  } else {
+    el.classList.add('staged-change');
   }
-  loadClubIntoForm(clubDocId, data);
+  recountChanges();
 }
 
-/* ── EVENT SUB-TAB ── */
-function switchEvtSubTab(tab) {
-  evtSubTab = tab;
-  document.getElementById('evtSubBtnPublished').classList.toggle('active', tab==='published');
-  document.getElementById('evtSubBtnUnpublished').classList.toggle('active', tab==='unpublished');
+function recountChanges() {
+  var n = Object.keys(stagedChanges).length
+        + (iconState.stagedDel || iconState.stagedFile ? 1 : 0)
+        + (featuredState.stagedDel || featuredState.stagedFile ? 1 : 0)
+        + galleryItems.filter(function(g){ return g._new || g._del; }).length
+        + linksState.filter(function(l){ return l._del || l._new || l._changed; }).length;
+  document.getElementById('changeCount').textContent = n;
+  document.getElementById('saveBar').classList.toggle('visible', n > 0);
+}
 
-  var data = tab === 'published' ? evtPubData : evtUnpubData;
-  if (!data) {
-    showNotice('evtNotice', 'info', tab === 'published' ? 'No published version exists yet.' : 'No unpublished edits exist yet.');
-    return;
+/* ── EVENT CHANGE TRACKING ── */
+function markEvtChanged(el) {
+  var key = el.dataset.key;
+  if (!key) return;
+  var newVal = el.value;
+  var origVal = (evtData && evtData[key] !== undefined) ? evtData[key] : '';
+  if (String(newVal) !== String(origVal)) {
+    evtStagedChanges[key] = newVal;
+    el.classList.add('staged-change');
+  } else {
+    delete evtStagedChanges[key];
+    el.classList.remove('staged-change');
   }
-  loadEventIntoForm(evtDocId, data, false);
+  recountEvtChanges();
+}
+
+function recountEvtChanges() {
+  if (isNewEvent) return; // new events don't show save bar
+  var n = Object.keys(evtStagedChanges).length
+        + (evtFlyerState.stagedFile ? 1 : 0)
+        + evtLinks.filter(function(l){ return l._changed; }).length;
+  document.getElementById('evtChangeCount').textContent = n;
+  document.getElementById('evtSaveBar').classList.toggle('visible', n > 0 && !isNewEvent);
 }
 
 /* ── CLUB LOOKUP ── */
@@ -792,64 +1193,29 @@ async function lookupClub() {
   var cta = document.getElementById('createCta');
   if (!id) return;
 
-  res.className='lookup-result'; res.textContent='Searching…'; res.style.display='block';
-  cta.style.display='none';
+  res.className = 'lookup-result'; res.textContent = 'Searching…'; res.style.display = 'block';
+  cta.style.display = 'none';
   document.getElementById('clubForm').classList.add('hidden');
-  document.getElementById('clubSubTabBar').classList.add('hidden');
 
   var fb = window._fb;
-  if (!fb) { res.textContent='Firebase not ready.'; res.className='lookup-result not-found'; return; }
+  if (!fb) { res.textContent = 'Firebase not ready.'; res.className = 'lookup-result not-found'; return; }
 
   try {
-    var [pubSnap, unpubSnap] = await Promise.all([
-      fb.getDocs(fb.collection(fb.db, 'clubs')),
-      fb.getDocs(fb.collection(fb.db, 'clubs-unpublished'))
-    ]);
-
-    clubPubData = null;
-    clubUnpubData = null;
-
-    pubSnap.forEach(function(d) {
+    var snap = await fb.getDocs(fb.collection(fb.db, 'clubs'));
+    var found = null;
+    snap.forEach(function(d) {
       var data = d.data();
-      if (data.clubId === id || d.id === id) clubPubData = data;
+      if (data.clubId === id || d.id === id) { found = { id: d.id, data: data }; }
     });
-    unpubSnap.forEach(function(d) {
-      var data = d.data();
-      if (data.clubId === id || d.id === id) clubUnpubData = data;
-    });
-
-    if (!clubPubData && !clubUnpubData) {
+    if (found) {
+      res.textContent = '✓ Found: ' + (found.data.name || found.id);
+      res.className = 'lookup-result found';
+      loadClubIntoForm(found.id, found.data);
+    } else {
       res.textContent = 'No club found with ID "' + id + '".';
       res.className = 'lookup-result not-found';
       cta.style.display = 'block';
-      return;
     }
-
-    clubDocId = id;
-    isNewClub = false;
-
-    // Determine default tab
-    var defaultTab = 'unpublished';
-    if (clubUnpubData) {
-      defaultTab = 'unpublished';
-    } else {
-      defaultTab = 'published';
-    }
-
-    // Show/hide sub-tab buttons
-    document.getElementById('clubSubTabBar').classList.remove('hidden');
-    document.getElementById('clubSubBtnPublished').style.opacity = clubPubData ? '1' : '0.4';
-    document.getElementById('clubSubBtnUnpublished').style.opacity = clubUnpubData ? '1' : '0.4';
-
-    clubSubTab = defaultTab;
-    document.getElementById('clubSubBtnPublished').classList.toggle('active', defaultTab==='published');
-    document.getElementById('clubSubBtnUnpublished').classList.toggle('active', defaultTab==='unpublished');
-
-    var dataToLoad = defaultTab === 'published' ? clubPubData : clubUnpubData;
-    res.textContent = '✓ Found: ' + (dataToLoad.name || id);
-    res.className = 'lookup-result found';
-    loadClubIntoForm(id, dataToLoad);
-
   } catch(e) {
     res.textContent = 'Error: ' + e.message;
     res.className = 'lookup-result not-found';
@@ -858,147 +1224,94 @@ async function lookupClub() {
 
 function createNewClub() {
   var id = document.getElementById('clubIdInput').value.trim() || ('club_' + Date.now());
-  clubDocId = id;
-  clubPubData = null;
-  clubUnpubData = null;
   isNewClub = true;
-  clubSubTab = 'unpublished';
-  document.getElementById('clubSubTabBar').classList.add('hidden');
+  loadClubIntoForm(id, { name:'', subtitle:'', description:'', type:'', featuredImageToggle: false, icon:'', featuredImage:'', links:[], galleryImages:[] });
   document.getElementById('lookupResult').textContent = '+ New club — ID: ' + id;
   document.getElementById('lookupResult').className = 'lookup-result found';
   document.getElementById('createCta').style.display = 'none';
-  loadClubIntoForm(id, { name:'', subtitle:'', description:'', type:'', featuredImageToggle:false, icon:'', featuredImage:'', links:[], galleryImages:[] });
 }
 
+/* ── START CREATE EVENT ── */
+function startCreateEvent() {
+  document.getElementById('evtLookupBlock').classList.add('hidden');
+  initNewEventForm();
+  document.getElementById('evtForm').classList.remove('hidden');
+}
+
+/*nice event id*/
+function generateCleanEventId(title) {
+  if (!title) return;
+
+  // 1. normalize accents (Tết → Tet)
+  var cleaned = title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
+  // 2. remove non-alphanumeric
+  cleaned = cleaned.replace(/[^a-zA-Z0-9 ]/g, '');
+
+  // 3. remove spaces
+  cleaned = cleaned.replace(/\s+/g, '');
+
+  // 4. take first 10 chars
+  cleaned = cleaned.slice(0, 16);
+
+  // 5. generate 6 random chars
+  var rand = Math.random().toString(36).slice(2, 10);
+
+  return cleaned + '_' + rand;
+}
+    
 /* ── EVENT LOOKUP ── */
 async function lookupEvent() {
   var id = document.getElementById('evtIdInput').value.trim();
   var res = document.getElementById('evtLookupResult');
   if (!id) return;
 
-  res.className='lookup-result'; res.textContent='Searching…'; res.style.display='block';
+  res.className = 'lookup-result'; res.textContent = 'Searching…'; res.style.display = 'block';
   document.getElementById('evtSaveBar').classList.remove('visible');
 
   var fb = window._fb;
-  if (!fb) { res.textContent='Firebase not ready.'; res.className='lookup-result not-found'; return; }
+  if (!fb) { res.textContent = 'Firebase not ready.'; res.className = 'lookup-result not-found'; return; }
 
   try {
-    var [pubSnap, unpubSnap] = await Promise.all([
-      fb.getDocs(fb.collection(fb.db, 'events')),
-      fb.getDocs(fb.collection(fb.db, 'events-unpublished'))
-    ]);
-
-    evtPubData = null;
-    evtUnpubData = null;
-
-    pubSnap.forEach(function(d) {
+    var snap = await fb.getDocs(fb.collection(fb.db, 'events'));
+    var found = null;
+    snap.forEach(function(d) {
       var data = d.data();
-      if (data.eventId === id || d.id === id) evtPubData = data;
+      if (data.eventId === id || d.id === id) { found = { id: d.id, data: data }; }
     });
-    unpubSnap.forEach(function(d) {
-      var data = d.data();
-      if (data.eventId === id || d.id === id) evtUnpubData = data;
-    });
-
-    if (!evtPubData && !evtUnpubData) {
+    if (found) {
+      res.textContent = '✓ Loaded: ' + (found.data.title || found.id);
+      res.className = 'lookup-result found';
+      document.getElementById('evtLookupBlock').classList.add('hidden');
+      loadEventIntoForm(found.id, found.data, false);
+      document.getElementById('evtForm').classList.remove('hidden');
+    } else {
       res.textContent = 'No event found with ID "' + id + '".';
       res.className = 'lookup-result not-found';
-      return;
     }
-
-    evtDocId = id;
-    isNewEvent = false;
-
-    var defaultTab = evtUnpubData ? 'unpublished' : 'published';
-    evtSubTab = defaultTab;
-
-    document.getElementById('evtSubTabBar').classList.remove('hidden');
-    document.getElementById('evtSubBtnPublished').style.opacity = evtPubData ? '1' : '0.4';
-    document.getElementById('evtSubBtnUnpublished').style.opacity = evtUnpubData ? '1' : '0.4';
-    document.getElementById('evtSubBtnPublished').classList.toggle('active', defaultTab==='published');
-    document.getElementById('evtSubBtnUnpublished').classList.toggle('active', defaultTab==='unpublished');
-
-    var dataToLoad = defaultTab === 'published' ? evtPubData : evtUnpubData;
-    res.textContent = '✓ Loaded: ' + (dataToLoad.title || id);
-    res.className = 'lookup-result found';
-    document.getElementById('evtLookupBlock').classList.add('hidden');
-    loadEventIntoForm(id, dataToLoad, false);
-    document.getElementById('evtForm').classList.remove('hidden');
-
   } catch(e) {
     res.textContent = 'Error: ' + e.message;
     res.className = 'lookup-result not-found';
   }
 }
 
-function startCreateEvent() {
-  evtPubData = null;
-  evtUnpubData = null;
-  evtDocId = null;
-  isNewEvent = true;
-  document.getElementById('evtSubTabBar').classList.add('hidden');
-  document.getElementById('evtLookupBlock').classList.add('hidden');
-  loadEventIntoForm(null, { title:'', date:'', time:'', room:'', type:'', description:'', club:'', clubId:'', flyer:'', flyerIcon:'', links:[] }, true);
-  document.getElementById('evtForm').classList.remove('hidden');
-}
-
+/* ── RESET BACK TO LOOKUP SCREEN ── */
 function resetEvtToLookup() {
   document.getElementById('evtForm').classList.add('hidden');
   document.getElementById('evtSaveBar').classList.remove('visible');
-  document.getElementById('evtSubTabBar').classList.add('hidden');
-  document.getElementById('evtLookupBlock').classList.remove('hidden');
+  var lookupBlock = document.getElementById('evtLookupBlock');
+  lookupBlock.classList.remove('hidden');
   document.getElementById('evtIdInput').value = '';
   document.getElementById('evtLookupResult').style.display = 'none';
 }
 
-/* ── LOAD CLUB INTO FORM ── */
-function loadClubIntoForm(docId, data) {
-  clubDocId = docId;
-  clubData  = data;
-  stagedChanges = {};
-  galleryItems  = [];
-  linksState    = [];
-  iconState     = { url:data.icon||null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-  featuredState = { url:data.featuredImage||null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-
-  setValue('cf-name',        data.name||'');
-  setValue('cf-subtitle',    data.subtitle||'');
-  setValue('cf-description', data.description||'');
-  setValue('cf-type',        data.type||'');
-  document.getElementById('cf-featuredImageToggle').checked = !!data.featuredImageToggle;
-
-  linksState = (data.links||[]).map(function(l){ return { label:l.label||'', url:l.url||'', _del:false, _new:false, _changed:false }; });
-  galleryItems = (data.galleryImages||[]).map(function(g){
-    if (typeof g==='string') return { url:g, caption:'', _del:false, _new:false };
-    return { url:g.url||'', caption:g.caption||'', _del:false, _new:false };
-  });
-
-  renderLinks();
-  renderGallery();
-  renderIconSection();
-  renderFeaturedSection();
-
-
-
-  document.getElementById('clubForm').classList.remove('hidden');
-  document.getElementById('clubNotice').style.display = 'none';
-  recountChanges();
-}
-
-function setClubFormReadOnly(ro) {
-  document.getElementById('clubReadonlyNotice').classList.toggle('hidden', !ro);
-  var inputs = document.querySelectorAll('#clubForm input, #clubForm textarea, #clubForm select');
-  inputs.forEach(function(el) { el.disabled = ro; });
-  var btns = document.querySelectorAll('#clubForm .btn:not(.sub-tab-btn)');
-  btns.forEach(function(el) { el.disabled = ro; });
-  document.getElementById('saveBar').classList.toggle('hidden', ro);
-}
-
-function setValue(id, val) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.value = val;
-  el.classList.remove('staged-change');
+/* ── INIT NEW EVENT FORM ── */
+function initNewEventForm() {
+var title = document.getElementById('ef-title')?.value || '';
+var newId = null;
+  loadEventIntoForm(newId, { title:'', date:'', time:'', room:'', type:'', description:'', club:'', clubId:'', flyer:'', flyerIcon:'', links:[] }, true);
 }
 
 /* ── LOAD EVENT INTO FORM ── */
@@ -1007,9 +1320,10 @@ function loadEventIntoForm(docId, data, isNew) {
   evtData    = data;
   isNewEvent = isNew;
   evtStagedChanges = {};
-  evtFlyerState = { url:data.flyer||null, iconUrl:data.flyerIcon||null, stagedFile:null, processedDataUrl:null, processedThumbDataUrl:null, processedMime:null };
-  evtLinks = (data.links||[]).map(function(l){ return { label:l.label||'', url:l.url||'', _changed:false }; });
+  evtFlyerState = { url: data.flyer||null, iconUrl: data.flyerIcon||null, stagedFile:null, processedDataUrl:null, processedThumbDataUrl:null, processedMime:null };
+  evtLinks = (data.links || []).map(function(l){ return { label:l.label||'', url:l.url||'', _changed:false }; });
 
+  /* Update section label */
   var labelEl = document.getElementById('evtFormLabel');
   if (labelEl) labelEl.textContent = isNew ? 'New Event' : 'Editing: ' + (data.title || docId);
 
@@ -1022,27 +1336,21 @@ function loadEventIntoForm(docId, data, isNew) {
   setEvtValue('ef-club',        data.club||'');
   setEvtValue('ef-clubId',      data.clubId||'');
 
+  
+  /* Date: if loading existing use stored date; if new, pre-fill current year only */
+
+
+  /* Toggle submit vs save label */
   var submitBtn = document.getElementById('evtSubmitBtn');
-  if (submitBtn) submitBtn.textContent = isNew ? 'Submit Event' : 'Update Event';
+  if (submitBtn) { submitBtn.textContent = isNew ? 'Submit Event' : 'Update Event'; }
   var saveBtn = document.getElementById('evtSaveBtn');
-  if (saveBtn) saveBtn.style.display = isNew ? 'none' : '';
-
-
+  if (saveBtn) { saveBtn.style.display = isNew ? 'none' : ''; }
 
   renderEvtFlyerSection();
   renderEvtLinks();
 
   document.getElementById('evtNotice').style.display = 'none';
   document.getElementById('evtSaveBar').classList.remove('visible');
-}
-
-function setEvtFormReadOnly(ro) {
-  document.getElementById('evtReadonlyNotice').classList.toggle('hidden', !ro);
-  var inputs = document.querySelectorAll('#evtForm input[data-key], #evtForm textarea, #evtForm select');
-  inputs.forEach(function(el) { el.disabled = ro; });
-  var submitBtn = document.getElementById('evtSubmitBtn');
-  if (submitBtn) submitBtn.disabled = ro;
-  document.getElementById('evtSaveBar').classList.toggle('hidden', ro);
 }
 
 function setEvtValue(id, val) {
@@ -1052,148 +1360,97 @@ function setEvtValue(id, val) {
   el.classList.remove('staged-change');
 }
 
-/* ── CLUB CHANGE TRACKING ── */
-function markChanged(el) {
-
-  var key = el.dataset.key;
-  var newVal = el.type==='checkbox' ? el.checked : el.value;
-  if (key) {
-    var origVal = (clubData && clubData[key]!==undefined) ? clubData[key] : '';
-    if (String(newVal)!==String(origVal)) { stagedChanges[key]=newVal; el.classList.add('staged-change'); }
-    else { delete stagedChanges[key]; el.classList.remove('staged-change'); }
-  } else { el.classList.add('staged-change'); }
-  recountChanges();
-}
-
-function recountChanges() {
-  var n = Object.keys(stagedChanges).length
-        + (iconState.stagedDel||iconState.stagedFile?1:0)
-        + (featuredState.stagedDel||featuredState.stagedFile?1:0)
-        + galleryItems.filter(function(g){ return g._new||g._del; }).length
-        + linksState.filter(function(l){ return l._del||l._new||l._changed; }).length;
-  document.getElementById('changeCount').textContent = n;
-  document.getElementById('saveBar').classList.toggle('visible', n>0);
-}
-
-/* ── EVENT CHANGE TRACKING ── */
-function markEvtChanged(el) {
-
-  var key = el.dataset.key;
-  if (!key) return;
-  var newVal = el.value;
-  var origVal = (evtData && evtData[key]!==undefined) ? evtData[key] : '';
-  if (String(newVal)!==String(origVal)) { evtStagedChanges[key]=newVal; el.classList.add('staged-change'); }
-  else { delete evtStagedChanges[key]; el.classList.remove('staged-change'); }
-  recountEvtChanges();
-}
-
-function recountEvtChanges() {
-  if (isNewEvent) return;
-  var n = Object.keys(evtStagedChanges).length
-        + (evtFlyerState.stagedFile?1:0)
-        + evtLinks.filter(function(l){ return l._changed; }).length;
-  document.getElementById('evtChangeCount').textContent = n;
-  document.getElementById('evtSaveBar').classList.toggle('visible', n>0 && !isNewEvent);
-}
-
-function discardChanges() {
-  if (!clubData) return;
-  stagedChanges = {};
-  iconState.staged=null; iconState.stagedDel=false; iconState.stagedFile=null; iconState.processedDataUrl=null;
-  featuredState.staged=null; featuredState.stagedDel=false; featuredState.stagedFile=null; featuredState.processedDataUrl=null;
-  loadClubIntoForm(clubDocId, clubData);
-}
-
 function discardEvtChanges() {
-  if (isNewEvent) { startCreateEvent(); return; }
+  if (isNewEvent) { initNewEventForm(); return; }
   if (!evtData) return;
   evtStagedChanges = {};
   loadEventIntoForm(evtDocId, evtData, false);
+}
+
+/* ── LOAD CLUB INTO FORM ── */
+function loadClubIntoForm(docId, data) {
+  clubDocId  = docId;
+  clubData   = data;
+  isNewClub  = isNewClub || false;
+  stagedChanges = {};
+  stagedDeletes = new Set();
+  galleryItems  = [];
+  linksState    = [];
+  iconState     = { url: data.icon||null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
+  featuredState = { url: data.featuredImage||null, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
+
+  setValue('cf-name',        data.name||'');
+  setValue('cf-subtitle',    data.subtitle||'');
+  setValue('cf-description', data.description||'');
+  setValue('cf-type',        data.type||'');
+  document.getElementById('cf-featuredImageToggle').checked = !!data.featuredImageToggle;
+
+  var rawLinks = data.links || [];
+  linksState = rawLinks.map(function(l){ return { label:l.label||'', url:l.url||'', _del:false, _new:false, _changed:false }; });
+  renderLinks();
+
+  var rawGallery = data.galleryImages || [];
+  galleryItems = rawGallery.map(function(g){
+    if (typeof g === 'string') return { url:g, caption:'', _del:false, _new:false };
+    return { url:g.url||'', caption:g.caption||'', _del:false, _new:false };
+  });
+  renderGallery();
+
+  renderIconSection();
+  renderFeaturedSection();
+
+  document.getElementById('clubForm').classList.remove('hidden');
+  document.getElementById('clubNotice').style.display = 'none';
+  recountChanges();
+}
+
+function setValue(id, val) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.value = val;
+  el.classList.remove('staged-change');
 }
 
 /* ── ICON SECTION ── */
 function renderIconSection() {
   var sec = document.getElementById('iconSection');
   sec.innerHTML = '';
-  
   if (iconState.processedDataUrl) {
-    renderSingleImgPreview(
-      sec,
-      iconState.processedDataUrl,
-      true,
-      function(){
-        iconState.stagedFile=null;
-        iconState.processedDataUrl=null;
-        iconState.staged=null;
-        renderIconSection();
-        recountChanges();
-      }
-    );
+    renderSingleImgPreview(sec, iconState.processedDataUrl, true, function(){ iconState.stagedFile=null; iconState.processedDataUrl=null; iconState.staged=null; renderIconSection(); recountChanges(); });
   } else if (iconState.url && !iconState.stagedDel) {
-    renderSingleImgPreview(
-      sec,
-      iconState.url,
-      true,
-      function(){
-        iconState.stagedDel=true;
-        iconState.staged=null;
-        renderIconSection();
-        recountChanges();
-      }
-    );
+    renderSingleImgPreview(sec, iconState.url, true, function(){ iconState.stagedDel=true; iconState.staged=null; renderIconSection(); recountChanges(); });
   } else if (iconState.stagedDel) {
-    var note=document.createElement('p');
+    var note = document.createElement('p');
     note.style.cssText='font-size:0.82rem;color:var(--red);margin-bottom:10px;';
-    note.textContent='⚠ Current icon staged for deletion.';
+    note.textContent = '⚠ Current icon staged for deletion.';
     sec.appendChild(note);
-
-    renderUploadZone(
-      sec,
-      'Upload new icon (JPEG or PNG, max 3 MB)',
-      false,
-      function(file,errMsg){
-        if(errMsg){showUploadError('iconSection',errMsg);return;}
-        clearUploadError('iconSection');
-        processFile(file,false).then(function(r){
-          iconState.stagedFile=file;
-          iconState.processedDataUrl=r.fullDataUrl;
-          iconState.processedMime=r.fullMime;
-          iconState.stagedDel=true;
-          renderIconSection();
-          recountChanges();
-        });
-      }
-    );
-
-    var undo=document.createElement('button');
-    undo.className='btn btn-secondary';
-    undo.style.marginTop='8px';
-    undo.textContent='Undo';
-    undo.onclick=function(){
-      iconState.stagedDel=false;
-      renderIconSection();
-      recountChanges();
-    };
-    sec.appendChild(undo);
-
+    renderUploadZone(sec, 'Upload new icon (JPEG or PNG, max 3 MB)', false, function(file, errMsg) {
+      if (errMsg) { showUploadError('iconSection', errMsg); return; }
+      clearUploadError('iconSection');
+      processFile(file, false).then(function(result) {
+        iconState.stagedFile = file;
+        iconState.processedDataUrl = result.fullDataUrl;
+        iconState.processedMime = result.fullMime;
+        iconState.stagedDel = true;
+        renderIconSection(); recountChanges();
+      }).catch(function(e) { showUploadError('iconSection', 'Processing failed: ' + e.message); });
+    });
+    var undoBtn = document.createElement('button');
+    undoBtn.className='btn btn-secondary'; undoBtn.style.marginTop='8px';
+    undoBtn.textContent='Undo'; undoBtn.onclick=function(){ iconState.stagedDel=false; renderIconSection(); recountChanges(); };
+    sec.appendChild(undoBtn);
   } else {
-    renderUploadZone(
-      sec,
-      'Upload icon (JPEG or PNG, max 3 MB)',
-      false,
-      function(file,errMsg){
-        if(errMsg){showUploadError('iconSection',errMsg);return;}
-        clearUploadError('iconSection');
-        processFile(file,false).then(function(r){
-          iconState.stagedFile=file;
-          iconState.processedDataUrl=r.fullDataUrl;
-          iconState.processedMime=r.fullMime;
-          iconState.staged=r.fullDataUrl;
-          renderIconSection();
-          recountChanges();
-        });
-      }
-    );
+    renderUploadZone(sec, 'Upload icon (JPEG or PNG, max 3 MB)', false, function(file, errMsg) {
+      if (errMsg) { showUploadError('iconSection', errMsg); return; }
+      clearUploadError('iconSection');
+      processFile(file, false).then(function(result) {
+        iconState.stagedFile = file;
+        iconState.processedDataUrl = result.fullDataUrl;
+        iconState.processedMime = result.fullMime;
+        iconState.staged = result.fullDataUrl;
+        renderIconSection(); recountChanges();
+      }).catch(function(e) { showUploadError('iconSection', 'Processing failed: ' + e.message); });
+    });
   }
 }
 
@@ -1201,359 +1458,454 @@ function renderIconSection() {
 function renderFeaturedSection() {
   var sec = document.getElementById('featuredSection');
   var enabled = document.getElementById('cf-featuredImageToggle').checked;
-
   sec.innerHTML = '';
   if (!enabled) return;
-
   if (featuredState.processedDataUrl) {
-    renderSingleImgPreview(
-      sec,
-      featuredState.processedDataUrl,
-      false,
-      function(){
-        featuredState.stagedFile=null;
-        featuredState.processedDataUrl=null;
-        featuredState.staged=null;
-        renderFeaturedSection();
-        recountChanges();
-      }
-    );
+    renderSingleImgPreview(sec, featuredState.processedDataUrl, false, function(){ featuredState.stagedFile=null; featuredState.processedDataUrl=null; featuredState.staged=null; renderFeaturedSection(); recountChanges(); });
   } else if (featuredState.url && !featuredState.stagedDel) {
-    renderSingleImgPreview(
-      sec,
-      featuredState.url,
-      false,
-      function(){
-        featuredState.stagedDel=true;
-        featuredState.staged=null;
-        renderFeaturedSection();
-        recountChanges();
-      }
-    );
+    renderSingleImgPreview(sec, featuredState.url, false, function(){ featuredState.stagedDel=true; featuredState.staged=null; renderFeaturedSection(); recountChanges(); });
   } else if (featuredState.stagedDel) {
-    var note=document.createElement('p');
+    var note = document.createElement('p');
     note.style.cssText='font-size:0.82rem;color:var(--red);margin-bottom:10px;';
-    note.textContent='⚠ Featured image staged for deletion.';
+    note.textContent = '⚠ Featured image staged for deletion.';
     sec.appendChild(note);
-
-    renderUploadZone(
-      sec,
-      'Upload new featured image (JPEG or PNG, max 3 MB)',
-      false,
-      function(file,errMsg){
-        if(errMsg){showUploadError('featuredSection',errMsg);return;}
-        clearUploadError('featuredSection');
-        processFile(file,false).then(function(r){
-          featuredState.stagedFile=file;
-          featuredState.processedDataUrl=r.fullDataUrl;
-          featuredState.processedMime=r.fullMime;
-          featuredState.stagedDel=true;
-          renderFeaturedSection();
-          recountChanges();
-        });
-      }
-    );
-
-    var undo=document.createElement('button');
-    undo.className='btn btn-secondary';
-    undo.style.marginTop='8px';
-    undo.textContent='Undo';
-    undo.onclick=function(){
-      featuredState.stagedDel=false;
-      renderFeaturedSection();
-      recountChanges();
-    };
-    sec.appendChild(undo);
-
+    renderUploadZone(sec, 'Upload new featured image (JPEG or PNG, max 3 MB)', false, function(file, errMsg) {
+      if (errMsg) { showUploadError('featuredSection', errMsg); return; }
+      clearUploadError('featuredSection');
+      processFile(file, false).then(function(result) {
+        featuredState.stagedFile = file;
+        featuredState.processedDataUrl = result.fullDataUrl;
+        featuredState.processedMime = result.fullMime;
+        featuredState.stagedDel = true;
+        renderFeaturedSection(); recountChanges();
+      }).catch(function(e) { showUploadError('featuredSection', 'Processing failed: ' + e.message); });
+    });
+    var undoBtn = document.createElement('button');
+    undoBtn.className='btn btn-secondary'; undoBtn.style.marginTop='8px';
+    undoBtn.textContent='Undo'; undoBtn.onclick=function(){ featuredState.stagedDel=false; renderFeaturedSection(); recountChanges(); };
+    sec.appendChild(undoBtn);
   } else {
-    renderUploadZone(
-      sec,
-      'Upload featured image (JPEG or PNG, max 3 MB)',
-      false,
-      function(file,errMsg){
-        if(errMsg){showUploadError('featuredSection',errMsg);return;}
-        clearUploadError('featuredSection');
-        processFile(file,false).then(function(r){
-          featuredState.stagedFile=file;
-          featuredState.processedDataUrl=r.fullDataUrl;
-          featuredState.processedMime=r.fullMime;
-          featuredState.staged=r.fullDataUrl;
-          renderFeaturedSection();
-          recountChanges();
-        });
-      }
-    );
+    renderUploadZone(sec, 'Upload featured image (JPEG or PNG, max 3 MB)', false, function(file, errMsg) {
+      if (errMsg) { showUploadError('featuredSection', errMsg); return; }
+      clearUploadError('featuredSection');
+      processFile(file, false).then(function(result) {
+        featuredState.stagedFile = file;
+        featuredState.processedDataUrl = result.fullDataUrl;
+        featuredState.processedMime = result.fullMime;
+        featuredState.staged = result.fullDataUrl;
+        renderFeaturedSection(); recountChanges();
+      }).catch(function(e) { showUploadError('featuredSection', 'Processing failed: ' + e.message); });
+    });
   }
 }
+
 function renderSingleImgPreview(container, src, isIcon, onX) {
-  var wrap=document.createElement('div'); wrap.className='single-img-wrap'; wrap.style.display='block';
-  var img=document.createElement('img'); img.src=src; img.className=isIcon?'single-img-preview icon-preview':'single-img-preview';
-  wrap.appendChild(img);
-  if (onX) {
-    var xBtn=document.createElement('button'); xBtn.className='single-img-x'; xBtn.textContent='×'; xBtn.title='Stage for deletion';
-    xBtn.onclick=function(e){ e.stopPropagation(); onX(); };
-    wrap.appendChild(xBtn);
-  }
+  var wrap = document.createElement('div');
+  wrap.className = 'single-img-wrap';
+  wrap.style.display='block';
+  var img = document.createElement('img');
+  img.src = src;
+  img.className = isIcon ? 'single-img-preview icon-preview' : 'single-img-preview';
+  var xBtn = document.createElement('button');
+  xBtn.className='single-img-x'; xBtn.textContent='×';
+  xBtn.title='Stage for deletion';
+  xBtn.onclick = function(e){ e.stopPropagation(); onX(); };
+  wrap.appendChild(img); wrap.appendChild(xBtn);
   container.appendChild(wrap);
 }
 
+/* onFile callback receives (file, errorMessage) — errorMessage is null on success */
 function renderUploadZone(container, label, withThumbNote, onFile) {
-  var zone=document.createElement('label'); zone.className='img-upload-zone';
-  zone.innerHTML='<span class="upload-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-faint);display:block;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><div class="upload-label">'+label+'</div>';
-  var inp=document.createElement('input'); inp.type='file'; inp.accept='image/jpeg,image/png';
-  inp.onchange=function(){ if(!inp.files[0])return; onFile(inp.files[0], validateImageFile(inp.files[0])); };
-  zone.appendChild(inp); container.appendChild(zone);
+  var zone = document.createElement('label');
+  zone.className='img-upload-zone';
+  zone.innerHTML=
+    '<span class="upload-icon">' +
+    '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-faint);display:block;">' +
+    '<rect x="3" y="3" width="18" height="18" rx="2"/>' +
+    '<circle cx="8.5" cy="8.5" r="1.5"/>' +
+    '<polyline points="21 15 16 10 5 21"/>' +
+    '</svg></span>' +
+    '<div class="upload-label">'+ label +'</div>';
+  var inp = document.createElement('input');
+  inp.type='file'; inp.accept='image/jpeg,image/png';
+  inp.onchange=function(){
+    if (!inp.files[0]) return;
+    var file = inp.files[0];
+    var err = validateImageFile(file);
+    onFile(file, err);
+  };
+  zone.appendChild(inp);
+  container.appendChild(zone);
 }
 
-function showUploadError(id, msg) {
-  var c=document.getElementById(id); if(!c)return;
-  var ex=c.querySelector('.upload-err-msg');
-  if(!ex){ ex=document.createElement('p'); ex.className='upload-err-msg'; ex.style.cssText='font-family:var(--mono);font-size:0.75rem;color:var(--red);margin-top:6px;'; c.appendChild(ex); }
-  ex.textContent='⚠ '+msg;
+/* ── UPLOAD ERROR HELPERS ── */
+function showUploadError(containerId, msg) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var existing = container.querySelector('.upload-err-msg');
+  if (!existing) {
+    existing = document.createElement('p');
+    existing.className = 'upload-err-msg';
+    existing.style.cssText = 'font-family:var(--mono);font-size:0.75rem;color:var(--red);margin-top:6px;';
+    container.appendChild(existing);
+  }
+  existing.textContent = '⚠ ' + msg;
 }
-function clearUploadError(id) {
-  var c=document.getElementById(id); if(!c)return;
-  var ex=c.querySelector('.upload-err-msg'); if(ex) ex.remove();
+function clearUploadError(containerId) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var existing = container.querySelector('.upload-err-msg');
+  if (existing) existing.remove();
 }
 
 /* ── LINKS (clubs) ── */
 function renderLinks() {
-  var container=document.getElementById('linksContainer'); container.innerHTML='';
-
-  for(var i=0;i<linksState.length;i++){
+  var container = document.getElementById('linksContainer');
+  container.innerHTML='';
+  for (var i=0; i<linksState.length; i++) {
     (function(idx){
-      var l=linksState[idx];
-      var row=document.createElement('div'); row.className='link-row'+(l._del?' staged-del':'');
-      var labelInp=document.createElement('input'); labelInp.type='text'; labelInp.value=l.label; labelInp.className='link-label-input'; labelInp.disabled=l._del;
+      var l = linksState[idx];
+      var row = document.createElement('div');
+      row.className='link-row' + (l._del ? ' staged-del' : '');
+
+      var labelInp = document.createElement('input');
+      labelInp.type='text'; labelInp.value=l.label;
+      labelInp.className='link-label-input';
+      labelInp.disabled = l._del;
       labelInp.oninput=function(){ linksState[idx].label=labelInp.value; linksState[idx]._changed=true; recountChanges(); };
-      var urlInp=document.createElement('input'); urlInp.type='text'; urlInp.value=l.url; urlInp.disabled=l._del;
+
+      var urlInp = document.createElement('input');
+      urlInp.type='text'; urlInp.value=l.url;
+      urlInp.disabled = l._del;
       urlInp.oninput=function(){ linksState[idx].url=urlInp.value; linksState[idx]._changed=true; recountChanges(); };
-      var rmBtn=document.createElement('button'); rmBtn.className='link-remove-btn'; rmBtn.innerHTML=l._del?'↩':'×'; rmBtn.disabled=false;
-      rmBtn.onclick=function(e){ e.stopPropagation(); linksState[idx]._del=!linksState[idx]._del; renderLinks(); recountChanges(); };
-      row.appendChild(labelInp); row.appendChild(urlInp); row.appendChild(rmBtn); container.appendChild(row);
+
+      var rmBtn = document.createElement('button');
+      rmBtn.className='link-remove-btn';
+      rmBtn.innerHTML = l._del ? '↩' : '×';
+      rmBtn.title = l._del ? 'Undo' : 'Remove';
+      rmBtn.onclick=function(e){ e.stopPropagation(); linksState[idx]._del = !linksState[idx]._del; renderLinks(); recountChanges(); };
+
+      row.appendChild(labelInp); row.appendChild(urlInp); row.appendChild(rmBtn);
+      container.appendChild(row);
     })(i);
   }
-  var active=linksState.filter(function(l){ return !l._del; }).length;
-  var addBtn=document.getElementById('addLinkBtn');
-  addBtn.style.display=active>=4?'none':'';
+  var active = linksState.filter(function(l){ return !l._del; }).length;
+  document.getElementById('addLinkBtn').style.display = active >= 4 ? 'none' : '';
 }
 
 function addLink() {
-  
-  if(linksState.filter(function(l){ return !l._del; }).length>=4)return;
+  var active = linksState.filter(function(l){ return !l._del; }).length;
+  if (active >= 4) return;
   linksState.push({ label:'', url:'', _del:false, _new:true, _changed:false });
   renderLinks(); recountChanges();
 }
 
 /* ── GALLERY ── */
 function renderGallery() {
-  var grid=document.getElementById('galleryGrid'); grid.innerHTML='';
-  
-  for(var i=0;i<galleryItems.length;i++){
+  var grid = document.getElementById('galleryGrid');
+  grid.innerHTML='';
+  for (var i=0; i<galleryItems.length; i++) {
     (function(idx){
-      var g=galleryItems[idx];
-      var item=document.createElement('div'); item.className='gallery-item';
-      var cell=document.createElement('div'); cell.className='img-cell'+(g._del?' staged-del':'');
-      var img=document.createElement('img'); img.src=g.url; img.alt='';
+      var g = galleryItems[idx];
+      var item = document.createElement('div');
+      item.className='gallery-item';
+
+      var cell = document.createElement('div');
+      cell.className='img-cell' + (g._del ? ' staged-del' : '');
+
+      var img = document.createElement('img');
+      img.src = g.url; img.alt='';
       img.onerror=function(){ img.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22/>'; };
-      var xBtn=document.createElement('button'); xBtn.className='x-btn'; xBtn.textContent='×'; 
-        xBtn.disabled=false;
-      xBtn.onclick=function(e){ e.stopPropagation(); galleryItems[idx]._del=!galleryItems[idx]._del; renderGallery(); recountChanges(); };
-      var reorderDiv=document.createElement('div'); reorderDiv.className='reorder-btns';
-      var upBtn=document.createElement('button'); upBtn.className='reorder-btn'; upBtn.textContent='←'; upBtn.disabled=false;
-      upBtn.onclick=function(e){ e.stopPropagation(); if(idx===0)return; var tmp=galleryItems[idx]; galleryItems[idx]=galleryItems[idx-1]; galleryItems[idx-1]=tmp; renderGallery(); recountChanges(); };
-      var dnBtn=document.createElement('button'); dnBtn.className='reorder-btn'; dnBtn.textContent='→'; dnBtn.disabled=false;
-      dnBtn.onclick=function(e){ e.stopPropagation(); if(idx>=galleryItems.length-1)return; var tmp=galleryItems[idx]; galleryItems[idx]=galleryItems[idx+1]; galleryItems[idx+1]=tmp; renderGallery(); recountChanges(); };
+
+      var xBtn = document.createElement('button');
+      xBtn.className='x-btn'; xBtn.textContent='×';
+      xBtn.title = g._del ? 'Undo' : 'Stage for deletion';
+      xBtn.onclick=function(e){ e.stopPropagation(); galleryItems[idx]._del = !galleryItems[idx]._del; renderGallery(); recountChanges(); };
+
+      var reorderDiv = document.createElement('div');
+      reorderDiv.className='reorder-btns';
+      var upBtn = document.createElement('button');
+      upBtn.className='reorder-btn'; upBtn.textContent='←';
+      upBtn.onclick=function(e){ e.stopPropagation(); if(idx>0){ var tmp=galleryItems[idx]; galleryItems[idx]=galleryItems[idx-1]; galleryItems[idx-1]=tmp; renderGallery(); recountChanges(); } };
+      var dnBtn = document.createElement('button');
+      dnBtn.className='reorder-btn'; dnBtn.textContent='→';
+      dnBtn.onclick=function(e){ e.stopPropagation(); if(idx<galleryItems.length-1){ var tmp=galleryItems[idx]; galleryItems[idx]=galleryItems[idx+1]; galleryItems[idx+1]=tmp; renderGallery(); recountChanges(); } };
       reorderDiv.appendChild(upBtn); reorderDiv.appendChild(dnBtn);
+
       cell.appendChild(img); cell.appendChild(xBtn); cell.appendChild(reorderDiv);
-      var capInp=document.createElement('input'); capInp.type='text'; capInp.className='gallery-caption-input'; capInp.value=g.caption||''; capInp.disabled=ro;
+
+      var capInp = document.createElement('input');
+      capInp.type='text'; capInp.className='gallery-caption-input';
+      capInp.value=g.caption||'';
       capInp.oninput=function(){ galleryItems[idx].caption=capInp.value; galleryItems[idx]._changed=true; recountChanges(); };
-      item.appendChild(cell); item.appendChild(capInp); grid.appendChild(item);
+
+      item.appendChild(cell); item.appendChild(capInp);
+      grid.appendChild(item);
     })(i);
   }
-  var active=galleryItems.filter(function(g){ return !g._del; }).length;
-  if(active<8){
-    var addCell=document.createElement('div'); addCell.className='gallery-add-cell'; addCell.innerHTML='<span>＋</span>';
-    var fileInp=document.createElement('input'); fileInp.type='file'; fileInp.accept='image/jpeg,image/png'; fileInp.multiple=true;
+
+  var active = galleryItems.filter(function(g){ return !g._del; }).length;
+  if (active < 8) {
+    var addCell = document.createElement('div');
+    addCell.className='gallery-add-cell';
+    addCell.innerHTML='<span>＋</span>';
+    var fileInp = document.createElement('input');
+    fileInp.type='file'; fileInp.accept='image/jpeg,image/png'; fileInp.multiple=true;
     fileInp.onchange=function(){
-      var files=Array.from(fileInp.files);
-      var avail=8-galleryItems.filter(function(g){ return !g._del; }).length;
-      files.slice(0,avail).forEach(function(file){
-        var err=validateImageFile(file);
-        if(err){ showUploadError('galleryGrid',err); return; }
+      var files = Array.from(fileInp.files);
+      var avail = 8 - galleryItems.filter(function(g){ return !g._del; }).length;
+      files.slice(0, avail).forEach(function(file){
+        var err = validateImageFile(file);
+        if (err) { showUploadError('galleryGrid', err); return; }
         clearUploadError('galleryGrid');
-        processFile(file,false).then(function(r){ galleryItems.push({ url:r.fullDataUrl, caption:'', _del:false, _new:true, _newFile:file, _processedDataUrl:r.fullDataUrl, _processedMime:r.fullMime }); renderGallery(); recountChanges(); });
+        processFile(file, false).then(function(result) {
+          galleryItems.push({ url: result.fullDataUrl, caption:'', _del:false, _new:true, _newFile: file, _processedDataUrl: result.fullDataUrl, _processedMime: result.fullMime });
+          renderGallery(); recountChanges();
+        }).catch(function(e) { showUploadError('galleryGrid', 'Processing failed: ' + e.message); });
       });
     };
-    addCell.appendChild(fileInp); addCell.onclick=function(){ fileInp.click(); }; grid.appendChild(addCell);
+    addCell.appendChild(fileInp);
+    addCell.onclick=function(){ fileInp.click(); };
+    grid.appendChild(addCell);
   }
-  document.getElementById('galleryCount').textContent=galleryItems.filter(function(g){ return !g._del; }).length+' / 8 images';
+
+  var total = galleryItems.filter(function(g){ return !g._del; }).length;
+  document.getElementById('galleryCount').textContent = total + ' / 8 images';
 }
 
-/* ── SAVE CLUB → always to clubs-unpublished from guest ── */
+/* ── DISCARD CLUB CHANGES ── */
+function discardChanges() {
+  if (!clubData) return;
+  stagedChanges = {}; stagedDeletes = new Set();
+  iconState.staged=null; iconState.stagedDel=false; iconState.stagedFile=null; iconState.processedDataUrl=null;
+  featuredState.staged=null; featuredState.stagedDel=false; featuredState.stagedFile=null; featuredState.processedDataUrl=null;
+  loadClubIntoForm(clubDocId, clubData);
+}
+
+/* ── SAVE CLUB ── */
 async function saveClub() {
-  if (clubSubTab === 'published') return; // safety guard
-  var btn=document.getElementById('saveBtn');
+  var btn = document.getElementById('saveBtn');
   btn.disabled=true; btn.innerHTML='Saving<span class="spinner-inline"></span>';
-  var fb=window._fb;
+
+  var fb = window._fb;
   try {
-    var iconUrl=iconState.url;
-    if(iconState.stagedFile && iconState.processedDataUrl){
-      var iconBlob=dataUrlToBlob(iconState.processedDataUrl);
-      var ext=iconState.processedMime==='image/jpeg'?'.jpg':'.png';
-      var iconRef=fb.ref(fb.storage,'clubs-unpublished/'+clubDocId+'/icon_'+Date.now()+ext);
-      await fb.uploadBytes(iconRef,iconBlob);
-      iconUrl=await fb.getDownloadURL(iconRef);
-    } else if(iconState.stagedDel){ iconUrl=''; }
-
-    var featuredUrl=featuredState.url;
-    if(featuredState.stagedFile && featuredState.processedDataUrl){
-      var featBlob=dataUrlToBlob(featuredState.processedDataUrl);
-      var featExt=featuredState.processedMime==='image/jpeg'?'.jpg':'.png';
-      var featRef=fb.ref(fb.storage,'clubs-unpublished/'+clubDocId+'/featured_'+Date.now()+featExt);
-      await fb.uploadBytes(featRef,featBlob);
-      featuredUrl=await fb.getDownloadURL(featRef);
-    } else if(featuredState.stagedDel){ featuredUrl=''; }
-
-    var finalGallery=[];
-    for(var gi=0;gi<galleryItems.length;gi++){
-      var g=galleryItems[gi]; if(g._del)continue;
-      if(g._new && g._processedDataUrl){
-        var gBlob=dataUrlToBlob(g._processedDataUrl);
-        var gExt=g._processedMime==='image/jpeg'?'.jpg':'.png';
-        var gRef=fb.ref(fb.storage,'clubs-unpublished/'+clubDocId+'/gallery_'+Date.now()+'_'+gi+gExt);
-        await fb.uploadBytes(gRef,gBlob);
-        finalGallery.push({ url:await fb.getDownloadURL(gRef), caption:g.caption||'' });
-      } else { finalGallery.push({ url:g.url, caption:g.caption||'' }); }
+    /* Upload icon */
+    var iconUrl = iconState.url;
+    if (iconState.stagedFile && iconState.processedDataUrl) {
+      var iconBlob = dataUrlToBlob(iconState.processedDataUrl);
+      var ext = iconState.processedMime === 'image/jpeg' ? '.jpg' : '.png';
+      var iconRef = fb.ref(fb.storage, 'clubs/' + clubDocId + '/icon_' + Date.now() + ext);
+      await fb.uploadBytes(iconRef, iconBlob);
+      iconUrl = await fb.getDownloadURL(iconRef);
+    } else if (iconState.stagedDel) {
+      iconUrl = '';
     }
 
-    var finalLinks=linksState.filter(function(l){ return !l._del; }).map(function(l){ return { label:l.label, url:l.url }; });
-    var docData={
-      name:                getVal('cf-name'),
-      subtitle:            getVal('cf-subtitle'),
-      description:         getVal('cf-description'),
-      type:                getVal('cf-type'),
-      featuredImageToggle: document.getElementById('cf-featuredImageToggle').checked,
-      icon:                iconUrl||'',
-      featuredImage:       featuredUrl||'',
-      links:               finalLinks,
-      galleryImages:       finalGallery,
-      clubId:              clubDocId,
-      updatedAt:           fb.serverTimestamp()
-    };
+    /* Upload featured image */
+    var featuredUrl = featuredState.url;
+    if (featuredState.stagedFile && featuredState.processedDataUrl) {
+      var featBlob = dataUrlToBlob(featuredState.processedDataUrl);
+      var featExt = featuredState.processedMime === 'image/jpeg' ? '.jpg' : '.png';
+      var featRef = fb.ref(fb.storage, 'clubs/' + clubDocId + '/featured_' + Date.now() + featExt);
+      await fb.uploadBytes(featRef, featBlob);
+      featuredUrl = await fb.getDownloadURL(featRef);
+    } else if (featuredState.stagedDel) {
+      featuredUrl = '';
+    }
 
-    await fb.setDoc(fb.doc(fb.db,'clubs-unpublished',clubDocId), docData);
+    /* Upload gallery images */
+    var finalGallery = [];
+    for (var gi=0; gi<galleryItems.length; gi++) {
+      var g = galleryItems[gi];
+      if (g._del) continue;
+      if (g._new && g._processedDataUrl) {
+        var gBlob = dataUrlToBlob(g._processedDataUrl);
+        var gExt  = g._processedMime === 'image/jpeg' ? '.jpg' : '.png';
+        var gRef  = fb.ref(fb.storage, 'clubs/' + clubDocId + '/gallery_' + Date.now() + '_' + gi + gExt);
+        await fb.uploadBytes(gRef, gBlob);
+        var gUrl = await fb.getDownloadURL(gRef);
+        finalGallery.push({ url: gUrl, caption: g.caption||'' });
+      } else {
+        finalGallery.push({ url: g.url, caption: g.caption||'' });
+      }
+    }
 
-    // Update local state
+    /* Links */
+    var finalLinks = linksState.filter(function(l){ return !l._del; }).map(function(l){ return { label:l.label, url:l.url }; });
+
+    /* Build document */
+    var existing = clubData || {};
+    var docData = Object.assign({}, existing, {
+      name:                 val('cf-name'),
+      subtitle:             val('cf-subtitle'),
+      description:          val('cf-description'),
+      type:                 val('cf-type'),
+      featuredImageToggle:  document.getElementById('cf-featuredImageToggle').checked,
+      icon:                 iconUrl || '',
+      featuredImage:        featuredUrl || '',
+      links:                finalLinks,
+      galleryImages:        finalGallery,
+      clubId:               clubDocId,
+      updatedAt:            fb.serverTimestamp()
+    });
+    if (existing.admin) docData.admin = existing.admin;
+
+    await fb.setDoc(fb.doc(fb.db, 'clubs', clubDocId), docData);
+
     clubData = docData;
-    clubUnpubData = docData;
-    iconState     = { url:iconUrl, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-    featuredState = { url:featuredUrl, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
-    galleryItems  = finalGallery.map(function(g){ return Object.assign({},g,{_del:false,_new:false}); });
-    linksState    = finalLinks.map(function(l){ return Object.assign({},l,{_del:false,_new:false,_changed:false}); });
+    iconState = { url: iconUrl, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
+    featuredState = { url: featuredUrl, staged:null, stagedDel:false, stagedFile:null, processedDataUrl:null, processedMime:null };
+    galleryItems = finalGallery.map(function(g){ return Object.assign({}, g, { _del:false, _new:false }); });
+    linksState = finalLinks.map(function(l){ return Object.assign({}, l, { _del:false, _new:false, _changed:false }); });
     stagedChanges = {};
+
     document.querySelectorAll('#tabClubs .staged-change').forEach(function(el){ el.classList.remove('staged-change'); });
     renderLinks(); renderGallery(); renderIconSection(); renderFeaturedSection();
     recountChanges();
-    showNotice('clubNotice','success','✓ Saved to unpublished! Awaiting admin review.');
-  } catch(e){ showNotice('clubNotice','error','Error saving: '+e.message); }
+
+    showNotice('clubNotice', 'success', '✓ Club saved successfully!');
+  } catch(e) {
+    showNotice('clubNotice', 'error', 'Error saving: ' + e.message);
+  }
   btn.disabled=false; btn.textContent='Save';
 }
 
-function getVal(id){ var el=document.getElementById(id); return el?el.value:''; }
+function val(id) {
+  var el = document.getElementById(id);
+  return el ? el.value : '';
+}
 
-/* ── EVT FLYER SECTION ── */
+/* ── EVENTS FLYER SECTION ── */
 function renderEvtFlyerSection() {
-  var sec=document.getElementById('evtFlyerSection'); sec.innerHTML='';
+  var sec = document.getElementById('evtFlyerSection');
+  sec.innerHTML='';
   clearUploadError('evtFlyerError');
- 
-  if(evtFlyerState.processedDataUrl){
-    renderSingleImgPreview(sec,evtFlyerState.processedDataUrl,false,function(){
-      evtFlyerState.stagedFile=null; evtFlyerState.processedDataUrl=null; evtFlyerState.processedThumbDataUrl=null; evtFlyerState.processedMime=null;
-      renderEvtFlyerSection(); recountEvtChanges();
+
+  if (evtFlyerState.processedDataUrl) {
+    /* Show processed preview */
+    renderSingleImgPreview(sec, evtFlyerState.processedDataUrl, false, function(){
+      evtFlyerState.stagedFile=null;
+      evtFlyerState.processedDataUrl=null;
+      evtFlyerState.processedThumbDataUrl=null;
+      evtFlyerState.processedMime=null;
+      renderEvtFlyerSection();
+      recountEvtChanges();
     });
-    if(evtFlyerState.processedThumbDataUrl){
-      var tw=document.createElement('div'); tw.style.cssText='margin-top:8px;display:flex;align-items:center;gap:8px;';
-      var tl=document.createElement('span'); tl.style.cssText='font-family:var(--mono);font-size:0.7rem;color:var(--text-muted);'; tl.textContent='Thumbnail:';
-      var ti=document.createElement('img'); ti.src=evtFlyerState.processedThumbDataUrl; ti.style.cssText='width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border);';
-      tw.appendChild(tl); tw.appendChild(ti); sec.appendChild(tw);
+    /* Show thumb preview */
+    if (evtFlyerState.processedThumbDataUrl) {
+      var thumbWrap = document.createElement('div');
+      thumbWrap.style.cssText='margin-top:8px;display:flex;align-items:center;gap:8px;';
+      var thumbLabel = document.createElement('span');
+      thumbLabel.style.cssText='font-family:var(--mono);font-size:0.7rem;color:var(--text-muted);';
+      thumbLabel.textContent='Thumbnail:';
+      var thumbImg = document.createElement('img');
+      thumbImg.src = evtFlyerState.processedThumbDataUrl;
+      thumbImg.style.cssText='width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border);';
+      thumbWrap.appendChild(thumbLabel);
+      thumbWrap.appendChild(thumbImg);
+      sec.appendChild(thumbWrap);
     }
   } else if (evtFlyerState.url) {
+    /* Existing flyer from DB */
     renderSingleImgPreview(sec, evtFlyerState.url, false, function(){
-      evtFlyerState.url=null; evtFlyerState.iconUrl=null; evtFlyerState.stagedFile=null;
-      renderEvtFlyerSection(); recountEvtChanges();
-    }); 
+      evtFlyerState.url=null;
+      evtFlyerState.iconUrl=null;
+      evtFlyerState.stagedFile=null;
+      renderEvtFlyerSection();
+      recountEvtChanges();
+    });
   } else {
-    renderUploadZone(sec,'Upload flyer (JPEG or PNG, max 3 MB)',true,function(file,errMsg){
-      var errEl=document.getElementById('evtFlyerError');
-      if(errMsg){ errEl.textContent='⚠ '+errMsg; errEl.classList.add('visible'); return; }
+    renderUploadZone(sec, 'Upload flyer (JPEG or PNG, max 3 MB)', true, function(file, errMsg) {
+      var errEl = document.getElementById('evtFlyerError');
+      if (errMsg) {
+        errEl.textContent = '⚠ ' + errMsg;
+        errEl.classList.add('visible');
+        return;
+      }
       errEl.classList.remove('visible');
-      processFile(file,true).then(function(r){
-        evtFlyerState.stagedFile=file; evtFlyerState.processedDataUrl=r.fullDataUrl; evtFlyerState.processedThumbDataUrl=r.thumbDataUrl; evtFlyerState.processedMime=r.fullMime;
-        renderEvtFlyerSection(); recountEvtChanges();
-      }).catch(function(e){ errEl.textContent='⚠ Processing failed: '+e.message; errEl.classList.add('visible'); });
+      processFile(file, true).then(function(result) {
+        evtFlyerState.stagedFile = file;
+        evtFlyerState.processedDataUrl = result.fullDataUrl;
+        evtFlyerState.processedThumbDataUrl = result.thumbDataUrl;
+        evtFlyerState.processedMime = result.fullMime;
+        renderEvtFlyerSection();
+        recountEvtChanges();
+      }).catch(function(e) {
+        errEl.textContent = '⚠ Processing failed: ' + e.message;
+        errEl.classList.add('visible');
+      });
     });
   }
 }
 
 /* ── EVENT LINKS ── */
-function addEvtLink(){
-
-  if(evtLinks.length>=2)return;
+function addEvtLink() {
+  if (evtLinks.length >= 2) return;
   evtLinks.push({ label:'', url:'', _changed:false });
   renderEvtLinks();
 }
-function renderEvtLinks(){
-  var c=document.getElementById('evtLinksContainer'); c.innerHTML='';
-  var ro=(!isNewEvent);
-  for(var i=0;i<evtLinks.length;i++){
+function renderEvtLinks() {
+  var c = document.getElementById('evtLinksContainer');
+  c.innerHTML='';
+  for (var i=0; i<evtLinks.length; i++) {
     (function(idx){
-      var row=document.createElement('div'); row.className='link-row';
-      var labelInp=document.createElement('input'); labelInp.type='text'; labelInp.value=evtLinks[idx].label; labelInp.className='link-label-input'; labelInp.disabled=false;
+      var row = document.createElement('div');
+      row.className='link-row';
+      var labelInp = document.createElement('input'); labelInp.type='text'; labelInp.value=evtLinks[idx].label; labelInp.className='link-label-input';
       labelInp.oninput=function(){ evtLinks[idx].label=labelInp.value; evtLinks[idx]._changed=true; recountEvtChanges(); };
-      var urlInp=document.createElement('input'); urlInp.type='text'; urlInp.value=evtLinks[idx].url; urlInp.disabled=false;
+      var urlInp = document.createElement('input'); urlInp.type='text'; urlInp.value=evtLinks[idx].url;
       urlInp.oninput=function(){ evtLinks[idx].url=urlInp.value; evtLinks[idx]._changed=true; recountEvtChanges(); };
-      var rm=document.createElement('button'); rm.className='link-remove-btn'; rm.textContent='×'; rm.disabled=false;
+      var rm = document.createElement('button'); rm.className='link-remove-btn'; rm.textContent='×';
       rm.onclick=function(e){ e.stopPropagation(); evtLinks.splice(idx,1); renderEvtLinks(); recountEvtChanges(); };
-      row.appendChild(labelInp); row.appendChild(urlInp); row.appendChild(rm); c.appendChild(row);
+      row.appendChild(labelInp); row.appendChild(urlInp); row.appendChild(rm);
+      c.appendChild(row);
     })(i);
   }
-document.getElementById('addEvtLinkBtn').style.display=evtLinks.length>=2?'none':'';
+  document.getElementById('addEvtLinkBtn').style.display = evtLinks.length>=2 ? 'none' : '';
 }
 
-function generateCleanEventId(title){
-  if(!title) return 'event_'+Math.random().toString(36).slice(2,10);
-  var cleaned=title.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9 ]/g,'').replace(/\s+/g,'').slice(0,16);
-  return cleaned+'_'+Math.random().toString(36).slice(2,10);
+/* ── SUBMIT / UPDATE EVENT ── */
+async function submitEvent() {
+  var btn = isNewEvent
+    ? document.getElementById('evtSubmitBtn')
+    : document.getElementById('evtSaveBtn');
+ var title = document.getElementById('ef-title').value.trim();
+    if (isNewEvent) {
+ 
+  evtDocId = generateCleanEventId(title);
 }
 
-/* ── SUBMIT EVENT → always to events-unpublished from guest ── */
-async function submitEvent(){
+  
+ 
 
-  var btn=isNewEvent?document.getElementById('evtSubmitBtn'):document.getElementById('evtSaveBtn');
-  var title=document.getElementById('ef-title').value.trim();
-  if(isNewEvent) evtDocId=generateCleanEventId(title);
-  var date=document.getElementById('ef-date').value;
-  if(!title||!date){ showNotice('evtNotice','error','Title and date are required.'); return; }
-  btn.disabled=true; btn.innerHTML=(isNewEvent?'Submitting':'Saving')+'<span class="spinner-inline"></span>';
-  var fb=window._fb;
+  var date  = document.getElementById('ef-date').value;
+  if (!title || !date) { showNotice('evtNotice','error','Title and date are required.'); return; }
+
+  btn.disabled=true;
+  btn.innerHTML=(isNewEvent ? 'Submitting' : 'Saving') + '<span class="spinner-inline"></span>';
+
+  var fb = window._fb;
   try {
-    var flyerUrl=evtFlyerState.url||'';
-    var flyerIconUrl=evtFlyerState.iconUrl||'';
-    if(evtFlyerState.stagedFile && evtFlyerState.processedDataUrl){
-      var flyerBlob=dataUrlToBlob(evtFlyerState.processedDataUrl);
-      var flyerExt=evtFlyerState.processedMime==='image/jpeg'?'.jpg':'.png';
-      var flyerRef=fb.ref(fb.storage,'events-unpublished/'+evtDocId+'/flyer'+flyerExt);
-      await fb.uploadBytes(flyerRef,flyerBlob);
-      flyerUrl=await fb.getDownloadURL(flyerRef);
-      if(evtFlyerState.processedThumbDataUrl){
-        var thumbBlob=dataUrlToBlob(evtFlyerState.processedThumbDataUrl);
-        var thumbRef=fb.ref(fb.storage,'events-unpublished/'+evtDocId+'/flyerIcon.png');
-        await fb.uploadBytes(thumbRef,thumbBlob);
-        flyerIconUrl=await fb.getDownloadURL(thumbRef);
+    /* Upload flyer + icon */
+    var flyerUrl    = evtFlyerState.url || '';
+    var flyerIconUrl = evtFlyerState.iconUrl || '';
+
+    if (evtFlyerState.stagedFile && evtFlyerState.processedDataUrl) {
+      var flyerBlob = dataUrlToBlob(evtFlyerState.processedDataUrl);
+      var flyerExt  = evtFlyerState.processedMime === 'image/jpeg' ? '.jpg' : '.png';
+      var flyerRef  = fb.ref(fb.storage, 'events/' + evtDocId + '/flyer' + flyerExt);
+      await fb.uploadBytes(flyerRef, flyerBlob);
+      flyerUrl = await fb.getDownloadURL(flyerRef);
+
+      if (evtFlyerState.processedThumbDataUrl) {
+        var thumbBlob = dataUrlToBlob(evtFlyerState.processedThumbDataUrl);
+        var thumbRef  = fb.ref(fb.storage, 'events/' + evtDocId + '/flyerIcon.png');
+        await fb.uploadBytes(thumbRef, thumbBlob);
+        flyerIconUrl = await fb.getDownloadURL(thumbRef);
       }
     }
-    var docData={
+
+    var docData = {
       title:       title,
       date:        date,
       time:        document.getElementById('ef-time').value.trim(),
@@ -1568,82 +1920,188 @@ async function submitEvent(){
       eventId:     evtDocId,
       confirmed:   -1,
     };
-    if(isNewEvent) docData.createdAt=fb.serverTimestamp();
-    else docData.updatedAt=fb.serverTimestamp();
-    await fb.setDoc(fb.doc(fb.db,'events-unpublished',evtDocId), docData);
 
-    evtData=docData;
-    evtUnpubData=docData;
-    evtFlyerState={ url:flyerUrl, iconUrl:flyerIconUrl, stagedFile:null, processedDataUrl:null, processedThumbDataUrl:null, processedMime:null };
-    evtStagedChanges={};
+    if (isNewEvent) {
+      docData.createdAt = fb.serverTimestamp();
+      await fb.setDoc(fb.doc(fb.db, 'events', evtDocId), docData);
+    } else {
+      docData.updatedAt = fb.serverTimestamp();
+      await fb.setDoc(fb.doc(fb.db, 'events', evtDocId), docData);
+    }
+
+    /* Update local state */
+    evtData = docData;
+    evtFlyerState = { url: flyerUrl, iconUrl: flyerIconUrl, stagedFile:null, processedDataUrl:null, processedThumbDataUrl:null, processedMime:null };
+    evtStagedChanges = {};
     document.querySelectorAll('#evtForm .staged-change').forEach(function(el){ el.classList.remove('staged-change'); });
-    renderEvtFlyerSection(); recountEvtChanges();
+    renderEvtFlyerSection();
+    recountEvtChanges();
 
-    if(isNewEvent){
+    if (isNewEvent) {
+      /* Show persistent ID notice */
       pushEvtIdNotice(evtDocId);
+      /* Go back to lookup/create screen */
       resetEvtToLookup();
     } else {
-      isNewEvent=false;
-      showNotice('evtNotice','success','✓ Saved to unpublished! Awaiting admin review.');
+      isNewEvent = false;
+      showNotice('evtNotice', 'success', '✓ Event updated successfully!');
     }
-  } catch(e){ showNotice('evtNotice','error','Error: '+e.message); }
+
+  } catch(e) {
+    showNotice('evtNotice','error','Error: ' + e.message);
+  }
+
   btn.disabled=false;
-  btn.textContent=isNewEvent?'Submit Event':'Update Event';
+  btn.textContent = isNewEvent ? 'Submit Event' : 'Update Event';
 }
 
 /* ── PERSISTENT EVENT ID NOTICES ── */
-function pushEvtIdNotice(id){
-  var stack=document.getElementById('evtIdNoticeStack');
-  var notice=document.createElement('div'); notice.className='evt-id-notice';
-  var body=document.createElement('div'); body.className='evt-id-notice-body';
-  var label=document.createElement('div'); label.className='evt-id-notice-label'; label.textContent='Event submitted — copy your Event ID';
-  var idEl=document.createElement('div'); idEl.className='evt-id-notice-id'; idEl.textContent=id;
-  var sub=document.createElement('div'); sub.className='evt-id-notice-sub'; sub.textContent='Keep this to load and edit your event later.';
-  body.appendChild(label); body.appendChild(idEl); body.appendChild(sub);
-  var closeBtn=document.createElement('button'); closeBtn.className='evt-id-notice-close'; closeBtn.innerHTML='&times;'; closeBtn.title='Dismiss';
-  closeBtn.onclick=function(){ notice.style.transition='opacity 0.2s,transform 0.2s'; notice.style.opacity='0'; notice.style.transform='translateY(-8px)'; setTimeout(function(){ if(stack.contains(notice))stack.removeChild(notice); },220); };
-  notice.appendChild(body); notice.appendChild(closeBtn);
+function pushEvtIdNotice(id) {
+  var stack = document.getElementById('evtIdNoticeStack');
+
+  var notice = document.createElement('div');
+  notice.className = 'evt-id-notice';
+
+  var body = document.createElement('div');
+  body.className = 'evt-id-notice-body';
+
+  var label = document.createElement('div');
+  label.className = 'evt-id-notice-label';
+  label.textContent = 'Event submitted — copy your Event ID';
+
+  var idEl = document.createElement('div');
+  idEl.className = 'evt-id-notice-id';
+  idEl.textContent = id;
+
+  var sub = document.createElement('div');
+  sub.className = 'evt-id-notice-sub';
+  sub.textContent = 'Keep this to edit the event later.';
+
+  body.appendChild(label);
+  body.appendChild(idEl);
+  body.appendChild(sub);
+
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'evt-id-notice-close';
+  closeBtn.innerHTML = '&times;';
+  closeBtn.title = 'Dismiss';
+  closeBtn.onclick = function() {
+    notice.style.animation = 'none';
+    notice.style.opacity = '0';
+    notice.style.transform = 'translateY(-8px)';
+    notice.style.transition = 'opacity 0.2s, transform 0.2s';
+    setTimeout(function(){ if (stack.contains(notice)) stack.removeChild(notice); }, 220);
+  };
+
+  notice.appendChild(body);
+  notice.appendChild(closeBtn);
+
+  /* Insert newest at top */
   stack.insertBefore(notice, stack.firstChild);
 }
 
 /* ── NOTICES ── */
-function showNotice(id, type, msg){
-  var el=document.getElementById(id);
-  el.className='notice '+type; el.textContent=msg; el.style.display='block';
-  setTimeout(function(){ el.style.display='none'; },4500);
+function showNotice(id, type, msg) {
+  var el = document.getElementById(id);
+  el.className='notice '+type;
+  el.textContent=msg;
+  el.style.display='block';
+  setTimeout(function(){ el.style.display='none'; }, 4000);
+}
+
+function clearUploadError(elId) {
+  var el = document.getElementById(elId);
+  if (el) { el.textContent=''; el.classList.remove('visible'); }
 }
 
 /* ── INIT ── */
 window.addEventListener('load', function(){
+  /* Events form starts hidden — user must click Create or load via ID */
   renderEvtLinks();
-  var fb=window._fb;
-  if(!fb)return;
+
+  var fb = window._fb;
+  if (!fb) return;
   fb.getDocs(fb.collection(fb.db,'clubs')).then(function(snap){
-    var list=document.getElementById('clubNameList');
+    var list = document.getElementById('clubNameList');
     snap.forEach(function(d){
-      allClubs.push(d.data());
-      if(d.data().name){ var opt=document.createElement('option'); opt.value=d.data().name; list.appendChild(opt); }
+      var data = d.data();
+      allClubs.push(data);
+      if (data.name) {
+        var opt = document.createElement('option');
+        opt.value = data.name;
+        list.appendChild(opt);
+      }
     });
   });
 });
 
-/* ── EXPOSE ── */
-window.switchTab            = switchTab;
-window.switchClubSubTab     = switchClubSubTab;
-window.switchEvtSubTab      = switchEvtSubTab;
-window.lookupClub           = lookupClub;
-window.createNewClub        = createNewClub;
-window.lookupEvent          = lookupEvent;
-window.startCreateEvent     = startCreateEvent;
-window.resetEvtToLookup     = resetEvtToLookup;
-window.discardChanges       = discardChanges;
-window.discardEvtChanges    = discardEvtChanges;
-window.saveClub             = saveClub;
-window.addLink              = addLink;
-window.addEvtLink           = addEvtLink;
-window.submitEvent          = submitEvent;
-window.markChanged          = markChanged;
-window.markEvtChanged       = markEvtChanged;
+    
+    /* ── CAMPUSGROUPS AUTOFILL RECEIVER ── */
+(function() {
+  var raw = sessionStorage.getItem('cg_autofill');
+  if (!raw) return;
+  sessionStorage.removeItem('cg_autofill');
+  var d;
+  try { d = JSON.parse(raw); } catch(e) { return; }
+
+  switchTab('events');
+  startCreateEvent();
+
+  function setField(id, val) {
+    var el = document.getElementById(id);
+    if (!el || !val) return;
+    el.value = val;
+    el.dispatchEvent(new Event('input'));
+    el.dispatchEvent(new Event('change'));
+  }
+
+  setTimeout(function() {
+    setField('ef-title',       d.title);
+    setField('ef-date',        d.date);
+    setField('ef-time',        d.time);
+    setField('ef-room',        d.room);
+    setField('ef-description', d.description);
+    setField('ef-club',        d.club);
+
+    if (d.flyerDataUrl && d.flyerMime) {
+      var byteString = atob(d.flyerDataUrl.split(',')[1]);
+      var arr = new Uint8Array(byteString.length);
+      for (var i = 0; i < byteString.length; i++) arr[i] = byteString.charCodeAt(i);
+      var blob = new Blob([arr], { type: d.flyerMime });
+      var file = new File([blob], 'flyer.' + (d.flyerMime === 'image/jpeg' ? 'jpg' : 'png'), { type: d.flyerMime });
+
+      var errMsg = validateImageFile(file);
+      if (!errMsg) {
+        processFile(file, true).then(function(result) {
+          evtFlyerState.stagedFile            = file;
+          evtFlyerState.processedDataUrl      = result.fullDataUrl;
+          evtFlyerState.processedThumbDataUrl = result.thumbDataUrl;
+          evtFlyerState.processedMime         = result.fullMime;
+          renderEvtFlyerSection();
+          recountEvtChanges();
+        });
+      }
+    }
+  }, 200);
+})();
+/* ── END AUTOFILL RECEIVER ── */
+    
+/* expose to inline handlers */
+window.switchTab         = switchTab;
+window.lookupClub        = lookupClub;
+window.createNewClub     = createNewClub;
+window.lookupEvent       = lookupEvent;
+window.startCreateEvent  = startCreateEvent;
+window.resetEvtToLookup  = resetEvtToLookup;
+window.initNewEventForm  = initNewEventForm;
+window.discardChanges    = discardChanges;
+window.discardEvtChanges = discardEvtChanges;
+window.saveClub          = saveClub;
+window.addLink           = addLink;
+window.addEvtLink        = addEvtLink;
+window.submitEvent       = submitEvent;
+window.markChanged       = markChanged;
+window.markEvtChanged    = markEvtChanged;
 window.renderFeaturedSection = renderFeaturedSection;
 </script>
 </body>
