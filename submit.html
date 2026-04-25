@@ -2069,30 +2069,26 @@ window.addEventListener('load', function() {
     set('ef-description', params.get('description'));
     set('ef-club',        params.get('club'));
 
-var flyerData = params.get('flyerData');
-var flyerMime = params.get('flyerMime') || 'image/jpeg';
-if (!flyerData) return;
+    var flyerData = params.get('flyerData');
+    var flyerMime = params.get('flyerMime') || 'image/jpeg';
+    if (!flyerData) return;
 
-var ext  = flyerMime === 'image/png' ? 'png' : 'jpg';
-var byteString = atob(flyerData.split(',')[1]);
-var arr = new Uint8Array(byteString.length);
-for (var i = 0; i < byteString.length; i++) arr[i] = byteString.charCodeAt(i);
-var blob = new Blob([arr], { type: flyerMime });
-var file = new File([blob], 'flyer.' + ext, { type: flyerMime });
-var err = validateImageFile(file);
-if (err) { console.warn('Autofill flyer rejected:', err); return; }
-processFile(file, true).then(function(result) {
-  evtFlyerState.stagedFile            = file;
-  evtFlyerState.processedDataUrl      = result.fullDataUrl;
-  evtFlyerState.processedThumbDataUrl = result.thumbDataUrl;
-  evtFlyerState.processedMime         = result.fullMime;
-  renderEvtFlyerSection();
-  recountEvtChanges();
-});
-      })
-      .catch(function(e) {
-        console.warn('Autofill: could not fetch flyer —', e.message);
-      });
+    var ext = flyerMime === 'image/png' ? 'png' : 'jpg';
+    var byteString = atob(flyerData.split(',')[1]);
+    var arr = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) arr[i] = byteString.charCodeAt(i);
+    var blob = new Blob([arr], { type: flyerMime });
+    var file = new File([blob], 'flyer.' + ext, { type: flyerMime });
+    var err = validateImageFile(file);
+    if (err) { console.warn('Autofill flyer rejected:', err); return; }
+    processFile(file, true).then(function(result) {
+      evtFlyerState.stagedFile            = file;
+      evtFlyerState.processedDataUrl      = result.fullDataUrl;
+      evtFlyerState.processedThumbDataUrl = result.thumbDataUrl;
+      evtFlyerState.processedMime         = result.fullMime;
+      renderEvtFlyerSection();
+      recountEvtChanges();
+    });
   });
 });
 /* ── END AUTOFILL RECEIVER v3 ── */
