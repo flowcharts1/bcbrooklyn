@@ -2036,42 +2036,50 @@ window.addEventListener('load', function(){
 });
 
     
-    /* ── CAMPUSGROUPS AUTOFILL RECEIVER ── */
-(function() {
-  var raw = sessionStorage.getItem('cg_autofill');
-  if (!raw) return;
-  sessionStorage.removeItem('cg_autofill');
-  var d;
-  try { d = JSON.parse(raw); } catch(e) { return; }
+/* ── CG AUTOFILL RECEIVER v3 ── */
+window.addEventListener('load', function() {
+  var params = new URLSearchParams(window.location.search);
+  if (!params.get('cg_autofill')) return;
 
   switchTab('events');
   startCreateEvent();
 
-  function setField(id, val) {
+  function set(id, val) {
+    if (!val) return;
     var el = document.getElementById(id);
-    if (!el || !val) return;
+    if (!el) return;
     el.value = val;
     el.dispatchEvent(new Event('input'));
     el.dispatchEvent(new Event('change'));
   }
 
-  setTimeout(function() {
-    setField('ef-title',       d.title);
-    setField('ef-date',        d.date);
-    setField('ef-time',        d.time);
-    setField('ef-room',        d.room);
-    setField('ef-description', d.description);
-    setField('ef-club',        d.club);
+  function waitFor(id, cb, tries) {
+    tries = tries || 0;
+    if (tries > 40) return;
+    var el = document.getElementById(id);
+    if (el && !el.closest('.hidden')) { cb(); return; }
+    setTimeout(function() { waitFor(id, cb, tries + 1); }, 100);
+  }
 
-    if (d.flyerDataUrl && d.flyerMime) {
-      var byteString = atob(d.flyerDataUrl.split(',')[1]);
-      var arr = new Uint8Array(byteString.length);
-      for (var i = 0; i < byteString.length; i++) arr[i] = byteString.charCodeAt(i);
-      var blob = new Blob([arr], { type: d.flyerMime });
-      var file = new File([blob], 'flyer.' + (d.flyerMime === 'image/jpeg' ? 'jpg' : 'png'), { type: d.flyerMime });
+  waitFor('ef-title', function() {
+    set('ef-title',       params.get('title'));
+    set('ef-date',        params.get('date'));
+    set('ef-time',        params.get('time'));
+    set('ef-room',        params.get('room'));
+    set('ef-description', params.get('description'));
+    set('ef-club',        params.get('club'));
 
-      var errMsg = validateImageFile(file);
-      if (!errMsg) {
+    var flyerUrl = params.get('flyerUrl');
+    if (!flyerUrl) return;
+
+    fetch(flyerUrl, { credentials: 'include', mode: 'cors' })
+      .then(function(r) { return r.blob(); })
+      .then(function(blob) {
+        var mime = blob.type || 'image/jpeg';
+        var ext  = mime === 'image/png' ? 'png' : 'jpg';
+        var file = new File([blob], 'flyer.' + ext, { type: mime });
+        var err  = validateImageFile(file);
+        if (err) { console.warn('Autofill flyer rejected:', err); return; }
         processFile(file, true).then(function(result) {
           evtFlyerState.stagedFile            = file;
           evtFlyerState.processedDataUrl      = result.fullDataUrl;
@@ -2080,11 +2088,13 @@ window.addEventListener('load', function(){
           renderEvtFlyerSection();
           recountEvtChanges();
         });
-      }
-    }
-  }, 200);
-})();
-/* ── END AUTOFILL RECEIVER ── */
+      })
+      .catch(function(e) {
+        console.warn('Autofill: could not fetch flyer —', e.message);
+      });
+  });
+});
+/* ── END AUTOFILL RECEIVER v3 ── */
     
 /* expose to inline handlers */
 window.switchTab         = switchTab;
