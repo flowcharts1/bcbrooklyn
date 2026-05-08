@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>bcbrooklyn</title>
@@ -34,10 +33,9 @@ html, body {
   height: 100%;
 }
 .mobile-bg {
-  display: block;
   position: fixed;
   top: 0; left: 0;
-  width: 100vw; height: 105vh;
+  width: 100vw; height: 110vh;
   overflow: hidden;
   z-index: -1;
   transform: translateZ(0);
@@ -77,12 +75,6 @@ body {
 }
 .title-break { display: none; }
 @media (max-width: 560px) { .title-break { display: inline; } }
-/* Mobile hero fit: undo by removing this block. Keeps 320px-wide phones near the old 2.5rem size, then scales up on wider phones. */
-@media (max-width: 560px) {
-    .hero h1 {
-        font-size: 12.5vw;
-    }
-}
 
 /* ===== PRIMARY TABS ===== */
 .primary-tabs { margin-top: 10px; }
@@ -171,13 +163,6 @@ body {
     transition: background 0.15s ease; -webkit-transition: background 0.15s ease; cursor: pointer;
 }
 .contact-btn:hover { background: white; color: var(--maroon); }
-@media (max-width: 560px) {
-    .bottom-bar {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-    }
-}
 
 /* ===================================================
    EVENTS SECTION
@@ -561,10 +546,9 @@ window._collection = collection;
 </head>
 <body>
 
-<picture class="mobile-bg">
-  <source media="(max-width: 560px) and (orientation: portrait) and (hover: none) and (pointer: coarse)" srcset="images/tallbg.jpg">
+<div class="mobile-bg">
   <img src="images/mobileimage.jpg" alt="">
-</picture>
+</div>
 
 <div class="page-wrap">
 
@@ -575,12 +559,12 @@ window._collection = collection;
 
 <!-- PRIMARY TABS -->
 <div class="primary-tabs">
-    <div id="clubsTab"  class="primary-tab" onclick="selectPrimary('clubs')">CLUBS</div>
-    <div id="eventsTab" class="primary-tab" onclick="selectPrimary('events')">EVENTS</div>
+    <div id="clubsTab" class="primary-tab" onclick="selectPrimary('clubs')">CLUBS</div>
+    <div id="eventsTab" class="primary-tab active" onclick="selectPrimary('events')">EVENTS</div>
 </div>
 
 <!-- SUB TABS (off) -->
-<div id="subTabs" class="sub-tabs">
+<div id="subTabs" class="sub-tabs" style="display: none;">
     <div id="tab1" class="sub-tab active" onclick="selectSub('tab1')">Tab1</div>
     <div id="tab2" class="sub-tab" onclick="selectSub('tab2')">Tab2</div>
     <div id="tab3" class="sub-tab" onclick="selectSub('tab3')">Tab3</div>
@@ -588,20 +572,20 @@ window._collection = collection;
 </div>
 
 <!-- CLUB LIST -->
-<div id="clubContainer"></div>
+<div id="clubContainer" style="display: none;"></div>
 
 <!-- EVENTS SECTION -->
-<div id="eventsSection">
+<div id="eventsSection" style="display: block;">
     <div class="events-controls">
         <div class="evt-timeframe-nav">
-            <button id="evtNavLeft"  class="evt-nav-arrow disabled" onclick="navTimeframe(-1)">&#8249;</button>
+            <button id="evtNavLeft" class="evt-nav-arrow" onclick="navTimeframe(-1)">‹</button>
             <div class="evt-label-clip">
-                <div id="evtLabelTrack" class="evt-label-track">
+                <div id="evtLabelTrack" class="evt-label-track" style="transition: none; transform: translateX(0px);">
                     <div class="evt-label-slot" id="evtLabelSlotA"><span class="evt-label-text">Upcoming</span></div>
                     <div class="evt-label-slot" id="evtLabelSlotB"><span class="evt-label-text"></span></div>
                 </div>
             </div>
-            <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">&#8250;</button>
+            <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">›</button>
         </div>
         <div style="position:relative;">
             <button id="evtFilterBtn" class="evt-ctrl-btn" onclick="toggleDropdown('filter')">
@@ -609,22 +593,21 @@ window._collection = collection;
             </button>
             <div id="evtFilterDrop" class="evt-dropdown filter-picker">
                 <div class="filter-opts">
-                    <button class="filter-opt selected" data-type="all"         onclick="pickFilter('all')">All</button>
-                    <button class="filter-opt" data-type="sports game"          onclick="pickFilter('sports game')">Sports Games</button>
-                    <button class="filter-opt" data-type="performance"          onclick="pickFilter('performance')">Performances</button>
-                    <button class="filter-opt" data-type="club event"           onclick="pickFilter('club event')">Club Events</button>
-                    <button class="filter-opt" data-type="other"                onclick="pickFilter('other')">Other</button>
+                    <button class="filter-opt selected" data-type="all" onclick="pickFilter('all')">All</button>
+                    <button class="filter-opt" data-type="sports game" onclick="pickFilter('sports game')">Sports Games</button>
+                    <button class="filter-opt" data-type="performance" onclick="pickFilter('performance')">Performances</button>
+                    <button class="filter-opt" data-type="club event" onclick="pickFilter('club event')">Club Events</button>
+                    <button class="filter-opt" data-type="other" onclick="pickFilter('other')">Other</button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="eventContainer"></div>
+    <div id="eventContainer"><div class="evt-day-head">Friday May 8</div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FCrossingDividesF_o8buqvmq%2FflyerIcon.png?alt=media&amp;token=51f37295-833f-49d4-a16f-eb0e50b73523" alt=""></div><div class="evt-text"><div class="evt-title">Crossing Divides Festival</div><div class="evt-meta">7:30 Pm  ·  New Workshop Theater</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSoftballvsNo4Hun_zx2s56ua%2FflyerIcon.png?alt=media&amp;token=8740c7a5-92a5-4433-aefe-77e9a567baf9" alt=""></div><div class="evt-text"><div class="evt-title" style="font-size: 0.78rem;">Softball vs Hunter CUNYAC Championship</div><div class="evt-meta">11:00 am  ·  Brooklyn College Field</div></div></div><div class="evt-day-head">Tuesday May 12</div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBCABoardMeeting_3ymi4no7%2FflyerIcon.png?alt=media&amp;token=9715ec39-04fa-41fa-994e-f8d498cfb8eb" alt=""></div><div class="evt-text"><div class="evt-title">BCA Board Meeting</div><div class="evt-meta">11 AM – 12 PM  ·  State Lounge (5th Fl), Student Center building</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FCrochetandChill_vq5b025d%2FflyerIcon.png?alt=media&amp;token=e1ed8b13-cd56-4283-b83d-2574f1b28093" alt=""></div><div class="evt-text"><div class="evt-title">Crochet and Chill</div><div class="evt-meta">12:15 PM – 2:15 PM  ·  International Room</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FLightMusicClubGe_31c7lzzr%2FflyerIcon.png?alt=media&amp;token=8a79ad26-56e4-4ef8-b159-718ffc3ffc7f" alt=""></div><div class="evt-text"><div class="evt-title">Light Music Club General Meeting</div><div class="evt-meta">12:15 PM – 2:15 PM  ·  Roosevelt Extension 121</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FTheCafecitoLoung_8yumoegv%2FflyerIcon.png?alt=media&amp;token=e6e5bd7b-275e-4228-b6ca-cae874d4889a" alt=""></div><div class="evt-text"><div class="evt-title" style="font-size: 0.78rem;">The Cafecito Lounge #6: Celebrating Our Collective Stories</div><div class="evt-meta">12:15 PM – 2:15 PM  ·  Georgian Room</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FASLCertification_32ooo3a9%2FflyerIcon.png?alt=media&amp;token=56767086-8474-4157-8b7e-81861d4b0e34" alt=""></div><div class="evt-text"><div class="evt-title">ASL Certification Event</div><div class="evt-meta">12:30 PM – 2 PM  ·  MARONEY-LEDDY-4th floor</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FFramesFarewells_4lohbdfe%2FflyerIcon.png?alt=media&amp;token=c90b501f-7a00-4c66-8c2f-b40df6d6af70" alt=""></div><div class="evt-text"><div class="evt-title">Frames &amp; Farewells</div><div class="evt-meta">12:30 PM – 2 PM  ·  Tanger Hillel</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSociologyClubFin_lm8oh5ac%2FflyerIcon.png?alt=media&amp;token=fb1c8dce-2b39-4c9d-9d34-68b4d0caa09d" alt=""></div><div class="evt-text"><div class="evt-title">Sociology Club Finals &amp; Chill</div><div class="evt-meta">12:30 PM – 2 PM  ·  3602 James Hall Sociology Club Lounge</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSpeechDebateInte_qmkzwema%2FflyerIcon.png?alt=media&amp;token=0d9a01be-ba52-4d99-8331-640ba63d3301" alt=""></div><div class="evt-text"><div class="evt-title">Speech &amp; Debate Interest Meeting</div><div class="evt-meta">12:30 PM – 2 PM  ·  AMERSFORT ROOM</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBCICMeeting10LAS_csi5101v%2FflyerIcon.png?alt=media&amp;token=10d6d3b0-2357-4296-9f8b-0e3131fb409d" alt=""></div><div class="evt-text"><div class="evt-title">BCIC Meeting #10 (LAST MEETING)</div><div class="evt-meta">12:45 PM – 1:45 PM  ·  WEB Lab Room 105</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSenateMeetingUSG_azxesfo7%2FflyerIcon.png?alt=media&amp;token=65ac1916-e8ca-4688-918d-ec619e6101f1" alt=""></div><div class="evt-text"><div class="evt-title">Senate Meeting - USG</div><div class="evt-meta">1 PM – 1 PM  ·  3/17 Alumni Rm. 3/31 &amp; 4/14 Jefferson Williams, 4/28 &amp; 5/5 Alumni, 5/12 Bedford</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSupremeSteppersP_0z65pgmt%2FflyerIcon.png?alt=media&amp;token=e1600db1-465d-4ef6-b557-b6a884d568a2" alt=""></div><div class="evt-text"><div class="evt-title">Supreme Steppers Practice</div><div class="evt-meta">4 PM – 8 PM  ·  Student Center Maroney Leddy-4th floor</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2F2016Rewind_h4vudbbi%2FflyerIcon.png?alt=media&amp;token=e17f9ae7-d421-4247-9cff-76e8f9c5cb65" alt=""></div><div class="evt-text"><div class="evt-title">2016 Rewind - USG</div><div class="evt-meta">5 PM – 8 PM  ·  Student Center Occidental room-5th floor/Gold room 6th floor</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBlackDiasporaGam_ei4wgbz9%2FflyerIcon.png?alt=media&amp;token=547fff8d-14e0-4e47-a644-873106b65a88" alt=""></div><div class="evt-text"><div class="evt-title">Black Diaspora Game Night</div><div class="evt-meta">5 PM – 8 PM  ·  GLENWOOD ROOM</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FEESCEndofYearPar_6m0onxhp%2FflyerIcon.png?alt=media&amp;token=692cc2ef-9061-4a36-adee-7cc212abb699" alt=""></div><div class="evt-text"><div class="evt-title">EESC End of Year Party</div><div class="evt-meta">5 PM – 7 PM  ·  STATE ROOM</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FMarriageinIslamF_v427d5mn%2FflyerIcon.png?alt=media&amp;token=761ad3b8-16a8-4216-a5be-5da9f1bdcdeb" alt=""></div><div class="evt-text"><div class="evt-title" style="font-size: 0.78rem;">Marriage in Islam: Foundations for a Strong Marriage</div><div class="evt-meta">5 PM – 7 PM  ·  ALUMNI ROOM-4TH FLOOR</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSalsayMas_588w1lrp%2FflyerIcon.png?alt=media&amp;token=cd0ce6bb-9c36-4b19-bf88-988d019a92df" alt=""></div><div class="evt-text"><div class="evt-title">Salsa y Mas</div><div class="evt-meta">7 PM – 9:30 PM  ·  Jefferson-Williams, 4th floor</div></div></div><div class="evt-day-head">Wednesday May 13</div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FAceAroAffinityGr_yk8gfvp1%2FflyerIcon.png?alt=media&amp;token=651e021b-2a1d-4a40-90c1-5571f1ce0e50" alt=""></div><div class="evt-text"><div class="evt-title">Ace/Aro Affinity Group</div><div class="evt-meta">12:30 PM – 1:30 PM  ·  Student Center, Aviary Conference Room, Room 407</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBulldogAchieveme_hqyp9rho%2FflyerIcon.png?alt=media&amp;token=2b697878-1b38-41be-8a23-9e6cac319ff4" alt=""></div><div class="evt-text"><div class="evt-title" style="font-size: 0.78rem;">Bulldog Achievement Awards Dinner</div><div class="evt-meta">6 PM – 8 PM  ·  Gold Room, 6th Floor Student Center</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FClubOperationsCo_ov4xteg9%2FflyerIcon.png?alt=media&amp;token=ec59c7b9-5136-4c09-92cf-0983f3ef02ac" alt=""></div><div class="evt-text"><div class="evt-title">Club Operations Council Meeting</div><div class="evt-meta">6 PM – 8 PM  ·  USG Office</div></div></div><div class="evt-day-head">Thursday May 14</div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FMaidCafe_11wyryll%2FflyerIcon.png?alt=media&amp;token=0aeadbb8-4b78-47b8-8cf6-4887359956d3" alt=""></div><div class="evt-text"><div class="evt-title">Maid Cafe</div><div class="evt-meta">12 PM – 4 PM  ·  GLENWOOD ROOM</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSpiritualPathsAr_0dyo9ebv%2FflyerIcon.png?alt=media&amp;token=6dc75dad-dc72-4b81-b69c-e1491ee0704c" alt=""></div><div class="evt-text"><div class="evt-title">Spiritual Paths Aren’t Straight</div><div class="evt-meta">12:15 PM – 2:15 PM  ·  Student Center, 219</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBadmintonClubWee_obtuhfhw%2FflyerIcon.png?alt=media&amp;token=ae40734e-6fab-4d9d-8162-9d95d51f497d" alt=""></div><div class="evt-text"><div class="evt-title">Badminton Club Weekly Meetings</div><div class="evt-meta">12:30 PM – 3:30 PM  ·  200 Roosevelt Extension</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSUNYDownstateinf_qsp95t72%2FflyerIcon.png?alt=media&amp;token=3f51290b-4a99-4c65-8fa5-0647763e2f6f" alt=""></div><div class="evt-text"><div class="evt-title">SUNY Downstate- info session</div><div class="evt-meta">12:30 PM – 2:15 PM  ·  3143 Ingersoll hall</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FTimeforSeniorDay_cwf6oovg%2FflyerIcon.png?alt=media&amp;token=bfe900da-5187-4e1f-862a-3a7ccd5a8cf6" alt=""></div><div class="evt-text"><div class="evt-title">Time for Senior Day</div><div class="evt-meta">12:30 PM – 2 PM  ·  Occidental &amp; International</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSupremeSteppersP_wmiyahdc%2FflyerIcon.png?alt=media&amp;token=c6c53ef2-f240-4430-b265-011d548e1cf5" alt=""></div><div class="evt-text"><div class="evt-title">Supreme Steppers Practice</div><div class="evt-meta">4 PM – 8 PM  ·  Student Center Maroney-Leddy-4th floor</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FTheGraduateCeleb_okxxkh1w%2FflyerIcon.png?alt=media&amp;token=fd80ed34-533c-4309-a6ae-857e8a54806d" alt=""></div><div class="evt-text"><div class="evt-title">The Graduate Celebration</div><div class="evt-meta">5:30 PM – 8 PM  ·  BEDFORD ROOM</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBeyondtheAirwave_1ld2huhn%2FflyerIcon.png?alt=media&amp;token=efb110c8-60be-4181-aa90-cfac690f72af" alt=""></div><div class="evt-text"><div class="evt-title">Beyond the Airwaves</div><div class="evt-meta">6 PM – 10 PM  ·  Lower Level Basement-Club Room</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FEndOfYearBarbequ_pap91xun%2FflyerIcon.png?alt=media&amp;token=999b40e5-b630-4b0c-abbd-1c6851de03ee" alt=""></div><div class="evt-text"><div class="evt-title">End Of Year Barbeque Party</div><div class="evt-meta">6 PM – 9 PM  ·  Tanger Hillel</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FExecutiveCabinet_8l1xbfg9%2FflyerIcon.png?alt=media&amp;token=19b703d0-03a9-4fbd-aea2-aabbfcc56d7a" alt=""></div><div class="evt-text"><div class="evt-title">Executive Cabinet Meeting</div><div class="evt-meta">6 PM – 7 PM  ·  311 Student Center</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FEnhancingHERSoir_6qqveb9g%2FflyerIcon.png?alt=media&amp;token=1fa5e3a8-2138-41e2-a247-647494bab147" alt=""></div><div class="evt-text"><div class="evt-title">Enhancing HER Soirée</div><div class="evt-meta">7 PM – 9 PM  ·  TBD</div></div></div><div class="evt-day-head">Friday May 15</div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FBadmintonClubWee_w61eq2yu%2FflyerIcon.png?alt=media&amp;token=0532435a-b84e-4a12-a7b3-4230a0f91705" alt=""></div><div class="evt-text"><div class="evt-title">Badminton Club Weekly Meetings</div><div class="evt-meta">12:30 PM – 3:30 PM  ·  200 Roosevelt Extension</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FGIOPPicnicintheP_vlw2lgzc%2FflyerIcon.png?alt=media&amp;token=bfce0660-5bcd-4485-b23e-728f076be89c" alt=""></div><div class="evt-text"><div class="evt-title">GIOP: Picnic in the Park</div><div class="evt-meta">2 PM – 6 PM  ·  Central Park, The Great Lawn</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FMFASpringEndofYe_1z0klf2n%2FflyerIcon.png?alt=media&amp;token=46e593e1-f647-4cec-928b-67614cf90c9b" alt=""></div><div class="evt-text"><div class="evt-title">MFA Spring End of Year Bash</div><div class="evt-meta">5 PM – 9 PM  ·  4200 Boylan</div></div></div><div class="evt-box"><div class="evt-icon-wrap"><img class="evt-icon-img" src="https://firebasestorage.googleapis.com/v0/b/bcbrooklyn-data.firebasestorage.app/o/events%2FSunsetOnTheHoriz_2omn2p9m%2FflyerIcon.png?alt=media&amp;token=e1053841-7005-4ab0-bd1a-7073da561f4a" alt=""></div><div class="evt-text"><div class="evt-title" style="font-size: 0.78rem;">Sunset On The Horizon: Vanguard End-of-Semester Reception</div><div class="evt-meta">6 PM – 9 PM  ·  Tow Atrium</div></div></div></div>
 </div>
 
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
-    <span class="spinner"
-      onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">bcbrooklyn</span>
+    <span class="spinner" onclick="this.classList.remove('spin'); void this.offsetWidth; this.classList.add('spin');">bcbrooklyn</span>
     <span data-email="bcbrooklyn55@gmail.com" class="contact-btn email">Contact Me</span>
 </div>
 
@@ -1513,5 +1496,6 @@ function closeFlyerExpand() {
     setTimeout(function(){ el.style.display = "none"; }, 220);
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
