@@ -77,12 +77,8 @@ body {
 }
 .title-break { display: none; }
 @media (max-width: 560px) { .title-break { display: inline; } }
-/* Mobile proportional scale: undo by removing this block.
-   320px-wide phones stay at the old size; wider phones scale title/text up gradually. */
+/* Mobile hero fit: undo by removing this block. Keeps 320px-wide phones near the old 2.5rem size, then scales up on wider phones. */
 @media (max-width: 560px) {
-    html {
-        font-size: clamp(100%, calc(54.286% + 2.286vw), 110%);
-    }
     .hero h1 {
         font-size: 12.5vw;
     }
