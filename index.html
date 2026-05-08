@@ -34,9 +34,10 @@ html, body {
   height: 100%;
 }
 .mobile-bg {
+  display: block;
   position: fixed;
   top: 0; left: 0;
-  width: 100vw; height: 110vh;
+  width: 100vw; height: 105vh;
   overflow: hidden;
   z-index: -1;
   transform: translateZ(0);
@@ -554,9 +555,10 @@ window._collection = collection;
 </head>
 <body>
 
-<div class="mobile-bg">
+<picture class="mobile-bg">
+  <source media="(max-width: 560px) and (orientation: portrait) and (hover: none) and (pointer: coarse)" srcset="images/tallbg.jpg">
   <img src="images/mobileimage.jpg" alt="">
-</div>
+</picture>
 
 <div class="page-wrap">
 
