@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>bcbrooklyn</title>
+<link rel="icon" type="image/png" href="images/bulldog.png">
 
 <style>
 :root {
@@ -163,6 +164,13 @@ body {
     transition: background 0.15s ease; -webkit-transition: background 0.15s ease; cursor: pointer;
 }
 .contact-btn:hover { background: white; color: var(--maroon); }
+@media (max-width: 560px) {
+    .bottom-bar {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+}
 
 /* ===================================================
    EVENTS SECTION
@@ -1066,6 +1074,13 @@ function fmtTime(t) {
     var h12 = h % 12 || 12;
     return h12 + (m ? ":"+padZ(m) : "") + " " + suffix;
 }
+function sortableStarttime(evt) {
+    if (!evt || evt.starttime === undefined || evt.starttime === null || evt.starttime === "") return null;
+    var value = String(evt.starttime).trim();
+    if (!/^\d{1,4}$/.test(value)) return null;
+    value = value.padStart(4, "0");
+    return /^\d{4}$/.test(value) ? value : null;
+}
 function isEventExpired(evt) { return false; }
 function getMondayOf(d) {
     var day = d.getDay();
@@ -1155,16 +1170,16 @@ function getDisplayEvents() {
         if (evtSelectedFilter !== "all") list = list.filter(function(e){ return e.type === evtSelectedFilter; });
     }
     list.sort(function(a, b) {
-    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
 
-    var pa = (a.priority ?? 4);
-    var pb = (b.priority ?? 4);
-    if (pa !== pb) return pa - pb;
+        var at = sortableStarttime(a);
+        var bt = sortableStarttime(b);
+        if (at && bt && at !== bt) return at < bt ? -1 : 1;
+        if (at && !bt) return -1;
+        if (!at && bt) return 1;
 
-    if (a.startTime !== b.startTime) return a.startTime < b.startTime ? -1 : 1;
-
-    return 0;
-});
+        return 0;
+    });
     return list;
 }
 
@@ -1270,7 +1285,9 @@ function buildDetailBody(evt) {
 
     info.textContent = fmtHeading(evt.date) + "  ·  " + (evt.time || "") + "  ·  " + evt.room;
     var club = document.createElement("div"); club.className = "evt-detail-club"; club.textContent = evt.club || "";
+    var linksEl = buildEventLinks(evt);
 
+    /*
     var close = document.createElement("button"); close.className = "evt-close-btn"; close.textContent = "CLOSE \u2715";
     var holdActive = false;
     function onHoldStart() { holdActive = true; close.classList.add("holding"); }
@@ -1287,10 +1304,39 @@ function buildDetailBody(evt) {
         if (touch.clientX < rect.left-10 || touch.clientX > rect.right+10 ||
             touch.clientY < rect.top-10  || touch.clientY > rect.bottom+10) onHoldAbort();
     }, {passive:true});
+    */
 
     body.appendChild(t); body.appendChild(desc); body.appendChild(info);
-    body.appendChild(club); body.appendChild(close);
+    body.appendChild(club);
+    if (linksEl.children.length) body.appendChild(linksEl);
+    /* body.appendChild(close); */
     return body;
+}
+
+function buildEventLinks(evt) {
+    var linksEl = document.createElement("div");
+    linksEl.className = "club-detail-links";
+
+    var links = [];
+    if (evt.links && evt.links.length) {
+        links = evt.links;
+    } else if (evt.link) {
+        links = [{ label: "Register/Info", url: evt.link }];
+    }
+
+    for (var li = 0; li < links.length; li++) {
+        if (!links[li].url) continue;
+        var lnk = document.createElement("a");
+        lnk.className = "club-detail-link";
+        lnk.href = links[li].url;
+        lnk.target = "_blank";
+        lnk.rel = "noopener noreferrer";
+        lnk.textContent = links[li].label || "Register/Info";
+        lnk.onclick = function(e){ e.stopPropagation(); };
+        linksEl.appendChild(lnk);
+    }
+
+    return linksEl;
 }
 
 function closeEvtDetail() {
@@ -1323,6 +1369,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var t = e.target;
             if (t.closest(".evt-close-btn"))    return;
             if (t.closest(".evt-detail-flyer")) return;
+            if (t.closest(".club-detail-link")) return;
             e.stopPropagation();
             e.preventDefault();
             closeEvtDetail();
