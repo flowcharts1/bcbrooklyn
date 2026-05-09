@@ -15,7 +15,7 @@
     --yellow: #f4c542;
     --light-yellow: #fff6d6;
     --box-spacing: 15px;
-    --inactive-club-opacity: 0.92;
+    --inactive-club-opacity: 0.93;
 }
 * {
     margin: 0;
@@ -127,6 +127,23 @@ body {
 #clubContainer {
     width: 90%; max-width: 1000px;
     margin: 10px auto;
+}
+#clubSection {
+    width: 90%; max-width: 1000px;
+    margin: 12px auto 0;
+}
+.club-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 4px;
+    margin-bottom: 10px;
+    position: relative;
+}
+#clubSection #clubContainer {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
 }
 .club-box {
     background: white;
@@ -636,7 +653,25 @@ window._collection = collection;
 </div>
 
 <!-- CLUB LIST -->
-<div id="clubContainer"></div>
+<div id="clubSection">
+    <div class="club-controls">
+        <div style="position:relative;">
+            <button id="clubFilterBtn" class="evt-ctrl-btn" onclick="toggleClubDropdown()">
+                Filters <span class="arrow">&#9662;</span>
+            </button>
+            <div id="clubFilterDrop" class="evt-dropdown filter-picker">
+                <div class="filter-opts">
+                    <button class="filter-opt club-filter-opt selected" data-type="all" onclick="pickClubFilter('all')">All</button>
+                    <button class="filter-opt club-filter-opt" data-type="Hobby/Creative" onclick="pickClubFilter('Hobby/Creative')">Hobby/Creative</button>
+                    <button class="filter-opt club-filter-opt" data-type="Social/Civic" onclick="pickClubFilter('Social/Civic')">Social/Civic</button>
+                    <button class="filter-opt club-filter-opt" data-type="Academic" onclick="pickClubFilter('Academic')">Academic</button>
+                    <button class="filter-opt club-filter-opt" data-type="Cultural" onclick="pickClubFilter('Cultural')">Cultural</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="clubContainer"></div>
+</div>
 
 <!-- EVENTS SECTION -->
 <div id="eventsSection">
@@ -657,11 +692,11 @@ window._collection = collection;
             </button>
             <div id="evtFilterDrop" class="evt-dropdown filter-picker">
                 <div class="filter-opts">
-                    <button class="filter-opt selected" data-type="all"         onclick="pickFilter('all')">All</button>
-                    <button class="filter-opt" data-type="sports game"          onclick="pickFilter('sports game')">Sports Games</button>
-                    <button class="filter-opt" data-type="performance"          onclick="pickFilter('performance')">Performances</button>
-                    <button class="filter-opt" data-type="club event"           onclick="pickFilter('club event')">Club Events</button>
-                    <button class="filter-opt" data-type="other"                onclick="pickFilter('other')">Other</button>
+                    <button class="filter-opt evt-filter-opt selected" data-type="all"         onclick="pickFilter('all')">All</button>
+                    <button class="filter-opt evt-filter-opt" data-type="sports game"          onclick="pickFilter('sports game')">Sports Games</button>
+                    <button class="filter-opt evt-filter-opt" data-type="performance"          onclick="pickFilter('performance')">Performances</button>
+                    <button class="filter-opt evt-filter-opt" data-type="club event"           onclick="pickFilter('club event')">Club Events</button>
+                    <button class="filter-opt evt-filter-opt" data-type="other"                onclick="pickFilter('other')">Other</button>
                 </div>
             </div>
         </div>
@@ -699,6 +734,8 @@ var primarySelected = "clubs";
 var subSelected = "tab1";
 var clubDataJSON  = [];   /* flat array from clubs.json */
 var showInactiveClubs = false;
+var clubSelectedFilter = "all";
+var clubDropOpen = false;
 var _labelTimer   = null;
 
 /* ===== EVENTS STATE ===== */
@@ -717,13 +754,13 @@ function selectPrimary(tab) {
     document.getElementById(tab + "Tab").classList.add("active");
 
     if (tab === "clubs") {
-        document.getElementById("subTabs").style.display    = "block";
-        document.getElementById("clubContainer").style.display = "block";
+        document.getElementById("subTabs").style.display    = "none";
+        document.getElementById("clubSection").style.display = "block";
         document.getElementById("eventsSection").style.display = "none";
         renderClubs();
     } else {
         document.getElementById("subTabs").style.display    = "none";
-        document.getElementById("clubContainer").style.display = "none";
+        document.getElementById("clubSection").style.display = "none";
         document.getElementById("eventsSection").style.display = "block";
         renderEvents();
     }
@@ -741,6 +778,15 @@ function selectSub(tab) {
 /* ================= RENDER CLUB LIST ================= */
 function isActiveClub(club) {
     return !(club && (club.active === false || club.inactive === true));
+}
+
+function normalizeClubTypes(value) {
+    return Array.isArray(value) ? value : (value ? [value] : []);
+}
+
+function clubMatchesFilter(club) {
+    if (clubSelectedFilter === "all") return true;
+    return normalizeClubTypes(club.type).indexOf(clubSelectedFilter) !== -1;
 }
 
 function normalizeClubMatch(value) {
@@ -814,8 +860,9 @@ function renderInactiveDivider(container) {
 function renderClubs() {
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
-    var activeList = clubDataJSON.filter(isActiveClub).sort(compareClubNames);
-    var inactiveList = clubDataJSON.filter(function(club){ return !isActiveClub(club); }).sort(compareClubNames);
+    var filteredClubs = clubDataJSON.filter(clubMatchesFilter);
+    var activeList = filteredClubs.filter(isActiveClub).sort(compareClubNames);
+    var inactiveList = filteredClubs.filter(function(club){ return !isActiveClub(club); }).sort(compareClubNames);
     if (!activeList.length && !inactiveList.length) return;
     for (var i = 0; i < activeList.length; i++) {
         container.appendChild(renderClubBox(activeList[i], false));
@@ -829,6 +876,39 @@ function renderClubs() {
             container.appendChild(renderClubBox(inactiveList[j], true));
         }
     }
+}
+
+function pickClubFilter(type) {
+    clubSelectedFilter = type;
+    showInactiveClubs = false;
+    var flBtn = document.getElementById("clubFilterBtn");
+    if (flBtn) flBtn.innerHTML = (type === "all" ? "Filters" : type) + ' <span class="arrow">\u25be</span>';
+    var opts = document.querySelectorAll(".club-filter-opt");
+    for (var i = 0; i < opts.length; i++) {
+        opts[i].classList.toggle("selected", opts[i].getAttribute("data-type") === type);
+    }
+    closeClubDropdown();
+    renderClubs();
+}
+
+function toggleClubDropdown() {
+    var filterBox = document.getElementById("clubFilterDrop");
+    var flBtn     = document.getElementById("clubFilterBtn");
+    if (!filterBox || !flBtn) return;
+    if (clubDropOpen) {
+        filterBox.classList.remove("open"); flBtn.classList.remove("open"); clubDropOpen = false;
+    } else {
+        closeDropdowns();
+        filterBox.classList.add("open"); flBtn.classList.add("open"); clubDropOpen = true;
+    }
+}
+
+function closeClubDropdown() {
+    var filterBox = document.getElementById("clubFilterDrop");
+    var flBtn     = document.getElementById("clubFilterBtn");
+    if (filterBox) filterBox.classList.remove("open");
+    if (flBtn)     flBtn.classList.remove("open");
+    clubDropOpen = false;
 }
 
 /* ================= INITIAL LOAD ================= */
@@ -1570,7 +1650,7 @@ function pickFilter(type) {
     evtSelectedFilter = type;
     var flBtn = document.getElementById("evtFilterBtn");
     if (flBtn) flBtn.innerHTML = (type === "all" ? "Filters" : filterLabel(type)) + ' <span class="arrow">\u25be</span>';
-    var opts = document.querySelectorAll(".filter-opt");
+    var opts = document.querySelectorAll(".evt-filter-opt");
     for (var i = 0; i < opts.length; i++) {
         opts[i].classList.toggle("selected", opts[i].getAttribute("data-type") === type);
     }
@@ -1588,6 +1668,7 @@ function toggleDropdown(which) {
     if (evtDropOpen === which) {
         filterBox.classList.remove("open"); flBtn.classList.remove("open"); evtDropOpen = null;
     } else {
+        closeClubDropdown();
         filterBox.classList.add("open"); flBtn.classList.add("open"); evtDropOpen = which;
     }
 }
@@ -1601,11 +1682,16 @@ function closeDropdowns() {
 }
 
 document.addEventListener("click", function(e) {
-    if (evtDropOpen === null) return;
-    var filterDrop = document.getElementById("evtFilterDrop");
-    var flBtn      = document.getElementById("evtFilterBtn");
-    if (!filterDrop) return;
-    if (!filterDrop.contains(e.target) && !flBtn.contains(e.target)) closeDropdowns();
+    if (evtDropOpen !== null) {
+        var filterDrop = document.getElementById("evtFilterDrop");
+        var flBtn      = document.getElementById("evtFilterBtn");
+        if (filterDrop && !filterDrop.contains(e.target) && !flBtn.contains(e.target)) closeDropdowns();
+    }
+    if (clubDropOpen) {
+        var clubDrop = document.getElementById("clubFilterDrop");
+        var clubBtn  = document.getElementById("clubFilterBtn");
+        if (clubDrop && !clubDrop.contains(e.target) && !clubBtn.contains(e.target)) closeClubDropdown();
+    }
 });
 
 /* ===== FLYER EXPAND ===== */
