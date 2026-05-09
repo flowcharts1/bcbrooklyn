@@ -369,7 +369,7 @@ body {
     overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 #clubOverlay.active {
-    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.82);
+    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.88);
 }
 .club-detail {
     position: relative; margin: 40px auto 60px;
@@ -435,11 +435,11 @@ body {
     color: rgba(255,255,255,0.97); margin-bottom: 3px;
 }
 .club-detail-subtitle {
-    font-size: 0.82rem; color: rgba(255,255,255,0.6);
+    font-size: 1.05rem; color: rgba(255, 255, 255, 0.78);
     margin-bottom: 10px; font-style: italic;
 }
 .club-detail-desc {
-    font-size: 1rem; line-height: 1.55;
+    font-size: 0.85rem; line-height: 1.55;
     color: rgba(255,255,255,0.82); margin-bottom: 14px;
     white-space: pre-line; text-align: center;
 }
@@ -868,7 +868,7 @@ function buildClubBody(club, detail) {
     /* ---- Inner section: Events / Gallery ---- */
     var hasGallery = club.galleryImages && club.galleryImages.length > 1;
 
-var clubEvents = eventsDataJSON.filter(function(e){ return e.clubId === club.clubId; });
+var clubEvents = club.clubId ? eventsDataJSON.filter(function(e){ return e.clubId === club.clubId; }) : [];
     /* Only show events that have a loadable flyer — we'll validate lazily via onerror */
     var hasEvents = clubEvents.length > 0;
 
