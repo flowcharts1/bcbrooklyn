@@ -694,10 +694,27 @@ function selectSub(tab) {
 }
 
 /* ================= RENDER CLUB LIST ================= */
+function isActiveClub(club) {
+    return !(club && (club.active === false || club.inactive === true));
+}
+
+function normalizeClubMatch(value) {
+    return String(value || "").toLowerCase().replace(/\s+/g, "");
+}
+
+function eventMatchesClub(evt, club) {
+    var eventClubName = normalizeClubMatch(evt.club);
+    var eventClubId = normalizeClubMatch(evt.clubId);
+    var clubName = normalizeClubMatch(club.name || club.clubName);
+    var clubId = normalizeClubMatch(club.clubId);
+    return !!eventClubName && (eventClubName === clubName || eventClubName === clubId) ||
+           !!eventClubId && (eventClubId === clubId || eventClubId === clubName);
+}
+
 function renderClubs() {
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
-    var list = clubDataJSON;
+    var list = clubDataJSON.filter(isActiveClub);
     if (!list.length) return;
     for (var i = 0; i < list.length; i++) {
         var club = list[i];
@@ -868,7 +885,7 @@ function buildClubBody(club, detail) {
     /* ---- Inner section: Events / Gallery ---- */
     var hasGallery = club.galleryImages && club.galleryImages.length > 1;
 
-var clubEvents = club.clubId ? eventsDataJSON.filter(function(e){ return e.clubId === club.clubId; }) : [];
+    var clubEvents = eventsDataJSON.filter(function(e){ return eventMatchesClub(e, club); });
     /* Only show events that have a loadable flyer — we'll validate lazily via onerror */
     var hasEvents = clubEvents.length > 0;
 
