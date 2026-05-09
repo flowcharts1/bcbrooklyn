@@ -140,7 +140,12 @@ body {
     transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
 }
 .club-box:active { opacity: 0.75; }
-.inactive-club-box { opacity: var(--inactive-club-opacity); }
+.inactive-club-box {
+    opacity: var(--inactive-club-opacity);
+    transition: none;
+    -webkit-transition: none;
+}
+.inactive-club-box:active { opacity: var(--inactive-club-opacity); }
 .club-wrapper { display: flex; align-items: center; gap: 10px; }
 .club-icon {
     width: 60px; height: 60px;
