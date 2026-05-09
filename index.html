@@ -15,6 +15,7 @@
     --yellow: #f4c542;
     --light-yellow: #fff6d6;
     --box-spacing: 15px;
+    --inactive-club-opacity: 0.92;
 }
 * {
     margin: 0;
@@ -139,6 +140,7 @@ body {
     transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
 }
 .club-box:active { opacity: 0.75; }
+.inactive-club-box { opacity: var(--inactive-club-opacity); }
 .club-wrapper { display: flex; align-items: center; gap: 10px; }
 .club-icon {
     width: 60px; height: 60px;
@@ -150,6 +152,43 @@ body {
 .club-text { flex: 1; }
 .club-line1 { font-size: 1em; font-weight: bold; margin-bottom: 1px; }
 .club-line  { font-size: 0.88em; color: #555; margin: 2px 0; }
+.inactive-club-toggle {
+    display: inline-block;
+    margin: 8px auto 16px;
+    padding: 5px 14px;
+    border: 1.5px solid rgba(255,255,255,0.7);
+    border-radius: 20px;
+    background: transparent;
+    color: white;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: bold;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.inactive-club-toggle:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: white;
+}
+.inactive-club-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 2px 0 12px;
+    color: rgba(255,255,255,0.86);
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(0,0,0,0.45);
+}
+.inactive-club-divider::before,
+.inactive-club-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.55);
+}
 
 /* spinner */
 .spinner {
@@ -654,6 +693,7 @@ window._collection = collection;
 var primarySelected = "clubs";
 var subSelected = "tab1";
 var clubDataJSON  = [];   /* flat array from clubs.json */
+var showInactiveClubs = false;
 var _labelTimer   = null;
 
 /* ===== EVENTS STATE ===== */
@@ -711,33 +751,78 @@ function eventMatchesClub(evt, club) {
            !!eventClubId && (eventClubId === clubId || eventClubId === clubName);
 }
 
+var clubNameSorter = new Intl.Collator(undefined, {
+    sensitivity: "base",
+    numeric: true,
+    ignorePunctuation: true
+});
+
+function clubSortName(club) {
+    return String(club && (club.name || club.clubName) || "").trim();
+}
+
+function compareClubNames(a, b) {
+    return clubNameSorter.compare(clubSortName(a), clubSortName(b)) ||
+           clubNameSorter.compare(String(a.clubId || ""), String(b.clubId || ""));
+}
+
+function renderClubBox(club, isInactive) {
+    var box = document.createElement("div");
+    box.className = "club-box" + (isInactive ? " inactive-club-box" : "");
+    var wrapper = document.createElement("div");
+    wrapper.className = "club-wrapper";
+    var icon = document.createElement("img");
+    icon.className = "club-icon";
+    icon.src = club.icon || "";
+    icon.onerror = function(){ this.style.display = "none"; };
+    var textEl = document.createElement("div");
+    textEl.className = "club-text";
+    textEl.innerHTML =
+        '<div class="club-line1">' + esc(club.name) + '</div>' +
+        '<div class="club-line">'  + esc(club.subtitle || "") + '</div>';
+    wrapper.appendChild(icon);
+    wrapper.appendChild(textEl);
+    box.appendChild(wrapper);
+    box.onclick = function(){ openClubDetail(club); };
+    return box;
+}
+
+function renderInactiveToggle(container) {
+    var btn = document.createElement("button");
+    btn.className = "inactive-club-toggle";
+    btn.type = "button";
+    btn.textContent = showInactiveClubs ? "hide inactive clubs" : "show inactive clubs";
+    btn.onclick = function() {
+        showInactiveClubs = !showInactiveClubs;
+        renderClubs();
+    };
+    container.appendChild(btn);
+}
+
+function renderInactiveDivider(container) {
+    var divider = document.createElement("div");
+    divider.className = "inactive-club-divider";
+    divider.textContent = "Inactive Clubs";
+    container.appendChild(divider);
+}
+
 function renderClubs() {
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
-    var list = clubDataJSON.filter(isActiveClub);
-    if (!list.length) return;
-    for (var i = 0; i < list.length; i++) {
-        var club = list[i];
-        (function(c){
-            var box = document.createElement("div");
-            box.className = "club-box";
-            var wrapper = document.createElement("div");
-            wrapper.className = "club-wrapper";
-            var icon = document.createElement("img");
-            icon.className = "club-icon";
-            icon.src = c.icon || "";
-            icon.onerror = function(){ this.style.display = "none"; };
-            var textEl = document.createElement("div");
-            textEl.className = "club-text";
-            textEl.innerHTML =
-                '<div class="club-line1">' + esc(c.name) + '</div>' +
-                '<div class="club-line">'  + esc(c.subtitle || "") + '</div>';
-            wrapper.appendChild(icon);
-            wrapper.appendChild(textEl);
-            box.appendChild(wrapper);
-            container.appendChild(box);
-            box.onclick = function(){ openClubDetail(c); };
-        })(club);
+    var activeList = clubDataJSON.filter(isActiveClub).sort(compareClubNames);
+    var inactiveList = clubDataJSON.filter(function(club){ return !isActiveClub(club); }).sort(compareClubNames);
+    if (!activeList.length && !inactiveList.length) return;
+    for (var i = 0; i < activeList.length; i++) {
+        container.appendChild(renderClubBox(activeList[i], false));
+    }
+    if (inactiveList.length) {
+        renderInactiveToggle(container);
+    }
+    if (showInactiveClubs && inactiveList.length) {
+        renderInactiveDivider(container);
+        for (var j = 0; j < inactiveList.length; j++) {
+            container.appendChild(renderClubBox(inactiveList[j], true));
+        }
     }
 }
 
