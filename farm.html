@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BcEats Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-purple: #ECE1EC;
+    --bg-purple-deep: #DCC9DE;
+    --plum: #7A5478;
+    --plum-dark: #5C3D5B;
+    --white-blob: #FFFFFF;
+    --blob-shadow: 0 3px 10px rgba(92, 61, 91, 0.16);
+    --water-blue: #3E7CB1;
+    --water-blue-light: #EAF3FA;
+    --text-dark: #2E2530;
+    --text-mid: #6B5C6A;
+    --danger: #C4433E;
+    --radius: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-purple);
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== BACKGROUND ===== */
+.page-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+.page-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.16;
+}
+.page-bg::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--bg-purple);
+    mix-blend-mode: normal;
+    opacity: 0.55;
+}
+
+/* ===== HEADER ===== */
+.header {
+    padding: 34px 20px 18px;
+    text-align: center;
+}
+.title {
+    font-family: 'Fredoka', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 7vw, 3rem);
+    color: var(--plum-dark);
+    letter-spacing: -0.5px;
+    user-select: none;
+}
+.admin-letter {
+    position: relative;
+    cursor: default;
+}
+.admin-hit {
+    position: absolute;
+    top: -6px; left: -4px;
+    right: -4px; bottom: -6px;
+    cursor: pointer;
+}
+.admin-secret-input {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px; height: 1px;
+    opacity: 0;
+    border: none;
+    padding: 0;
+    pointer-events: none;
+}
+.admin-flag {
+    display: none;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--danger);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.admin-flag.on { display: inline-block; }
+
+/* ===== BOARD HEADER ROW ===== */
+.board-row {
+    width: 92%;
+    max-width: 640px;
+    margin: 6px auto 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.board-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    letter-spacing: 0.04em;
+}
+.create-btn {
+    background: var(--plum);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(92,61,91,0.25);
+    transition: transform 0.1s ease, background 0.15s ease;
+}
+.create-btn:active { transform: scale(0.95); background: var(--plum-dark); }
+
+/* ===== BOARD CONTAINER ===== */
+.board {
+    width: 92%;
+    max-width: 640px;
+    margin: 0 auto 60px;
+    flex: 1;
+}
+
+/* ===== WATER BLOB (locked) ===== */
+.water-blob {
+    background: var(--water-blue-light);
+    border: 2px solid var(--water-blue);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: var(--blob-shadow);
+}
+.water-left { display: flex; flex-direction: column; gap: 2px; }
+.water-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--water-blue);
+}
+.water-sub {
+    font-size: 0.72rem;
+    color: var(--text-mid);
+}
+.water-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.water-icon.yes { color: #3E8E5C; }
+.water-icon.no { color: var(--danger); }
+
+/* ===== ITEM BLOBS ===== */
+.blob-list { display: flex; flex-direction: column; gap: 10px; }
+.completed-divider {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 18px 0 8px 2px;
+}
+.blob {
+    background: var(--white-blob);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--blob-shadow);
+    cursor: pointer;
+    position: relative;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+}
+.blob:active { opacity: 0.85; }
+.blob.dragging { opacity: 0.4; }
+.blob.completed { color: var(--text-mid); }
+.blob-del {
+    display: none;
+    position: absolute;
+    top: -8px; right: -8px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+    cursor: pointer;
+    z-index: 5;
+}
+body.admin-on .blob-del { display: flex; }
+.empty-msg {
+    text-align: center;
+    color: var(--text-mid);
+    font-size: 0.85rem;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+/* ===== OVERLAY (shared) ===== */
+.overlay {
+    position: fixed; inset: 0;
+    background: rgba(46, 37, 48, 0);
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease, background 0.22s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+}
+.overlay.active {
+    opacity: 1; pointer-events: auto;
+    background: rgba(46, 37, 48, 0.55);
+}
+.overlay-card {
+    background: white;
+    border-radius: 18px;
+    max-width: 440px;
+    width: 100%;
+    padding: 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    position: relative;
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+/* ===== CREATE FORM ===== */
+.field-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin: 12px 0 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.field-label:first-child { margin-top: 0; }
+input[type=text].field-input, textarea.field-input {
+    width: 100%;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    resize: none;
+}
+textarea.field-input { min-height: 74px; }
+input[type=text].field-input:focus, textarea.field-input:focus {
+    outline: none; border-color: var(--plum);
+}
+.char-count { font-weight: 400; color: #B7A7B5; }
+
+.attach-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+.attach-opt {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    cursor: pointer;
+    background: #FAF7FA;
+}
+.attach-opt.selected {
+    border-color: var(--plum);
+    color: var(--plum);
+    background: #F3EAF2;
+}
+.attach-panel { margin-top: 10px; }
+.attach-panel.hidden { display: none; }
+.img-preview {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 8px;
+}
+.img-pick-btn, .map-pick-btn {
+    display: inline-block;
+    background: #F3EAF2;
+    color: var(--plum);
+    border: 1.5px solid var(--plum);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.img-status { font-size: 0.75rem; color: var(--text-mid); margin-top: 6px; }
+.img-status.err { color: var(--danger); }
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.btn {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-primary { background: var(--plum); color: white; }
+.btn-secondary { background: #F1EBF1; color: var(--text-mid); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ===== MAP OVERLAY ===== */
+#mapOverlay .overlay-card { max-width: 480px; padding: 16px; }
+.map-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    line-height: 0;
+}
+.map-wrap img { width: 100%; display: block; pointer-events: none; }
+.map-pin {
+    position: absolute;
+    width: 22px; height: 22px;
+    margin-left: -11px; margin-top: -22px;
+    cursor: grab;
+    touch-action: none;
+}
+.map-pin svg { width: 100%; height: 100%; display: block; }
+.map-actions { display: flex; gap: 10px; margin-top: 12px; }
+.map-hint {
+    font-size: 0.72rem;
+    color: var(--text-mid);
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* ===== ITEM DETAIL OVERLAY ===== */
+.detail-title { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.detail-desc { font-size: 0.88rem; line-height: 1.5; color: var(--text-mid); white-space: pre-wrap; margin-bottom: 12px; }
+.detail-media {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 14px;
+    background: #F3EEF3;
+}
+.detail-media img { width: 100%; display: block; }
+.detail-media-map { position: relative; width: 100%; line-height: 0; }
+.detail-media-map .map-pin { cursor: default; }
+
+.complete-btn {
+    width: 100%;
+    border: 1.5px solid #3E8E5C;
+    color: #3E8E5C;
+    background: #EFF8F1;
+    border-radius: 12px;
+    padding: 11px 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.complete-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.complete-row .field-input { flex: 1; }
+.done-btn {
+    background: #3E8E5C;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: none;
+    white-space: nowrap;
+}
+.done-btn.show { display: inline-block; }
+
+/* ===== EXPANDED MEDIA ===== */
+#expandOverlay {
+    position: fixed; inset: 0;
+    background: rgba(20,15,20,0.94);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 14px;
+}
+#expandOverlay.active { display: flex; }
+#expandOverlay img { max-width: 100%; max-height: 100%; border-radius: 8px; object-fit: contain; }
+#expandOverlay .map-wrap { max-width: 92vw; max-height: 92vh; width: auto; }
+#expandOverlay .map-wrap img { max-height: 92vh; width: auto; margin: 0 auto; display: block; }
+
+/* ===== WATER MENU ===== */
+.water-menu-opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #FAF7FA;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.water-menu-opt:active { background: #F1EBF1; }
+.amount-row { display: flex; gap: 10px; margin: 10px 0; }
+.amount-opt {
+    flex: 1;
+    text-align: center;
+    padding: 9px 0;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-mid);
+}
+.amount-opt.selected { border-color: var(--water-blue); color: var(--water-blue); background: var(--water-blue-light); }
+
+.hidden-step { display: none; }
+.hidden-step.active { display: block; }
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-mid);
+    padding: 16px 0 22px;
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"><img src="images/plantsbg.jpg" alt=""></div>
+
+<div class="header">
+  <div class="title">
+    BcEats F<span class="admin-letter">a<span class="admin-hit" id="adminHit"></span></span>rm
+    <input type="tel" inputmode="numeric" maxlength="1" class="admin-secret-input" id="adminSecretInput" autocomplete="off">
+  </div>
+  <div class="admin-flag" id="adminFlag">Admin mode on</div>
+</div>
+
+<div class="board-row">
+  <div class="board-label">-Bulletin Board-</div>
+  <button class="create-btn" id="createBtn">+ Create</button>
+</div>
+
+<div class="board">
+  <div class="water-blob" id="waterBlob">
+    <div class="water-left">
+      <div class="water-title">Was farm watered today?</div>
+      <div class="water-sub" id="waterSub">Loading…</div>
+    </div>
+    <div class="water-icon" id="waterIcon">…</div>
+  </div>
+
+  <div class="blob-list" id="blobList"></div>
+</div>
+
+<div class="footer">BcEats Farm · Brooklyn College Community Garden</div>
+
+<!-- ===== CREATE OVERLAY ===== -->
+<div class="overlay" id="createOverlay">
+  <div class="overlay-card">
+    <div class="field-label">Title <span class="char-count"><span id="titleCount">0</span>/50</span></div>
+    <input type="text" class="field-input" id="titleInput" maxlength="50" placeholder="What's this about?">
+
+    <div class="field-label">Description <span class="char-count"><span id="descCount">0</span>/300</span></div>
+    <textarea class="field-input" id="descInput" maxlength="300" placeholder="Add details..."></textarea>
+
+    <div class="field-label">Attach (optional)</div>
+    <div class="attach-toggle">
+      <div class="attach-opt" id="attachNoneOpt">None</div>
+      <div class="attach-opt" id="attachImageOpt">Image</div>
+      <div class="attach-opt" id="attachMapOpt">Map</div>
+    </div>
+
+    <div class="attach-panel hidden" id="imagePanel">
+      <input type="file" accept="image/*" id="imageFileInput" style="display:none">
+      <div class="img-pick-btn" id="imagePickBtn">Choose photo</div>
+      <div class="img-status" id="imgStatus"></div>
+      <img class="img-preview" id="imgPreview" style="display:none">
+    </div>
+
+    <div class="attach-panel hidden" id="mapPanel">
+      <div class="map-pick-btn" id="mapPickBtn">Place pins on map</div>
+      <div class="img-status" id="mapStatus"></div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-secondary" id="createCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="createSubmitBtn">Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAP PIN-PLACEMENT OVERLAY ===== -->
+<div class="overlay" id="mapOverlay">
+  <div class="overlay-card">
+    <div class="map-wrap" id="mapWrap">
+      <img src="images/farmmap.png" alt="Farm map" id="mapImg" draggable="false">
+    </div>
+    <div class="map-hint">Tap to add a pin · drag to move · tap a pin again to remove</div>
+    <div class="map-actions">
+      <button class="btn btn-secondary" id="mapCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="mapConfirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ITEM DETAIL OVERLAY ===== -->
+<div class="overlay" id="detailOverlay">
+  <div class="overlay-card" id="detailCard">
+    <div class="detail-title" id="detailTitle"></div>
+    <div class="detail-desc" id="detailDesc"></div>
+    <div class="detail-media" id="detailMediaWrap" style="display:none"></div>
+
+    <div id="completeArea">
+      <button class="complete-btn" id="completeBtn">✓ Completed</button>
+      <div class="hidden-step" id="completeByStep">
+        <div class="complete-row">
+          <input type="text" class="field-input" id="completedByInput" placeholder="Completed by:">
+          <button class="done-btn" id="completedDoneBtn">done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXPANDED MEDIA OVERLAY ===== -->
+<div id="expandOverlay"></div>
+
+<!-- ===== WATER MENU OVERLAY ===== -->
+<div class="overlay" id="waterOverlay">
+  <div class="overlay-card">
+    <div class="hidden-step active" id="waterStep1">
+      <div class="water-menu-opt" id="waterByPersonOpt">Farm watered by person</div>
+      <div class="water-menu-opt" id="waterByRainOpt">Farm watered by rain</div>
+    </div>
+    <div class="hidden-step" id="waterStep2">
+      <div class="field-label">Part or Full?</div>
+      <div class="amount-row">
+        <div class="amount-opt" id="amtPartOpt">Part</div>
+        <div class="amount-opt" id="amtFullOpt">Full</div>
+      </div>
+      <div class="field-label">Your name</div>
+      <input type="text" class="field-input" id="waterNameInput" placeholder="Enter your name">
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="waterBackBtn">Back</button>
+        <button class="btn btn-primary" id="waterDoneBtn">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+/* =========================================================
+   FIREBASE SETUP
+   ---------------------------------------------------------
+   Fill this in with your project's config. Everything below
+   calls firebaseConfig / db / storage — nothing else needs
+   to change once this is filled in.
+   ========================================================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs, doc, updateDoc,
+  deleteDoc, setDoc, getDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  getStorage, ref, uploadBytes, getDownloadURL, deleteObject
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDoF22tbZEn6em2OipfWrI1i-TPD9p8Qb0",
+    authDomain: "bceatsfarm.firebaseapp.com",
+    projectId: "bceatsfarm",
+    storageBucket: "bceatsfarm.firebasestorage.app",
+    messagingSenderId: "437692329226",
+    appId: "1:437692329226:web:01a2c644bf89b7e23fdef3"
+  };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let items = [];              // all bulletin board items
+let adminMode = false;       // resets on reload, no persistence
+let dragSrcId = null;
+
+let createAttachType = "none";   // "none" | "image" | "map"
+let pendingImageBlob = null;
+let pendingMapPins = [];         // [{x,y}] fractions, staged from map overlay
+let mapDraftPins = [];           // working copy while map overlay is open
+
+let activeDetailItem = null;
+let completeStep = false;
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function todayStr() {
+  const d = new Date();
+  const p = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+function esc(s) {
+  return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function openOverlay(id) { document.getElementById(id).classList.add("active"); }
+function closeOverlay(id) { document.getElementById(id).classList.remove("active"); }
+
+/* =========================================================
+   ADMIN MODE — tap the 2nd "a" in the title, then type 3
+   ========================================================= */
+const adminHit = document.getElementById("adminHit");
+const adminSecretInput = document.getElementById("adminSecretInput");
+const adminFlag = document.getElementById("adminFlag");
+
+adminHit.addEventListener("click", () => {
+  adminSecretInput.value = "";
+  adminSecretInput.focus();
+});
+adminSecretInput.addEventListener("input", () => {
+  const val = adminSecretInput.value;
+  adminSecretInput.value = "";
+  adminSecretInput.blur();
+  if (val === "3") {
+    adminMode = true;
+    document.body.classList.add("admin-on");
+    adminFlag.classList.add("on");
+  }
+});
+
+/* =========================================================
+   WATERING WIDGET
+   ========================================================= */
+const waterBlob = document.getElementById("waterBlob");
+const waterSub = document.getElementById("waterSub");
+const waterIcon = document.getElementById("waterIcon");
+
+async function loadWatering() {
+  try {
+    const snap = await getDoc(doc(db, "watering", todayStr()));
+    if (snap.exists()) {
+      const d = snap.data();
+      waterIcon.textContent = "✓";
+      waterIcon.className = "water-icon yes";
+      waterSub.textContent = d.source === "rain" ? "watered by rain" : `watered by ${d.name || "someone"}`;
+    } else {
+      waterIcon.textContent = "✕";
+      waterIcon.className = "water-icon no";
+      waterSub.textContent = "not watered yet";
+    }
+  } catch (e) {
+    waterSub.textContent = "couldn't load";
+    console.error(e);
+  }
+}
+
+waterBlob.addEventListener("click", () => {
+  document.getElementById("waterStep1").classList.add("active");
+  document.getElementById("waterStep2").classList.remove("active");
+  document.getElementById("waterNameInput").value = "";
+  document.querySelectorAll(".amount-opt").forEach(o => o.classList.remove("selected"));
+  openOverlay("waterOverlay");
+});
+
+let waterAmount = null;
+document.getElementById("waterByPersonOpt").addEventListener("click", () => {
+  document.getElementById("waterStep1").classList.remove("active");
+  document.getElementById("waterStep2").classList.add("active");
+});
+document.getElementById("waterBackBtn").addEventListener("click", () => {
+  document.getElementById("waterStep2").classList.remove("active");
+  document.getElementById("waterStep1").classList.add("active");
+});
+document.getElementById("amtPartOpt").addEventListener("click", () => {
+  waterAmount = "part";
+  document.getElementById("amtPartOpt").classList.add("selected");
+  document.getElementById("amtFullOpt").classList.remove("selected");
+});
+document.getElementById("amtFullOpt").addEventListener("click", () => {
+  waterAmount = "full";
+  document.getElementById("amtFullOpt").classList.add("selected");
+  document.getElementById("amtPartOpt").classList.remove("selected");
+});
+document.getElementById("waterDoneBtn").addEventListener("click", async () => {
+  const name = document.getElementById("waterNameInput").value.trim();
+  if (!name) { alert("Enter your name."); return; }
+  await setDoc(doc(db, "watering", todayStr()), {
+    source: "person",
+    name,
+    amount: waterAmount || null,
+    timestamp: serverTimestamp()
+  });
+  closeOverlay("waterOverlay");
+  loadWatering();
+});
+document.getElementById("waterByRainOpt").addEventListener("click", async () => {
+  await setDoc(doc(db, "watering", todayStr()), {
+    source: "rain",
+    name: null,
+    amount: null,
+    timestamp: serverTimestamp()
+  });
+  closeOverlay("waterOverlay");
+  loadWatering();
+});
+
+/* Tap outside to close water overlay */
+document.getElementById("waterOverlay").addEventListener("mousedown", e => {
+  if (e.target.id === "waterOverlay") closeOverlay("waterOverlay");
+});
+
+/* =========================================================
+   LOAD + RENDER ITEMS
+   ========================================================= */
+async function loadItems() {
+  const snap = await getDocs(collection(db, "items"));
+  items = [];
+  snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+  renderBoard();
+}
+
+function renderBoard() {
+  const list = document.getElementById("blobList");
+  list.innerHTML = "";
+
+  const uncompleted = items.filter(i => !i.completed).sort((a, b) => (a.order || 0) - (b.order || 0));
+  const completed = items.filter(i => i.completed).sort((a, b) => (b.completedAt || 0) - (a.completedAt || 0));
+
+  if (!uncompleted.length && !completed.length) {
+    const msg = document.createElement("div");
+    msg.className = "empty-msg";
+    msg.textContent = "Nothing posted yet — tap + Create to add something.";
+    list.appendChild(msg);
+    return;
+  }
+
+  uncompleted.forEach(item => list.appendChild(renderBlob(item)));
+
+  if (completed.length) {
+    const divider = document.createElement("div");
+    divider.className = "completed-divider";
+    divider.textContent = "Completed";
+    list.appendChild(divider);
+    completed.forEach(item => list.appendChild(renderBlob(item)));
+  }
+}
+
+function renderBlob(item) {
+  const blob = document.createElement("div");
+  blob.className = "blob" + (item.completed ? " completed" : "");
+  blob.textContent = item.title;
+  blob.draggable = !item.completed;
+  blob.dataset.id = item.id;
+
+  if (!item.completed) {
+    blob.addEventListener("dragstart", () => { dragSrcId = item.id; blob.classList.add("dragging"); });
+    blob.addEventListener("dragend", () => { blob.classList.remove("dragging"); });
+    blob.addEventListener("dragover", e => e.preventDefault());
+    blob.addEventListener("drop", e => {
+      e.preventDefault();
+      reorderItems(dragSrcId, item.id);
+    });
+  }
+
+  const del = document.createElement("div");
+  del.className = "blob-del";
+  del.textContent = "✕";
+  del.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    if (!confirm(`Delete "${item.title}"?`)) return;
+    if (item.imagePath) {
+      try { await deleteObject(ref(storage, item.imagePath)); } catch (err) { console.warn(err); }
+    }
+    await deleteDoc(doc(db, "items", item.id));
+    loadItems();
+  });
+  blob.appendChild(del);
+
+  blob.addEventListener("click", (e) => {
+    if (e.target === del) return;
+    openDetail(item);
+  });
+
+  return blob;
+}
+
+async function reorderItems(srcId, targetId) {
+  if (!srcId || srcId === targetId) return;
+  const list = items.filter(i => !i.completed).sort((a, b) => (a.order || 0) - (b.order || 0));
+  const srcIdx = list.findIndex(i => i.id === srcId);
+  const tgtIdx = list.findIndex(i => i.id === targetId);
+  if (srcIdx === -1 || tgtIdx === -1) return;
+  const [moved] = list.splice(srcIdx, 1);
+  list.splice(tgtIdx, 0, moved);
+  await Promise.all(list.map((it, idx) => {
+    it.order = idx;
+    return updateDoc(doc(db, "items", it.id), { order: idx });
+  }));
+  renderBoard();
+}
+
+/* =========================================================
+   CREATE OVERLAY
+   ========================================================= */
+const titleInput = document.getElementById("titleInput");
+const descInput = document.getElementById("descInput");
+titleInput.addEventListener("input", () => { document.getElementById("titleCount").textContent = titleInput.value.length; });
+descInput.addEventListener("input", () => { document.getElementById("descCount").textContent = descInput.value.length; });
+
+document.getElementById("createBtn").addEventListener("click", () => {
+  titleInput.value = ""; descInput.value = "";
+  document.getElementById("titleCount").textContent = "0";
+  document.getElementById("descCount").textContent = "0";
+  setAttachType("none");
+  pendingImageBlob = null;
+  pendingMapPins = [];
+  document.getElementById("imgPreview").style.display = "none";
+  document.getElementById("imgStatus").textContent = "";
+  document.getElementById("mapStatus").textContent = "";
+  openOverlay("createOverlay");
+});
+document.getElementById("createCancelBtn").addEventListener("click", () => closeOverlay("createOverlay"));
+
+function setAttachType(type) {
+  createAttachType = type;
+  document.getElementById("attachNoneOpt").classList.toggle("selected", type === "none");
+  document.getElementById("attachImageOpt").classList.toggle("selected", type === "image");
+  document.getElementById("attachMapOpt").classList.toggle("selected", type === "map");
+  document.getElementById("imagePanel").classList.toggle("hidden", type !== "image");
+  document.getElementById("mapPanel").classList.toggle("hidden", type !== "map");
+}
+document.getElementById("attachNoneOpt").addEventListener("click", () => setAttachType("none"));
+document.getElementById("attachImageOpt").addEventListener("click", () => setAttachType("image"));
+document.getElementById("attachMapOpt").addEventListener("click", () => setAttachType("map"));
+
+/* ---- image pick + client-side compression ---- */
+const imageFileInput = document.getElementById("imageFileInput");
+document.getElementById("imagePickBtn").addEventListener("click", () => imageFileInput.click());
+imageFileInput.addEventListener("change", async () => {
+  const file = imageFileInput.files[0];
+  const statusEl = document.getElementById("imgStatus");
+  if (!file) return;
+
+  if (file.size > 10 * 1024 * 1024) {
+    statusEl.textContent = "Image is over 10MB — pick a smaller one.";
+    statusEl.className = "img-status err";
+    imageFileInput.value = "";
+    return;
+  }
+
+  statusEl.textContent = "Compressing…";
+  statusEl.className = "img-status";
+  try {
+    const compressed = await compressImage(file, 2 * 1024 * 1024);
+    pendingImageBlob = compressed;
+    const url = URL.createObjectURL(compressed);
+    const prev = document.getElementById("imgPreview");
+    prev.src = url; prev.style.display = "block";
+    statusEl.textContent = `Ready (${Math.round(compressed.size / 1024)}KB)`;
+  } catch (err) {
+    statusEl.textContent = "Couldn't process that image.";
+    statusEl.className = "img-status err";
+    console.error(err);
+  }
+});
+
+function compressImage(file, maxBytes) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      const maxDim = 1600;
+      if (width > maxDim || height > maxDim) {
+        const scale = maxDim / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+
+      let quality = 0.9;
+      const tryEncode = () => {
+        canvas.toBlob(blob => {
+          if (!blob) { reject(new Error("encode failed")); return; }
+          if (blob.size <= maxBytes || quality <= 0.35) resolve(blob);
+          else { quality -= 0.1; tryEncode(); }
+        }, "image/jpeg", quality);
+      };
+      tryEncode();
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+/* ---- map pin placement (used both from create form and later re-used for harvest/planting) ---- */
+const mapWrap = document.getElementById("mapWrap");
+const mapImg = document.getElementById("mapImg");
+
+document.getElementById("mapPickBtn").addEventListener("click", () => {
+  mapDraftPins = pendingMapPins.map(p => ({ ...p }));
+  renderMapPins();
+  openOverlay("mapOverlay");
+});
+
+function renderMapPins() {
+  mapWrap.querySelectorAll(".map-pin").forEach(p => p.remove());
+  mapDraftPins.forEach((pin, idx) => {
+    const el = document.createElement("div");
+    el.className = "map-pin";
+    el.style.left = (pin.x * 100) + "%";
+    el.style.top = (pin.y * 100) + "%";
+    el.innerHTML = `<svg viewBox="0 0 24 24"><path fill="#C4433E" d="M12 0C7 0 3 4 3 9c0 6.5 9 15 9 15s9-8.5 9-15c0-5-4-9-9-9z"/><circle cx="12" cy="9" r="3.4" fill="white"/></svg>`;
+    attachPinDrag(el, idx);
+    mapWrap.appendChild(el);
+  });
+}
+
+function attachPinDrag(el, idx) {
+  let startX, startY, moved = false;
+  const onDown = (e) => {
+    e.stopPropagation();
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY; moved = false;
+    const onMove = (ev) => {
+      const pt2 = ev.touches ? ev.touches[0] : ev;
+      const dist = Math.hypot(pt2.clientX - startX, pt2.clientY - startY);
+      if (dist > 6) moved = true;
+      const rect = mapWrap.getBoundingClientRect();
+      let x = (pt2.clientX - rect.left) / rect.width;
+      let y = (pt2.clientY - rect.top) / rect.height;
+      x = Math.min(1, Math.max(0, x));
+      y = Math.min(1, Math.max(0, y));
+      mapDraftPins[idx] = { x, y };
+      el.style.left = (x * 100) + "%";
+      el.style.top = (y * 100) + "%";
+    };
+    const onUp = () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", onUp);
+      if (!moved) {
+        mapDraftPins.splice(idx, 1);
+        renderMapPins();
+      }
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+    document.addEventListener("touchmove", onMove, { passive: true });
+    document.addEventListener("touchend", onUp);
+  };
+  el.addEventListener("mousedown", onDown);
+  el.addEventListener("touchstart", onDown, { passive: true });
+}
+
+mapWrap.addEventListener("click", (e) => {
+  if (e.target.closest(".map-pin")) return;
+  const rect = mapWrap.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  const y = (e.clientY - rect.top) / rect.height;
+  mapDraftPins.push({ x, y });
+  renderMapPins();
+});
+
+document.getElementById("mapCancelBtn").addEventListener("click", () => closeOverlay("mapOverlay"));
+document.getElementById("mapConfirmBtn").addEventListener("click", () => {
+  pendingMapPins = mapDraftPins.map(p => ({ ...p }));
+  document.getElementById("mapStatus").textContent = `${pendingMapPins.length} pin${pendingMapPins.length === 1 ? "" : "s"} placed`;
+  closeOverlay("mapOverlay");
+});
+
+/* ---- submit new item ---- */
+document.getElementById("createSubmitBtn").addEventListener("click", async () => {
+  const title = titleInput.value.trim();
+  const description = descInput.value.trim();
+  if (!title) { alert("Give it a title."); return; }
+
+  const btn = document.getElementById("createSubmitBtn");
+  btn.disabled = true; btn.textContent = "Posting…";
+
+  try {
+    const maxOrder = items.filter(i => !i.completed).reduce((m, i) => Math.max(m, i.order || 0), -1);
+    const docData = {
+      title,
+      description,
+      completed: false,
+      completedBy: null,
+      order: maxOrder + 1,
+      createdAt: serverTimestamp(),
+      imageURL: null,
+      imagePath: null,
+      mapPins: null
+    };
+
+    const docRef = await addDoc(collection(db, "items"), docData);
+
+    if (createAttachType === "image" && pendingImageBlob) {
+      const path = `items/${docRef.id}.jpg`;
+      const storageRef = ref(storage, path);
+      await uploadBytes(storageRef, pendingImageBlob);
+      const url = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, "items", docRef.id), { imageURL: url, imagePath: path });
+    } else if (createAttachType === "map" && pendingMapPins.length) {
+      await updateDoc(doc(db, "items", docRef.id), { mapPins: pendingMapPins });
+    }
+
+    closeOverlay("createOverlay");
+    loadItems();
+  } catch (err) {
+    console.error(err);
+    alert("Couldn't post — check your connection and try again.");
+  } finally {
+    btn.disabled = false; btn.textContent = "Post";
+  }
+});
+
+/* Tap outside to close create overlay */
+document.getElementById("createOverlay").addEventListener("mousedown", e => {
+  if (e.target.id === "createOverlay") closeOverlay("createOverlay");
+});
+document.getElementById("mapOverlay").addEventListener("mousedown", e => {
+  if (e.target.id === "mapOverlay") closeOverlay("mapOverlay");
+});
+
+/* =========================================================
+   ITEM DETAIL OVERLAY
+   ========================================================= */
+function openDetail(item) {
+  activeDetailItem = item;
+  completeStep = false;
+
+  document.getElementById("detailTitle").textContent = item.title;
+  document.getElementById("detailDesc").textContent = item.description || "";
+
+  const mediaWrap = document.getElementById("detailMediaWrap");
+  mediaWrap.innerHTML = "";
+  if (item.imageURL) {
+    mediaWrap.style.display = "block";
+    const img = document.createElement("img");
+    img.src = item.imageURL;
+    mediaWrap.appendChild(img);
+    mediaWrap.onclick = () => expandMedia({ type: "image", url: item.imageURL });
+  } else if (item.mapPins && item.mapPins.length) {
+    mediaWrap.style.display = "block";
+    mediaWrap.appendChild(buildMapThumb(item.mapPins));
+    mediaWrap.onclick = () => expandMedia({ type: "map", pins: item.mapPins });
+  } else {
+    mediaWrap.style.display = "none";
+    mediaWrap.onclick = null;
+  }
+
+  const completeBtn = document.getElementById("completeBtn");
+  const completeByStep = document.getElementById("completeByStep");
+  const completedByInput = document.getElementById("completedByInput");
+  const doneBtn = document.getElementById("completedDoneBtn");
+  completedByInput.value = "";
+  doneBtn.classList.remove("show");
+  completeByStep.classList.remove("active");
+
+  if (item.completed) {
+    completeBtn.style.display = "none";
+    completeByStep.classList.remove("active");
+  } else {
+    completeBtn.style.display = "block";
+    completeBtn.textContent = "✓ Completed";
+  }
+
+  openOverlay("detailOverlay");
+}
+
+function buildMapThumb(pins) {
+  const wrap = document.createElement("div");
+  wrap.className = "detail-media-map";
+  const img = document.createElement("img");
+  img.src = "images/farmmap.png";
+  wrap.appendChild(img);
+  pins.forEach(pin => {
+    const pinEl = document.createElement("div");
+    pinEl.className = "map-pin";
+    pinEl.style.left = (pin.x * 100) + "%";
+    pinEl.style.top = (pin.y * 100) + "%";
+    pinEl.innerHTML = `<svg viewBox="0 0 24 24"><path fill="#C4433E" d="M12 0C7 0 3 4 3 9c0 6.5 9 15 9 15s9-8.5 9-15c0-5-4-9-9-9z"/><circle cx="12" cy="9" r="3.4" fill="white"/></svg>`;
+    wrap.appendChild(pinEl);
+  });
+  return wrap;
+}
+
+function expandMedia(media) {
+  const el = document.getElementById("expandOverlay");
+  el.innerHTML = "";
+  if (media.type === "image") {
+    const img = document.createElement("img");
+    img.src = media.url;
+    el.appendChild(img);
+  } else {
+    el.appendChild(buildMapThumb(media.pins).cloneNode(true));
+    // re-render pins fresh (cloneNode copies inline styles fine)
+    const wrap = document.createElement("div");
+    wrap.className = "map-wrap";
+    const img = document.createElement("img");
+    img.src = "images/farmmap.png";
+    wrap.appendChild(img);
+    media.pins.forEach(pin => {
+      const pinEl = document.createElement("div");
+      pinEl.className = "map-pin";
+      pinEl.style.left = (pin.x * 100) + "%";
+      pinEl.style.top = (pin.y * 100) + "%";
+      pinEl.innerHTML = `<svg viewBox="0 0 24 24"><path fill="#C4433E" d="M12 0C7 0 3 4 3 9c0 6.5 9 15 9 15s9-8.5 9-15c0-5-4-9-9-9z"/><circle cx="12" cy="9" r="3.4" fill="white"/></svg>`;
+      wrap.appendChild(pinEl);
+    });
+    el.innerHTML = "";
+    el.appendChild(wrap);
+  }
+  el.classList.add("active");
+}
+document.getElementById("expandOverlay").addEventListener("click", () => {
+  document.getElementById("expandOverlay").classList.remove("active");
+});
+
+document.getElementById("detailOverlay").addEventListener("mousedown", e => {
+  if (e.target.id === "detailOverlay") closeOverlay("detailOverlay");
+});
+
+document.getElementById("completeBtn").addEventListener("click", () => {
+  document.getElementById("completeBtn").style.display = "none";
+  document.getElementById("completeByStep").classList.add("active");
+  const input = document.getElementById("completedByInput");
+  input.focus();
+});
+
+document.getElementById("completedByInput").addEventListener("input", (e) => {
+  document.getElementById("completedDoneBtn").classList.toggle("show", e.target.value.length > 0);
+});
+
+document.getElementById("completedDoneBtn").addEventListener("click", async () => {
+  const name = document.getElementById("completedByInput").value;
+  if (!name.length) return;
+  const item = activeDetailItem;
+  const newDesc = (item.description || "") + ` (Completed by: ${name})`;
+  await updateDoc(doc(db, "items", item.id), {
+    completed: true,
+    completedBy: name,
+    completedAt: Date.now(),
+    description: newDesc
+  });
+  closeOverlay("detailOverlay");
+  loadItems();
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+loadWatering();
+loadItems();
+</script>
+</body>
+</html>
