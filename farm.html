@@ -165,6 +165,10 @@ body {
 /* ===== ITEM BLOBS ===== */
 .blob-list { display: flex; flex-direction: column; gap: 10px; }
 .blob-list.reordering { touch-action: none; }
+body.no-select, body.no-select * {
+    user-select: none;
+    -webkit-user-select: none;
+}
 .completed-divider {
     font-size: 0.72rem;
     font-weight: 600;
@@ -183,6 +187,8 @@ body {
     font-weight: 600;
     font-size: 0.95rem;
     transition: opacity 0.12s ease, transform 0.16s ease, box-shadow 0.16s ease;
+    user-select: none;
+    -webkit-user-select: none;
 }
 .blob:active { opacity: 0.85; }
 .blob.dragging { opacity: 0.4; }
@@ -209,13 +215,11 @@ body {
     color: var(--text-mid);
 }
 .blob:not(.completed) { touch-action: none; }
-.blob-del {
+.blob-del, .blob-uncomplete {
     display: none;
     position: absolute;
-    top: -8px; right: -8px;
     width: 24px; height: 24px;
     border-radius: 50%;
-    background: var(--danger);
     color: white;
     font-size: 0.85rem;
     font-weight: 700;
@@ -225,7 +229,16 @@ body {
     cursor: pointer;
     z-index: 5;
 }
-body.admin-on .blob-del { display: flex; }
+.blob-del {
+    top: -8px; right: -8px;
+    background: var(--danger);
+}
+.blob-uncomplete {
+    right: -8px; bottom: -8px;
+    background: var(--water-blue);
+}
+body.admin-on .blob-del,
+body.admin-on .blob-uncomplete { display: flex; }
 .empty-msg {
     text-align: center;
     color: var(--text-mid);
@@ -355,10 +368,16 @@ input[type=text].field-input:focus, textarea.field-input:focus {
 
 /* ===== MAP OVERLAY ===== */
 #mapOverlay .overlay-card { max-width: 480px; padding: 16px; }
+#mapOverlay .map-wrap {
+    aspect-ratio: 901 / 1696;
+    width: min(100%, calc(68vh * 901 / 1696));
+    max-height: 68vh;
+    margin: 0 auto;
+}
 .map-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 901 / 1696;
     border-radius: 10px;
     overflow: hidden;
     background: #F3EEF3;
@@ -386,6 +405,14 @@ input[type=text].field-input:focus, textarea.field-input:focus {
 /* ===== ITEM DETAIL OVERLAY ===== */
 .detail-title { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
 .detail-desc { font-size: 0.88rem; line-height: 1.5; color: var(--text-mid); white-space: pre-wrap; margin-bottom: 12px; }
+.detail-completed-meta {
+    display: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin: -4px 0 12px;
+}
+.detail-completed-meta.show { display: block; }
 .detail-media {
     width: 100%;
     border-radius: 10px;
@@ -408,7 +435,7 @@ input[type=text].field-input:focus, textarea.field-input:focus {
     padding: 8px 16px;
     font-size: 0.84rem;
     font-weight: 700;
-    cursor: pointer;
+    cursor: default;
 }
 .complete-row {
     display: flex;
@@ -573,6 +600,7 @@ input[type=text].field-input:focus, textarea.field-input:focus {
   <div class="overlay-card" id="detailCard">
     <div class="detail-title" id="detailTitle"></div>
     <div class="detail-desc" id="detailDesc"></div>
+    <div class="detail-completed-meta" id="detailCompletedMeta"></div>
     <div class="detail-media" id="detailMediaWrap" style="display:none"></div>
 
     <div id="completeArea">
@@ -678,6 +706,25 @@ function displayDescription(item) {
     desc = desc.replace(/\s*\(Completed by:\s*[^)]*\)\s*$/i, "");
   }
   return desc;
+}
+function formatShortDate(value) {
+  let d = null;
+  if (!value) return "";
+  if (typeof value === "string") {
+    const parts = value.split("-").map(Number);
+    if (parts.length === 3 && parts.every(Boolean)) d = new Date(parts[0], parts[1] - 1, parts[2]);
+  } else if (typeof value === "number") {
+    d = new Date(value);
+  } else if (typeof value.toDate === "function") {
+    d = value.toDate();
+  }
+  if (!d || Number.isNaN(d.getTime())) return "";
+  return `${d.getMonth() + 1}/${d.getDate()}/${String(d.getFullYear()).slice(-2)}`;
+}
+function completedMetaText(item) {
+  if (!item.completed || !item.completedBy) return "";
+  const date = formatShortDate(item.completedDate || item.completedAt);
+  return `completed by: ${item.completedBy}${date ? ` on ${date}` : ""}`;
 }
 
 /* =========================================================
@@ -862,8 +909,28 @@ function renderBlob(item) {
   });
   blob.appendChild(del);
 
+  if (item.completed) {
+    const uncomplete = document.createElement("div");
+    uncomplete.className = "blob-uncomplete";
+    uncomplete.textContent = "↑";
+    uncomplete.title = "Move back to active";
+    uncomplete.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const maxOrder = items.filter(i => !i.completed).reduce((m, i) => Math.max(m, i.order || 0), -1);
+      await updateDoc(doc(db, "items", item.id), {
+        completed: false,
+        completedBy: null,
+        completedAt: null,
+        completedDate: null,
+        order: maxOrder + 1
+      });
+      loadItems();
+    });
+    blob.appendChild(uncomplete);
+  }
+
   blob.addEventListener("click", (e) => {
-    if (e.target === del) return;
+    if (e.target === del || e.target.closest(".blob-uncomplete")) return;
     if (suppressBlobClick) {
       suppressBlobClick = false;
       return;
@@ -919,6 +986,7 @@ function attachBlobPointerDrag(blob, item) {
       blob.style.width = `${rect.width}px`;
       blob.style.height = `${rect.height}px`;
       document.getElementById("blobList").classList.add("reordering");
+      document.body.classList.add("no-select");
     }
     suppressBlobClick = true;
     blob.style.left = `${e.clientX - offsetX}px`;
@@ -936,6 +1004,7 @@ function attachBlobPointerDrag(blob, item) {
       blob.classList.remove("mobile-dragging");
       Object.assign(blob.style, original);
       document.getElementById("blobList").classList.remove("reordering");
+      document.body.classList.remove("no-select");
       saveCurrentBlobOrder();
     }
     dragSrcId = null;
@@ -953,6 +1022,7 @@ function attachBlobPointerDrag(blob, item) {
     blob.classList.remove("mobile-dragging");
     if (original) Object.assign(blob.style, original);
     document.getElementById("blobList").classList.remove("reordering");
+    document.body.classList.remove("no-select");
     dragSrcId = null;
     dragging = false;
     original = null;
@@ -1249,6 +1319,9 @@ function openDetail(item) {
 
   document.getElementById("detailTitle").textContent = item.title;
   document.getElementById("detailDesc").textContent = displayDescription(item);
+  const completedMeta = document.getElementById("detailCompletedMeta");
+  completedMeta.textContent = completedMetaText(item);
+  completedMeta.classList.toggle("show", Boolean(completedMeta.textContent));
 
   const mediaWrap = document.getElementById("detailMediaWrap");
   mediaWrap.innerHTML = "";
@@ -1257,11 +1330,11 @@ function openDetail(item) {
     const img = document.createElement("img");
     img.src = item.imageURL;
     mediaWrap.appendChild(img);
-    mediaWrap.onclick = () => expandMedia({ type: "image", url: item.imageURL });
+    mediaWrap.onclick = null;
   } else if (item.mapPins && item.mapPins.length) {
     mediaWrap.style.display = "block";
     mediaWrap.appendChild(buildMapThumb(item.mapPins));
-    mediaWrap.onclick = () => expandMedia({ type: "map", pins: item.mapPins });
+    mediaWrap.onclick = null;
   } else {
     mediaWrap.style.display = "none";
     mediaWrap.onclick = null;
@@ -1339,6 +1412,19 @@ document.getElementById("detailOverlay").addEventListener("mousedown", e => {
   if (e.target.id === "detailOverlay") closeOverlay("detailOverlay");
 });
 
+let ignoreNextDetailClick = false;
+document.getElementById("detailCard").addEventListener("touchstart", e => {
+  if (e.touches.length > 1) ignoreNextDetailClick = true;
+}, { passive: true });
+document.getElementById("detailCard").addEventListener("click", e => {
+  if (ignoreNextDetailClick) {
+    ignoreNextDetailClick = false;
+    return;
+  }
+  if (e.target.closest("button, input, textarea, select")) return;
+  closeOverlay("detailOverlay");
+});
+
 document.getElementById("completeBtn").addEventListener("click", () => {
   document.getElementById("completeBtn").style.display = "none";
   document.getElementById("completeByStep").classList.add("active");
@@ -1358,6 +1444,7 @@ document.getElementById("completedDoneBtn").addEventListener("click", async () =
     completed: true,
     completedBy: name,
     completedAt: Date.now(),
+    completedDate: todayStr(),
   });
   closeOverlay("detailOverlay");
   loadItems();
