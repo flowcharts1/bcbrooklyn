@@ -164,6 +164,7 @@ body {
 
 /* ===== ITEM BLOBS ===== */
 .blob-list { display: flex; flex-direction: column; gap: 10px; }
+.blob-list.reordering { touch-action: none; }
 .completed-divider {
     font-size: 0.72rem;
     font-weight: 600;
@@ -181,10 +182,23 @@ body {
     position: relative;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: opacity 0.12s ease, transform 0.12s ease;
+    transition: opacity 0.12s ease, transform 0.16s ease, box-shadow 0.16s ease;
 }
 .blob:active { opacity: 0.85; }
 .blob.dragging { opacity: 0.4; }
+.blob.mobile-dragging {
+    position: fixed;
+    z-index: 450;
+    pointer-events: none;
+    opacity: 0.96;
+    transform: scale(1.04);
+    box-shadow: 0 12px 26px rgba(46, 37, 48, 0.28);
+}
+.blob-drop-slot {
+    border: 2px dashed rgba(62, 124, 177, 0.5);
+    border-radius: var(--radius);
+    background: rgba(234, 243, 250, 0.72);
+}
 .blob.completed { color: var(--text-mid); }
 .blob-title { display: block; }
 .blob-meta {
@@ -344,13 +358,15 @@ input[type=text].field-input:focus, textarea.field-input:focus {
 .map-wrap {
     position: relative;
     width: 100%;
+    aspect-ratio: 4 / 3;
     border-radius: 10px;
     overflow: hidden;
+    background: #F3EEF3;
     touch-action: none;
     user-select: none;
     line-height: 0;
 }
-.map-wrap img { width: 100%; display: block; pointer-events: none; }
+.map-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
 .map-pin {
     position: absolute;
     width: 22px; height: 22px;
@@ -380,6 +396,7 @@ input[type=text].field-input:focus, textarea.field-input:focus {
 }
 .detail-media img { width: 100%; display: block; }
 .detail-media-map { position: relative; width: 100%; line-height: 0; }
+.detail-media-map img { height: auto; object-fit: initial; }
 .detail-media-map .map-pin { cursor: default; }
 
 .complete-btn {
@@ -654,6 +671,7 @@ function esc(s) {
 }
 function openOverlay(id) { document.getElementById(id).classList.add("active"); }
 function closeOverlay(id) { document.getElementById(id).classList.remove("active"); }
+const FARM_MAP_SRC = "images/farmmap.jpg";
 function displayDescription(item) {
   let desc = item.description || "";
   if (item.completedBy) {
@@ -860,6 +878,10 @@ function attachBlobPointerDrag(blob, item) {
   let startX = 0;
   let startY = 0;
   let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+  let placeholder = null;
+  let original = null;
 
   blob.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "mouse" || item.completed) return;
@@ -874,30 +896,92 @@ function attachBlobPointerDrag(blob, item) {
     if (e.pointerType === "mouse" || dragSrcId !== item.id) return;
     const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
     if (dist <= 8 && !dragging) return;
-    dragging = true;
+    if (!dragging) {
+      const rect = blob.getBoundingClientRect();
+      dragging = true;
+      suppressBlobClick = true;
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      original = {
+        position: blob.style.position,
+        left: blob.style.left,
+        top: blob.style.top,
+        width: blob.style.width,
+        height: blob.style.height,
+      };
+      placeholder = document.createElement("div");
+      placeholder.className = "blob-drop-slot";
+      placeholder.style.height = `${rect.height}px`;
+      blob.parentNode.insertBefore(placeholder, blob.nextSibling);
+      blob.classList.add("mobile-dragging");
+      blob.style.left = `${rect.left}px`;
+      blob.style.top = `${rect.top}px`;
+      blob.style.width = `${rect.width}px`;
+      blob.style.height = `${rect.height}px`;
+      document.getElementById("blobList").classList.add("reordering");
+    }
     suppressBlobClick = true;
-    blob.classList.add("dragging");
+    blob.style.left = `${e.clientX - offsetX}px`;
+    blob.style.top = `${e.clientY - offsetY}px`;
+    moveDropSlot(e.clientY, placeholder, blob);
     e.preventDefault();
   });
 
   blob.addEventListener("pointerup", (e) => {
     if (e.pointerType === "mouse" || dragSrcId !== item.id) return;
     blob.releasePointerCapture(e.pointerId);
-    blob.classList.remove("dragging");
     if (dragging) {
-      const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(".blob:not(.completed)");
-      if (target && target.dataset.id) reorderItems(item.id, target.dataset.id);
+      placeholder.parentNode.insertBefore(blob, placeholder);
+      placeholder.remove();
+      blob.classList.remove("mobile-dragging");
+      Object.assign(blob.style, original);
+      document.getElementById("blobList").classList.remove("reordering");
+      saveCurrentBlobOrder();
     }
     dragSrcId = null;
     dragging = false;
+    placeholder = null;
+    original = null;
   });
 
   blob.addEventListener("pointercancel", (e) => {
     if (e.pointerType === "mouse") return;
-    blob.classList.remove("dragging");
+    if (placeholder) {
+      placeholder.replaceWith(blob);
+      placeholder = null;
+    }
+    blob.classList.remove("mobile-dragging");
+    if (original) Object.assign(blob.style, original);
+    document.getElementById("blobList").classList.remove("reordering");
     dragSrcId = null;
     dragging = false;
+    original = null;
   });
+}
+
+function moveDropSlot(clientY, placeholder, draggedBlob) {
+  const blobs = [...document.querySelectorAll("#blobList .blob:not(.completed):not(.mobile-dragging)")];
+  const after = blobs.find(el => {
+    const rect = el.getBoundingClientRect();
+    return clientY < rect.top + rect.height / 2;
+  });
+  if (after) {
+    after.parentNode.insertBefore(placeholder, after);
+  } else {
+    const divider = document.querySelector("#blobList .completed-divider");
+    const list = document.getElementById("blobList");
+    list.insertBefore(placeholder, divider || null);
+  }
+}
+
+async function saveCurrentBlobOrder() {
+  const orderedIds = [...document.querySelectorAll("#blobList .blob:not(.completed)")].map(el => el.dataset.id);
+  await Promise.all(orderedIds.map((id, idx) => {
+    const item = items.find(i => i.id === id);
+    if (item) item.order = idx;
+    return updateDoc(doc(db, "items", id), { order: idx });
+  }));
+  renderBoard();
 }
 
 async function reorderItems(srcId, targetId) {
@@ -1018,9 +1102,23 @@ const mapImg = document.getElementById("mapImg");
 
 document.getElementById("mapPickBtn").addEventListener("click", () => {
   mapDraftPins = pendingMapPins.map(p => ({ ...p }));
+  prepareCreateMapImage();
   renderMapPins();
   openOverlay("mapOverlay");
 });
+
+function prepareCreateMapImage() {
+  const absoluteSrc = new URL(FARM_MAP_SRC, window.location.href).href;
+  if (mapImg.src !== absoluteSrc) mapImg.src = FARM_MAP_SRC;
+  mapImg.style.visibility = "visible";
+  const showMap = () => { mapImg.style.visibility = "visible"; };
+  mapImg.addEventListener("load", showMap, { once: true });
+  mapImg.addEventListener("error", () => {
+    mapImg.style.visibility = "visible";
+    document.getElementById("mapStatus").textContent = "Map image couldn't load.";
+  }, { once: true });
+  if (mapImg.decode) mapImg.decode().then(showMap).catch(() => {});
+}
 
 function renderMapPins() {
   mapWrap.querySelectorAll(".map-pin").forEach(p => p.remove());
@@ -1192,7 +1290,7 @@ function buildMapThumb(pins) {
   const wrap = document.createElement("div");
   wrap.className = "detail-media-map";
   const img = document.createElement("img");
-  img.src = "images/farmmap.jpg";
+  img.src = FARM_MAP_SRC;
   wrap.appendChild(img);
   pins.forEach(pin => {
     const pinEl = document.createElement("div");
@@ -1218,7 +1316,7 @@ function expandMedia(media) {
     const wrap = document.createElement("div");
     wrap.className = "map-wrap";
     const img = document.createElement("img");
-    img.src = "images/farmmap.jpg";
+    img.src = FARM_MAP_SRC;
     wrap.appendChild(img);
     media.pins.forEach(pin => {
       const pinEl = document.createElement("div");
