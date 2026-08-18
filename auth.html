@@ -6,6 +6,8 @@
   body { font-family: monospace; font-size: 3em; text-align: center; margin-top: 20vh; cursor: pointer;}
   body * { font: inherit; }
   h1, h2, p { font-size: 1em; font-weight: normal; }
+  #createNew { font-size: 0.7em; }
+  #instructions { font-size: 0.8em; }
   #otp { transition: color 0.3s; }
   #otp.dim { color: #aaa; }
 </style>
@@ -18,7 +20,14 @@
 </div>
 
 <div id="create" hidden>
-  <p>Instruction text</p>
+  <p id="instructions">
+    You must go to <a href="https://ssologin.cuny.edu/oaa/rui">cuny mfa</a>, login, and create a new mobile authentication factor. Copy the secret key and paste it below.
+    Then, enter a shortcode, which you will use to access this key, such as "twt" or "hgfa" or "12e" any thing you'll remember.
+    Upon reload, entering your correct shortcode will give you your TOTP based on the key you entered, you may set this new code as your default when you login.
+    This system is designed to thwart the extra security layer that CUNY has mandated for accounts.
+    <b>Your secret key will be published to a database and be visible to anyone</b>. It will be impossible to tell what account it is associated with however, unless you use an obvious shortcode with your name.
+    Do this at your own risk.
+  </p>
   <label>
     paste secret key:
     <input id="secretKey" maxlength="24" autocomplete="off">
@@ -110,6 +119,7 @@
   const saved = document.getElementById('saved');
   let entered = '';
   let lookupToken = 0;
+  let lookupTimer;
 
   createNew.addEventListener('click', () => {
     start.hidden = true;
@@ -156,24 +166,32 @@
     setInterval(async () => { if (Math.floor((Date.now()/1000+offset)%30) < 1) await update(); }, 1000);
   }
 
-  async function lookupEntered() {
+  async function lookupEntered(value) {
     const token = ++lookupToken;
-    typed.textContent = entered || 'Begin Typing';
-    if (!entered) return;
+    if (!value) return;
 
     try {
-      const snap = await secrets.doc(docIdForCode(entered)).get();
+      const snap = await secrets.doc(docIdForCode(value)).get();
       if (token !== lookupToken || !snap.exists) return;
       const data = snap.data();
       if (data && data.secretKey) await showOtp(data.secretKey);
     } catch(e) {}
   }
 
+  function scheduleLookup() {
+    typed.textContent = entered || 'Begin Typing';
+    lookupToken++;
+    clearTimeout(lookupTimer);
+    if (!entered) return;
+    const value = entered;
+    lookupTimer = setTimeout(() => lookupEntered(value), 300);
+  }
+
   document.addEventListener('keydown', (e) => {
     if (create.hidden === false || e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === 'Backspace') {
       entered = entered.slice(0, -1);
-      lookupEntered();
+      scheduleLookup();
       e.preventDefault();
       return;
     }
@@ -181,7 +199,7 @@
     entered += e.key;
     start.querySelector('h1').hidden = true;
     createNew.hidden = true;
-    lookupEntered();
+    scheduleLookup();
     e.preventDefault();
   });
 })();
