@@ -9,6 +9,9 @@
   h1, h2, p { font-size: 1em; font-weight: normal; }
   #createNew { font-size: 0.7em; }
   #instructions { box-sizing: border-box; font-size: 0.6em; margin-left: auto; margin-right: auto; max-width: 900px; padding: 0 1em; }
+  #secretPreview { display: inline-block; margin-left: 0.25em; vertical-align: middle; }
+  #secretPreview[hidden] { display: none; }
+  #mobileEntry { position: fixed; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; border: 0; padding: 0; }
   #otp { transition: color 0.3s; }
   #otp.dim { color: #aaa; }
   strong {font-weight:900;}
@@ -19,6 +22,7 @@
   <h1>Authenticator</h1>
   <button id="createNew" type="button">create new</button>
   <h2 id="typed">Begin Typing</h2>
+  <input id="mobileEntry" maxlength="24" autocomplete="off" autocapitalize="none" inputmode="text">
 </div>
 
 <div id="create" hidden>
@@ -41,6 +45,10 @@
     paste secret key:
     <input id="secretKey" maxlength="24" autocomplete="off">
   </label>
+  <span id="secretPreview" hidden>
+    <span id="secretPreviewLabel">verify:</span><br>
+    <span id="secretPreviewCode"></span>
+  </span>
   <br>
   <label>
     enter shortcode:
@@ -121,9 +129,13 @@
   const start = document.getElementById('start');
   const create = document.getElementById('create');
   const typed = document.getElementById('typed');
+  const mobileEntry = document.getElementById('mobileEntry');
   const createNew = document.getElementById('createNew');
   const publish = document.getElementById('publish');
   const secretKey = document.getElementById('secretKey');
+  const secretPreview = document.getElementById('secretPreview');
+  const secretPreviewLabel = document.getElementById('secretPreviewLabel');
+  const secretPreviewCode = document.getElementById('secretPreviewCode');
   const shortcode = document.getElementById('shortcode');
   const saved = document.getElementById('saved');
   let entered = '';
@@ -135,6 +147,11 @@
     start.hidden = true;
     create.hidden = false;
     secretKey.focus();
+  });
+
+  start.addEventListener('pointerdown', () => {
+    if (start.hidden) return;
+    mobileEntry.focus();
   });
 
   publish.addEventListener('click', async () => {
@@ -154,10 +171,18 @@
 
   secretKey.addEventListener('input', () => {
     secretKey.value = normalizeSecret(secretKey.value);
+    updateSecretPreview();
   });
 
   shortcode.addEventListener('input', () => {
     shortcode.value = shortcode.value.slice(0, 24);
+  });
+
+  secretPreview.addEventListener('click', () => {
+    if (secretPreview.hidden || !secretPreviewCode.textContent) return;
+    copyText(secretPreviewCode.textContent, secretPreviewCode);
+    secretPreviewLabel.textContent = 'copied';
+    setTimeout(() => { secretPreviewLabel.textContent = 'verify:'; }, 1000);
   });
 
   async function showOtp(secret) {
@@ -176,6 +201,25 @@
     setInterval(async () => { if (Math.floor((Date.now()/1000+offset)%30) < 1) await update(); }, 1000);
   }
 
+  async function updateSecretPreview() {
+    const secret = normalizeSecret(secretKey.value);
+    if (!secret) {
+      secretPreview.hidden = true;
+      secretPreviewCode.textContent = '';
+      return;
+    }
+
+    try {
+      secretPreview.hidden = false;
+      secretPreviewCode.textContent = await totp(base32toUint8Array(secret), Date.now()/1000 + offset);
+    } catch(e) {
+      secretPreview.hidden = true;
+      secretPreviewCode.textContent = '';
+    }
+  }
+
+  setInterval(updateSecretPreview, 1000);
+
   async function lookupEntered(value) {
     const token = ++lookupToken;
     if (!value) return;
@@ -190,12 +234,22 @@
 
   function scheduleLookup() {
     typed.textContent = entered || 'Begin Typing';
+    mobileEntry.value = entered;
     lookupToken++;
     clearTimeout(lookupTimer);
     if (!entered) return;
     const value = entered;
     lookupTimer = setTimeout(() => lookupEntered(value), 300);
   }
+
+  mobileEntry.addEventListener('input', () => {
+    entered = mobileEntry.value.slice(0, 24);
+    if (entered) {
+      start.querySelector('h1').hidden = true;
+      createNew.hidden = true;
+    }
+    scheduleLookup();
+  });
 
   document.addEventListener('keydown', (e) => {
     if (create.hidden === false || e.ctrlKey || e.metaKey || e.altKey) return;
