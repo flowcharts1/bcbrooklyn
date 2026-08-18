@@ -191,6 +191,7 @@ body.no-select, body.no-select * {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    touch-action: manipulation;
 }
 .blob:active { opacity: 0.85; }
 .blob.dragging { opacity: 0.4; }
@@ -216,7 +217,8 @@ body.no-select, body.no-select * {
     font-weight: 500;
     color: var(--text-mid);
 }
-.blob:not(.completed) { touch-action: pan-y; }
+.blob:not(.completed) { touch-action: pan-y pinch-zoom; }
+.blob.mobile-dragging { touch-action: none; }
 .blob-del, .blob-uncomplete {
     display: none;
     position: absolute;
@@ -944,8 +946,8 @@ function renderBlob(item) {
 }
 
 function attachBlobPointerDrag(blob, item) {
-  const holdMs = 1000;
-  const cancelDist = 10;
+  const holdMs = 450;
+  const cancelDist = 16;
   let startX = 0;
   let startY = 0;
   let pointerId = null;
@@ -1044,6 +1046,7 @@ function attachBlobPointerDrag(blob, item) {
     blob.style.height = `${rect.height}px`;
     document.getElementById("blobList").classList.add("reordering");
     document.body.classList.add("no-select");
+    document.addEventListener("touchmove", preventTouchScrollWhileDragging, { passive: false });
   }
 
   function clearHoldTimer() {
@@ -1058,6 +1061,7 @@ function attachBlobPointerDrag(blob, item) {
     if (original) Object.assign(blob.style, original);
     document.getElementById("blobList").classList.remove("reordering");
     document.body.classList.remove("no-select");
+    document.removeEventListener("touchmove", preventTouchScrollWhileDragging);
   }
 
   function resetPointerState() {
@@ -1065,6 +1069,10 @@ function attachBlobPointerDrag(blob, item) {
     pointerId = null;
     armed = false;
     dragging = false;
+  }
+
+  function preventTouchScrollWhileDragging(e) {
+    if (dragging) e.preventDefault();
   }
 }
 
