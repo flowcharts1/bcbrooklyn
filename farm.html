@@ -493,6 +493,8 @@ input[type=text].field-input:focus, textarea.field-input:focus {
     cursor: pointer;
 }
 .water-menu-opt:active { background: #F1EBF1; }
+.water-menu-opt.selected-rain { border-color: var(--water-blue); box-shadow: inset 0 0 0 1px var(--water-blue); }
+.water-menu-opt.selected-person { border-color: #3E8E5C; box-shadow: inset 0 0 0 1px #3E8E5C; }
 .amount-row { display: flex; gap: 10px; margin: 10px 0; }
 .amount-opt {
     flex: 1;
@@ -506,6 +508,82 @@ input[type=text].field-input:focus, textarea.field-input:focus {
     color: var(--text-mid);
 }
 .amount-opt.selected { border-color: var(--water-blue); color: var(--water-blue); background: var(--water-blue-light); }
+
+.calendar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.calendar-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+.calendar-nav {
+    width: 32px; height: 32px;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 10px;
+    background: #FAF7FA;
+    color: var(--text-mid);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    padding: 10px;
+    border: 1.5px solid #E4DAE3;
+    border-radius: 12px;
+    background: #FAF7FA;
+}
+.calendar-dow {
+    text-align: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--text-mid);
+}
+.calendar-day {
+    min-height: 34px;
+    border: 1.5px solid transparent;
+    border-radius: 9px;
+    background: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.calendar-day.empty {
+    visibility: hidden;
+    pointer-events: none;
+}
+.calendar-day.none { color: var(--danger); }
+.calendar-day.rain { color: var(--water-blue); }
+.calendar-day.person { color: #3E8E5C; }
+.calendar-day.selected { border-color: var(--plum); }
+.calendar-info {
+    min-height: 18px;
+    margin-top: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    text-align: center;
+}
+.calendar-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.calendar-actions .water-menu-opt {
+    text-align: center;
+    margin-bottom: 0;
+    padding: 9px 6px;
+    font-size: 0.78rem;
+}
 
 .hidden-step { display: none; }
 .hidden-step.active { display: block; }
@@ -628,6 +706,7 @@ input[type=text].field-input:focus, textarea.field-input:focus {
     <div class="hidden-step active" id="waterStep1">
       <div class="water-menu-opt" id="waterByPersonOpt">Farm watered by person</div>
       <div class="water-menu-opt" id="waterByRainOpt">Farm watered by rain</div>
+      <div class="water-menu-opt" id="waterCalendarOpt">Calendar</div>
     </div>
     <div class="hidden-step" id="waterStep2">
       <div class="field-label">Part or Full?</div>
@@ -640,6 +719,20 @@ input[type=text].field-input:focus, textarea.field-input:focus {
       <div class="form-actions">
         <button class="btn btn-secondary" id="waterBackBtn">Back</button>
         <button class="btn btn-primary" id="waterDoneBtn">Done</button>
+      </div>
+    </div>
+    <div class="hidden-step" id="waterStep3">
+      <div class="calendar-head">
+        <button class="calendar-nav" id="calendarPrevBtn" type="button">‹</button>
+        <div class="calendar-title" id="calendarTitle"></div>
+        <button class="calendar-nav" id="calendarNextBtn" type="button">›</button>
+      </div>
+      <div class="calendar-grid" id="waterCalendarGrid"></div>
+      <div class="calendar-info" id="calendarInfo">Pick a day.</div>
+      <div class="calendar-actions">
+        <div class="water-menu-opt" id="calendarPersonBtn">Person</div>
+        <div class="water-menu-opt" id="calendarRainBtn">Rain</div>
+        <div class="water-menu-opt" id="calendarBackBtn">Back</div>
       </div>
     </div>
   </div>
@@ -759,12 +852,16 @@ adminSecretInput.addEventListener("input", () => {
 const waterBlob = document.getElementById("waterBlob");
 const waterSub = document.getElementById("waterSub");
 const waterIcon = document.getElementById("waterIcon");
+let wateringByDate = {};
+let selectedWaterDate = todayStr();
+let calendarMonth = new Date();
 
 async function loadWatering() {
   try {
     const snap = await getDoc(doc(db, "watering", todayStr()));
     if (snap.exists()) {
       const d = snap.data();
+      wateringByDate[todayStr()] = d;
       waterIcon.textContent = "✓";
       waterIcon.className = "water-icon yes";
       waterSub.textContent = d.source === "rain" ? "watered by rain" : `watered by ${d.name || "someone"}`;
@@ -779,22 +876,62 @@ async function loadWatering() {
   }
 }
 
-waterBlob.addEventListener("click", () => {
+async function getWateringForDate(dateStr) {
+  if (Object.prototype.hasOwnProperty.call(wateringByDate, dateStr)) return wateringByDate[dateStr];
+  const snap = await getDoc(doc(db, "watering", dateStr));
+  wateringByDate[dateStr] = snap.exists() ? snap.data() : null;
+  return wateringByDate[dateStr];
+}
+
+function setWaterStep(stepId) {
+  document.querySelectorAll("#waterOverlay .hidden-step").forEach(step => step.classList.remove("active"));
+  document.getElementById(stepId).classList.add("active");
+}
+
+function updateWaterOptionSelection(data) {
+  document.getElementById("waterByPersonOpt").classList.toggle("selected-person", data?.source === "person");
+  document.getElementById("waterByRainOpt").classList.toggle("selected-rain", data?.source === "rain");
+}
+
+function resetWaterPersonForm(data = null) {
+  waterAmount = data?.amount || null;
+  document.getElementById("waterNameInput").value = data?.source === "person" ? (data.name || "") : "";
+  document.getElementById("amtPartOpt").classList.toggle("selected", waterAmount === "part");
+  document.getElementById("amtFullOpt").classList.toggle("selected", waterAmount === "full");
+}
+
+async function openWaterMenu(dateStr = todayStr()) {
+  selectedWaterDate = dateStr;
+  const data = await getWateringForDate(selectedWaterDate);
+  updateWaterOptionSelection(data);
+  resetWaterPersonForm(data);
   document.getElementById("waterStep1").classList.add("active");
   document.getElementById("waterStep2").classList.remove("active");
-  document.getElementById("waterNameInput").value = "";
-  document.querySelectorAll(".amount-opt").forEach(o => o.classList.remove("selected"));
+  document.getElementById("waterStep3").classList.remove("active");
   openOverlay("waterOverlay");
+}
+
+async function saveWatering(dateStr, data) {
+  await setDoc(doc(db, "watering", dateStr), {
+    ...data,
+    timestamp: serverTimestamp()
+  });
+  wateringByDate[dateStr] = data;
+  loadWatering();
+  if (document.getElementById("waterStep3").classList.contains("active")) renderWaterCalendar();
+}
+
+waterBlob.addEventListener("click", () => {
+  openWaterMenu();
 });
 
 let waterAmount = null;
-document.getElementById("waterByPersonOpt").addEventListener("click", () => {
-  document.getElementById("waterStep1").classList.remove("active");
-  document.getElementById("waterStep2").classList.add("active");
+document.getElementById("waterByPersonOpt").addEventListener("click", async () => {
+  resetWaterPersonForm(await getWateringForDate(selectedWaterDate));
+  setWaterStep("waterStep2");
 });
 document.getElementById("waterBackBtn").addEventListener("click", () => {
-  document.getElementById("waterStep2").classList.remove("active");
-  document.getElementById("waterStep1").classList.add("active");
+  setWaterStep("waterStep1");
 });
 document.getElementById("amtPartOpt").addEventListener("click", () => {
   waterAmount = "part";
@@ -809,25 +946,112 @@ document.getElementById("amtFullOpt").addEventListener("click", () => {
 document.getElementById("waterDoneBtn").addEventListener("click", async () => {
   const name = document.getElementById("waterNameInput").value.trim();
   if (!name) { alert("Enter your name."); return; }
-  await setDoc(doc(db, "watering", todayStr()), {
+  await saveWatering(selectedWaterDate, {
     source: "person",
     name,
-    amount: waterAmount || null,
-    timestamp: serverTimestamp()
+    amount: waterAmount || null
   });
   closeOverlay("waterOverlay");
-  loadWatering();
 });
 document.getElementById("waterByRainOpt").addEventListener("click", async () => {
-  await setDoc(doc(db, "watering", todayStr()), {
+  await saveWatering(selectedWaterDate, {
     source: "rain",
     name: null,
-    amount: null,
-    timestamp: serverTimestamp()
+    amount: null
   });
   closeOverlay("waterOverlay");
-  loadWatering();
 });
+
+document.getElementById("waterCalendarOpt").addEventListener("click", async () => {
+  calendarMonth = new Date();
+  selectedWaterDate = todayStr();
+  setWaterStep("waterStep3");
+  await loadCalendarMonth();
+  renderWaterCalendar();
+});
+document.getElementById("calendarPrevBtn").addEventListener("click", async () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+  await loadCalendarMonth();
+  renderWaterCalendar();
+});
+document.getElementById("calendarNextBtn").addEventListener("click", async () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+  await loadCalendarMonth();
+  renderWaterCalendar();
+});
+document.getElementById("calendarBackBtn").addEventListener("click", () => setWaterStep("waterStep1"));
+document.getElementById("calendarPersonBtn").addEventListener("click", async () => {
+  resetWaterPersonForm(await getWateringForDate(selectedWaterDate));
+  setWaterStep("waterStep2");
+});
+document.getElementById("calendarRainBtn").addEventListener("click", async () => {
+  await saveWatering(selectedWaterDate, {
+    source: "rain",
+    name: null,
+    amount: null
+  });
+  renderWaterCalendar();
+});
+
+async function loadCalendarMonth() {
+  const prefix = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-`;
+  const snap = await getDocs(collection(db, "watering"));
+  snap.forEach(d => {
+    if (d.id.startsWith(prefix)) wateringByDate[d.id] = d.data();
+  });
+}
+
+function renderWaterCalendar() {
+  const grid = document.getElementById("waterCalendarGrid");
+  const title = document.getElementById("calendarTitle");
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  title.textContent = calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+  grid.innerHTML = "";
+  ["S", "M", "T", "W", "T", "F", "S"].forEach(day => {
+    const el = document.createElement("div");
+    el.className = "calendar-dow";
+    el.textContent = day;
+    grid.appendChild(el);
+  });
+  const first = new Date(year, month, 1);
+  const days = new Date(year, month + 1, 0).getDate();
+  for (let i = 0; i < first.getDay(); i++) {
+    const empty = document.createElement("button");
+    empty.className = "calendar-day empty";
+    grid.appendChild(empty);
+  }
+  for (let day = 1; day <= days; day++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const data = wateringByDate[dateStr];
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `calendar-day ${data?.source === "rain" ? "rain" : data?.source === "person" ? "person" : "none"}`;
+    btn.classList.toggle("selected", dateStr === selectedWaterDate);
+    btn.textContent = day;
+    btn.addEventListener("click", async () => {
+      selectedWaterDate = dateStr;
+      if (!Object.prototype.hasOwnProperty.call(wateringByDate, dateStr)) await getWateringForDate(dateStr);
+      updateCalendarInfo();
+      renderWaterCalendar();
+    });
+    grid.appendChild(btn);
+  }
+  updateCalendarInfo();
+}
+
+function updateCalendarInfo() {
+  const data = wateringByDate[selectedWaterDate];
+  const label = formatShortDate(selectedWaterDate);
+  if (data?.source === "person") {
+    document.getElementById("calendarInfo").textContent = `${label}: watered by ${data.name || "someone"}`;
+  } else if (data?.source === "rain") {
+    document.getElementById("calendarInfo").textContent = `${label}: watered by rain`;
+  } else {
+    document.getElementById("calendarInfo").textContent = `${label}: no water`;
+  }
+  updateWaterOptionSelection(data);
+}
 
 /* Tap outside to close water overlay */
 document.getElementById("waterOverlay").addEventListener("mousedown", e => {
