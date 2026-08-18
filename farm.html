@@ -168,6 +168,7 @@ body {
 body.no-select, body.no-select * {
     user-select: none;
     -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 .completed-divider {
     font-size: 0.72rem;
@@ -189,6 +190,7 @@ body.no-select, body.no-select * {
     transition: opacity 0.12s ease, transform 0.16s ease, box-shadow 0.16s ease;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 .blob:active { opacity: 0.85; }
 .blob.dragging { opacity: 0.4; }
@@ -214,7 +216,7 @@ body.no-select, body.no-select * {
     font-weight: 500;
     color: var(--text-mid);
 }
-.blob:not(.completed) { touch-action: none; }
+.blob:not(.completed) { touch-action: pan-y; }
 .blob-del, .blob-uncomplete {
     display: none;
     position: absolute;
@@ -942,8 +944,13 @@ function renderBlob(item) {
 }
 
 function attachBlobPointerDrag(blob, item) {
+  const holdMs = 1000;
+  const cancelDist = 10;
   let startX = 0;
   let startY = 0;
+  let pointerId = null;
+  let holdTimer = null;
+  let armed = false;
   let dragging = false;
   let offsetX = 0;
   let offsetY = 0;
@@ -954,40 +961,24 @@ function attachBlobPointerDrag(blob, item) {
     if (e.pointerType === "mouse" || item.completed) return;
     startX = e.clientX;
     startY = e.clientY;
+    pointerId = e.pointerId;
+    armed = false;
     dragging = false;
-    dragSrcId = item.id;
-    blob.setPointerCapture(e.pointerId);
+    holdTimer = window.setTimeout(() => {
+      armed = true;
+      startMobileDrag(e.clientX, e.clientY);
+      try { blob.setPointerCapture(pointerId); } catch (err) {}
+    }, holdMs);
   });
 
   blob.addEventListener("pointermove", (e) => {
-    if (e.pointerType === "mouse" || dragSrcId !== item.id) return;
+    if (e.pointerType === "mouse" || pointerId !== e.pointerId) return;
     const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
-    if (dist <= 8 && !dragging) return;
-    if (!dragging) {
-      const rect = blob.getBoundingClientRect();
-      dragging = true;
-      suppressBlobClick = true;
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      original = {
-        position: blob.style.position,
-        left: blob.style.left,
-        top: blob.style.top,
-        width: blob.style.width,
-        height: blob.style.height,
-      };
-      placeholder = document.createElement("div");
-      placeholder.className = "blob-drop-slot";
-      placeholder.style.height = `${rect.height}px`;
-      blob.parentNode.insertBefore(placeholder, blob.nextSibling);
-      blob.classList.add("mobile-dragging");
-      blob.style.left = `${rect.left}px`;
-      blob.style.top = `${rect.top}px`;
-      blob.style.width = `${rect.width}px`;
-      blob.style.height = `${rect.height}px`;
-      document.getElementById("blobList").classList.add("reordering");
-      document.body.classList.add("no-select");
+    if (!armed) {
+      if (dist > cancelDist) clearHoldTimer();
+      return;
     }
+    if (!dragging) startMobileDrag(e.clientX, e.clientY);
     suppressBlobClick = true;
     blob.style.left = `${e.clientX - offsetX}px`;
     blob.style.top = `${e.clientY - offsetY}px`;
@@ -996,37 +987,85 @@ function attachBlobPointerDrag(blob, item) {
   });
 
   blob.addEventListener("pointerup", (e) => {
-    if (e.pointerType === "mouse" || dragSrcId !== item.id) return;
-    blob.releasePointerCapture(e.pointerId);
+    if (e.pointerType === "mouse" || pointerId !== e.pointerId) return;
+    clearHoldTimer();
+    if (blob.hasPointerCapture(e.pointerId)) blob.releasePointerCapture(e.pointerId);
     if (dragging) {
       placeholder.parentNode.insertBefore(blob, placeholder);
       placeholder.remove();
-      blob.classList.remove("mobile-dragging");
-      Object.assign(blob.style, original);
-      document.getElementById("blobList").classList.remove("reordering");
-      document.body.classList.remove("no-select");
+      cleanupMobileDrag();
       saveCurrentBlobOrder();
     }
-    dragSrcId = null;
-    dragging = false;
+    resetPointerState();
     placeholder = null;
     original = null;
   });
 
   blob.addEventListener("pointercancel", (e) => {
-    if (e.pointerType === "mouse") return;
+    if (e.pointerType === "mouse" || pointerId !== e.pointerId) return;
+    clearHoldTimer();
     if (placeholder) {
       placeholder.replaceWith(blob);
       placeholder = null;
     }
+    cleanupMobileDrag();
+    resetPointerState();
+    original = null;
+  });
+
+  blob.addEventListener("contextmenu", (e) => {
+    if (armed || dragging) e.preventDefault();
+  });
+
+  function startMobileDrag(clientX, clientY) {
+    if (dragging) return;
+    const rect = blob.getBoundingClientRect();
+    dragging = true;
+    armed = true;
+    dragSrcId = item.id;
+    suppressBlobClick = true;
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    original = {
+      position: blob.style.position,
+      left: blob.style.left,
+      top: blob.style.top,
+      width: blob.style.width,
+      height: blob.style.height,
+    };
+    placeholder = document.createElement("div");
+    placeholder.className = "blob-drop-slot";
+    placeholder.style.height = `${rect.height}px`;
+    blob.parentNode.insertBefore(placeholder, blob.nextSibling);
+    blob.classList.add("mobile-dragging");
+    blob.style.left = `${rect.left}px`;
+    blob.style.top = `${rect.top}px`;
+    blob.style.width = `${rect.width}px`;
+    blob.style.height = `${rect.height}px`;
+    document.getElementById("blobList").classList.add("reordering");
+    document.body.classList.add("no-select");
+  }
+
+  function clearHoldTimer() {
+    if (holdTimer) {
+      window.clearTimeout(holdTimer);
+      holdTimer = null;
+    }
+  }
+
+  function cleanupMobileDrag() {
     blob.classList.remove("mobile-dragging");
     if (original) Object.assign(blob.style, original);
     document.getElementById("blobList").classList.remove("reordering");
     document.body.classList.remove("no-select");
+  }
+
+  function resetPointerState() {
     dragSrcId = null;
+    pointerId = null;
+    armed = false;
     dragging = false;
-    original = null;
-  });
+  }
 }
 
 function moveDropSlot(clientY, placeholder, draggedBlob) {
