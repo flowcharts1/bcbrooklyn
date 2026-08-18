@@ -4,12 +4,14 @@
 <title>Authenticator</title>
 <style>
   body { font-family: monospace; font-size: 3em; text-align: center; margin-top: 20vh; cursor: pointer;}
+  body.create-mode { margin-top: 4vh; }
   body * { font: inherit; }
   h1, h2, p { font-size: 1em; font-weight: normal; }
   #createNew { font-size: 0.7em; }
-  #instructions { font-size: 0.8em; }
+  #instructions { box-sizing: border-box; font-size: 0.6em; margin-left: auto; margin-right: auto; max-width: 900px; padding: 0 1em; }
   #otp { transition: color 0.3s; }
   #otp.dim { color: #aaa; }
+  strong {font-weight:900;}
 </style>
 </head>
 <body>
@@ -21,12 +23,19 @@
 
 <div id="create" hidden>
   <p id="instructions">
-    You must go to <a href="https://ssologin.cuny.edu/oaa/rui">cuny mfa</a>, login, and create a new mobile authentication factor. Copy the secret key and paste it below.
-    Then, enter a shortcode, which you will use to access this key, such as "twt" or "hgfa" or "12e" any thing you'll remember.
-    Upon reload, entering your correct shortcode will give you your TOTP based on the key you entered, you may set this new code as your default when you login.
-    This system is designed to thwart the extra security layer that CUNY has mandated for accounts.
-    <b>Your secret key will be published to a database and be visible to anyone</b>. It will be impossible to tell what account it is associated with however, unless you use an obvious shortcode with your name.
-    Do this at your own risk.
+    Instructions 
+    <br>
+    Go to <a href="https://ssologin.cuny.edu/oaa/rui">cuny mfa</a>, login, and create a new mobile authentication factor.
+    <br> Copy the secret key and paste it below. 
+    <br>Enter a shortcode such as "twt" or "hg3fa".
+    <br>Entering your correct shortcode will give you your TOTP 
+    <br> you may set this new code as your default when you login.
+    <br><br>
+    This system is designed to thwart the extra security layer for CUNY accounts<br>
+    <strong>Your secret key will be published to a database and be visible to anyone</strong>. 
+    <br>It will be impossible to tell what account it is associated with, 
+    <br>unless you use your name or tell people.
+    <br>Do this at your own risk.
   </p>
   <label>
     paste secret key:
@@ -122,6 +131,7 @@
   let lookupTimer;
 
   createNew.addEventListener('click', () => {
+    document.body.classList.add('create-mode');
     start.hidden = true;
     create.hidden = false;
     secretKey.focus();
