@@ -255,7 +255,7 @@ body {
     display: flex; justify-content: space-between; align-items: center;
     padding: 0 4px; margin-bottom: 10px; position: relative;
 }
-.evt-timeframe-nav { display: flex; align-items: center; gap: 0px; }
+.evt-timeframe-nav { display: flex; align-items: center; gap: 0px; min-width: 0; }
 .evt-nav-arrow {
     background: transparent; border: none; cursor: pointer;
     font-size: 1.5rem; font-weight: bold; color: white;
@@ -276,9 +276,9 @@ body {
     width: 50%; flex-shrink: 0; -webkit-flex-shrink: 0; text-align: center;
 }
 .evt-label-text {
-    background: transparent; border: none; font-size: 1.05rem;
+    background: transparent; border: none; font-size: 1rem;
     font-weight: bold; color: white; padding: 4px 2px;
-    letter-spacing: 0.01em; white-space: nowrap;
+    letter-spacing: 0; white-space: nowrap;
     text-shadow: 0 0 10px rgba(133,61,81,0.9), 0px 0px 10px rgba(133,61,81,0.9);
     display: block; width: 100%; text-align: center;
 }
@@ -289,6 +289,25 @@ body {
     text-shadow: 0 0 10px rgba(133,61,81,0.9), 0px 0px 10px rgba(133,61,81,0.9);
     -webkit-tap-highlight-color: transparent; outline: none;
 }
+.search-control { position: relative; display: flex; align-items: center; }
+.search-toggle { white-space: nowrap; }
+.search-control {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    z-index: 3;
+}
+.search-label { display: inline; }
+.search-input {
+    display: none; width: min(150px, 40vw); margin-left: 5px; padding: 2px 0;
+    border: 0; border-bottom: 1px solid rgba(136,35,70,0.95); border-radius: 0;
+    background: transparent; color: white; font: inherit; font-size: 1rem;
+    text-align: left; outline: none; box-shadow: none; caret-color: #f4c542;
+    text-shadow: 0 0 10px rgba(133,61,81,0.9), 0 0 10px rgba(133,61,81,0.9);
+}
+.search-control.open .search-input { display: inline-block; }
+.search-control.open .search-label { display: none; }
+.search-input::placeholder { color: rgba(255,255,255,0.72); opacity: 1; }
+.search-input::-webkit-search-cancel-button { filter: grayscale(1) brightness(0) invert(1); }
+.events-controls > .events-control-actions { display: flex; align-items: center; gap: 10px; }
 .evt-ctrl-btn .arrow {
     display: inline-block;
     transition: transform 0.25s ease; -webkit-transition: -webkit-transform 0.25s ease;
@@ -359,7 +378,7 @@ body {
     overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 #evtOverlay.active {
-    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.88);
+    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.94);
 }
 .evt-detail {
     position: relative; margin: 54px auto 40px;
@@ -388,6 +407,11 @@ body {
 .evt-detail-body.shown { opacity: 1; }
 .evt-detail-title { font-size: 1.2rem; font-weight: bold; color: rgba(255,255,255,0.95); margin-bottom: 6px; }
 .evt-detail-desc { font-size: 0.88rem; line-height: 1.45; margin-bottom: 10px; color: rgba(255,255,255,0.8); }
+.description-more {
+    display: inline; margin-left: 5px; padding: 0; border: 0; background: transparent;
+    color: rgba(255,255,255,0.9); font: inherit; font-size: 0.78em; font-weight: bold;
+    text-shadow: 0 0 8px rgba(133,61,81,0.9); cursor: pointer; vertical-align: baseline;
+}
 .evt-detail-info { font-size: 1rem; color: rgba(255,255,255,0.9); margin-bottom: 4px; }
 .evt-detail-club { font-size: 0.88rem; color: rgba(255,255,255,0.7); margin-bottom: 18px; font-style: italic; }
 .evt-close-btn {
@@ -430,7 +454,7 @@ body {
     overflow-y: auto; -webkit-overflow-scrolling: touch;
 }
 #clubOverlay.active {
-    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.88);
+    opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.94);
 }
 .club-detail {
     position: relative; margin: 40px auto 60px;
@@ -504,6 +528,7 @@ body {
     color: rgba(255,255,255,0.82); margin-bottom: 14px;
     white-space: pre-line; text-align: center;
 }
+.club-detail-desc .description-more { color: rgba(255,255,255,0.92); }
 
 /* Links */
 .club-detail-links {
@@ -655,6 +680,10 @@ window._collection = collection;
 <!-- CLUB LIST -->
 <div id="clubSection">
     <div class="club-controls">
+        <div class="search-control" id="clubSearchControl">
+            <button type="button" class="evt-ctrl-btn search-toggle" aria-label="Search clubs" onclick="toggleSearch('clubs')">&#128269;&#65038; <span class="search-label">Search</span></button>
+            <input id="clubSearchInput" class="search-input" type="search" placeholder="Search clubs" oninput="renderClubs()" aria-label="Search clubs">
+        </div>
         <div style="position:relative;">
             <button id="clubFilterBtn" class="evt-ctrl-btn" onclick="toggleClubDropdown()">
                 Filters <span class="arrow">&#9662;</span>
@@ -686,6 +715,11 @@ window._collection = collection;
             </div>
             <button id="evtNavRight" class="evt-nav-arrow" onclick="navTimeframe(1)">&#8250;</button>
         </div>
+        <div class="events-control-actions">
+        <div class="search-control" id="eventSearchControl">
+            <button type="button" class="evt-ctrl-btn search-toggle" aria-label="Search events" onclick="toggleSearch('events')">&#128269;&#65038; <span class="search-label">Search</span></button>
+            <input id="eventSearchInput" class="search-input" type="search" placeholder="Search events" oninput="renderEvents()" aria-label="Search events">
+        </div>
         <div style="position:relative;">
             <button id="evtFilterBtn" class="evt-ctrl-btn" onclick="toggleDropdown('filter')">
                 Filters <span class="arrow">▾</span>
@@ -699,6 +733,7 @@ window._collection = collection;
                     <button class="filter-opt evt-filter-opt" data-type="other"                onclick="pickFilter('other')">Other</button>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <div id="eventContainer"></div>
@@ -736,6 +771,7 @@ var clubDataJSON  = [];   /* flat array from clubs.json */
 var showInactiveClubs = false;
 var clubSelectedFilter = "all";
 var clubDropOpen = false;
+var clubSearch = "";
 var _labelTimer   = null;
 
 /* ===== EVENTS STATE ===== */
@@ -745,9 +781,56 @@ var evtSelectedFilter = "all";
 var evtDropOpen       = null;
 var evtModes          = [];
 var evtModeIdx        = 0;
+var eventSearch = "";
+var showPastSearchEvents = false;
+
+function toggleSearch(type) {
+    var id = type === "clubs" ? "clubSearchControl" : "eventSearchControl";
+    var inputId = type === "clubs" ? "clubSearchInput" : "eventSearchInput";
+    var control = document.getElementById(id);
+    var input = document.getElementById(inputId);
+    if (!control || !input) return;
+    control.classList.toggle("open");
+    if (control.classList.contains("open")) input.focus();
+    else {
+        input.value = "";
+        if (type === "clubs") { clubSearch = ""; renderClubs(); }
+        else { eventSearch = ""; renderEvents(); }
+    }
+}
+
+function clearSearchControl(type) {
+    var control = document.getElementById(type === "clubs" ? "clubSearchControl" : "eventSearchControl");
+    var input = document.getElementById(type === "clubs" ? "clubSearchInput" : "eventSearchInput");
+    if (control) control.classList.remove("open");
+    if (input) input.value = "";
+    if (type === "clubs") clubSearch = "";
+    else { eventSearch = ""; showPastSearchEvents = false; }
+}
+
+function resetSectionFilters() {
+    clubSelectedFilter = "all";
+    showInactiveClubs = false;
+    var clubBtn = document.getElementById("clubFilterBtn");
+    if (clubBtn) clubBtn.innerHTML = 'Filters <span class="arrow">&#9662;</span>';
+    document.querySelectorAll(".club-filter-opt").forEach(function(option) {
+        option.classList.toggle("selected", option.getAttribute("data-type") === "all");
+    });
+    evtSelectedFilter = "all";
+    var eventBtn = document.getElementById("evtFilterBtn");
+    if (eventBtn) eventBtn.innerHTML = 'Filters <span class="arrow">&#9662;</span>';
+    document.querySelectorAll(".evt-filter-opt").forEach(function(option) {
+        option.classList.toggle("selected", option.getAttribute("data-type") === "all");
+    });
+    closeClubDropdown();
+    closeDropdowns();
+}
 
 /* ================= PRIMARY TAB SWITCH ================= */
 function selectPrimary(tab) {
+    clearSearchControl("clubs");
+    clearSearchControl("events");
+    resetSectionFilters();
     primarySelected = tab;
     document.getElementById("clubsTab").classList.remove("active");
     document.getElementById("eventsTab").classList.remove("active");
@@ -787,6 +870,15 @@ function normalizeClubTypes(value) {
 function clubMatchesFilter(club) {
     if (clubSelectedFilter === "all") return true;
     return normalizeClubTypes(club.type).indexOf(clubSelectedFilter) !== -1;
+}
+
+function clubMatchesSearch(club) {
+    var query = (document.getElementById("clubSearchInput").value || "").trim().toLocaleLowerCase();
+    clubSearch = query;
+    if (query.length < 3) return true;
+    return [club.name, club.clubName, club.subtitle, club.description].some(function(value) {
+        return String(value || "").toLocaleLowerCase().indexOf(query) !== -1;
+    });
 }
 
 function normalizeClubMatch(value) {
@@ -860,7 +952,7 @@ function renderInactiveDivider(container) {
 function renderClubs() {
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
-    var filteredClubs = clubDataJSON.filter(clubMatchesFilter);
+    var filteredClubs = clubDataJSON.filter(function(club){ return clubMatchesFilter(club) && clubMatchesSearch(club); });
     var activeList = filteredClubs.filter(isActiveClub).sort(compareClubNames);
     var inactiveList = filteredClubs.filter(function(club){ return !isActiveClub(club); }).sort(compareClubNames);
     if (!activeList.length && !inactiveList.length) return;
@@ -926,7 +1018,11 @@ window.onload = function() {
 
     getDocs(collection(db, "events")).then(function(snap) {
         eventsDataJSON = [];
-        snap.forEach(function(doc) { eventsDataJSON.push(doc.data()); });
+        snap.forEach(function(doc) {
+            var event = doc.data();
+            event.__docId = doc.id;
+            eventsDataJSON.push(event);
+        });
         buildTimeframeModes();
         if (primarySelected === "events") renderEvents();
     }).catch(function(err) {
@@ -1025,11 +1121,7 @@ function buildClubBody(club, detail) {
     /* Description with line breaks */
     var descEl = document.createElement("div");
     descEl.className = "club-detail-desc";
-    var descParts = (club.description || "").split(/\\n|\n/);
-    for (var dp = 0; dp < descParts.length; dp++) {
-        if (dp > 0) descEl.appendChild(document.createElement("br"));
-        descEl.appendChild(document.createTextNode(descParts[dp]));
-    }
+    setExpandableDescription(descEl, club.description || "");
 
     /* Links */
     var linksEl = document.createElement("div");
@@ -1117,7 +1209,65 @@ function buildClubBody(club, detail) {
     }
 
     detail.appendChild(body);
+    setupDescriptionExpansion(descEl);
     setTimeout(function(){ body.classList.add("shown"); }, 30);
+}
+
+function setExpandableDescription(el, description) {
+    el.textContent = String(description || "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/\\n|\r\n?/g, "\n");
+}
+
+function setupDescriptionExpansion(el) {
+    var fullText = el.textContent || "";
+    var schedule = window.requestAnimationFrame || function(callback){ setTimeout(callback, 16); };
+    schedule(function() {
+        if (!el.isConnected || !fullText) return;
+        var textNode = el.firstChild;
+        if (!textNode || textNode.nodeType !== 3) return;
+        var range = document.createRange();
+        var lineAt = [];
+        var previousTop = null;
+        var line = 0;
+        for (var i = 0; i < fullText.length; i++) {
+            if (fullText.charAt(i) === "\n") { lineAt[i] = line; continue; }
+            range.setStart(textNode, i);
+            range.setEnd(textNode, i + 1);
+            var rect = range.getBoundingClientRect();
+            if (rect.height && previousTop !== null && Math.abs(rect.top - previousTop) > 1) line++;
+            if (rect.height) previousTop = rect.top;
+            lineAt[i] = line;
+        }
+        if (line < 5) return;
+
+        var cutoff = 0;
+        for (var ci = 0; ci < lineAt.length; ci++) {
+            if (lineAt[ci] <= 4) cutoff = ci + 1;
+        }
+        var sentenceEnd = -1;
+        for (var pi = 0; pi < fullText.length; pi++) {
+            if (fullText.charAt(pi) === "." && lineAt[pi] >= 3 && lineAt[pi] <= 5) sentenceEnd = pi;
+        }
+        var preview = sentenceEnd >= 0
+            ? fullText.slice(0, sentenceEnd).trimEnd() + "..."
+            : fullText.slice(0, cutoff).trimEnd() + "...";
+
+        function draw(expanded) {
+            el.textContent = expanded ? fullText : preview;
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "description-more";
+            button.textContent = expanded ? "less \u25b4" : "more \u25be";
+            button.setAttribute("aria-expanded", expanded ? "true" : "false");
+            button.onclick = function(event) {
+                event.stopPropagation();
+                draw(!expanded);
+            };
+            el.appendChild(button);
+        }
+        draw(false);
+    });
 }
 
 function switchInnerTab(which, innerSec) {
@@ -1227,6 +1377,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (dist > 8) return;
             /* Don't close if tapping interactive elements */
             var t = e.target;
+            if (t.closest(".description-more")) return;
             if (t.closest(".club-detail-link")) return;
             if (t.closest(".club-detail-featured")) return;
             if (t.closest(".club-detail-icon-solo")) return;
@@ -1351,7 +1502,12 @@ function getDisplayEvents() {
     var mode   = evtModes[evtModeIdx];
     if (!mode) return [];
     var list   = eventsDataJSON.slice();
-    if (mode.id === "upcoming") {
+    var query = (document.getElementById("eventSearchInput").value || "").trim().toLocaleLowerCase();
+    eventSearch = query;
+    var searching = query.length >= 3;
+    if (searching) {
+        if (evtSelectedFilter !== "all") list = list.filter(function(e){ return e.type === evtSelectedFilter; });
+    } else if (mode.id === "upcoming") {
         list = list.filter(function(e){ return !isEventExpired(e) && e.date >= todayS; });
         if (evtSelectedFilter !== "all") {
             list = list.filter(function(e){ return e.type === evtSelectedFilter; });
@@ -1368,7 +1524,32 @@ function getDisplayEvents() {
         list = list.filter(function(e){ return e.date >= mode.startDate && e.date <= mode.endDate; });
         if (evtSelectedFilter !== "all") list = list.filter(function(e){ return e.type === evtSelectedFilter; });
     }
+    if (searching) {
+        var idQuery = query.replace(/^c[_-]?/i, "");
+        list = list.filter(function(evt) {
+            var idValues = [evt.__docId, evt.id, evt.eventId, evt.event_id];
+            var idMatch = idValues.some(function(value) {
+                var normalizedId = String(value || "").toLocaleLowerCase().replace(/^c[_-]?/i, "");
+                return normalizedId.indexOf(idQuery) !== -1;
+            });
+            var textMatch = [evt.title, evt.description, evt.location, evt.venue_name, evt.address, evt.room,
+                evt.organizer, evt.organizers, evt.organizer_name, evt.organizer_details,
+                evt.club, evt.clubName, evt.clubId].some(function(value) {
+                if (Array.isArray(value)) value = value.map(function(item) {
+                    return typeof item === "object" && item ? Object.keys(item).map(function(key){ return item[key]; }).join(" ") : item;
+                }).join(" ");
+                else if (typeof value === "object" && value) value = Object.keys(value).map(function(key){ return value[key]; }).join(" ");
+                return String(value || "").toLocaleLowerCase().indexOf(query) !== -1;
+            });
+            return idMatch || textMatch;
+        });
+    }
     list.sort(function(a, b) {
+        if (searching) {
+            var aFuture = a.date >= todayS, bFuture = b.date >= todayS;
+            if (aFuture !== bFuture) return aFuture ? -1 : 1;
+            if (a.date !== b.date) return aFuture ? (a.date < b.date ? -1 : 1) : (a.date > b.date ? -1 : 1);
+        }
         if (a.date !== b.date) return a.date < b.date ? -1 : 1;
 
         var at = sortableStarttime(a);
@@ -1386,6 +1567,8 @@ function renderEvents() {
     var container = document.getElementById("eventContainer");
     if (!container) return;
     container.innerHTML = "";
+    var nextQuery = (document.getElementById("eventSearchInput").value || "").trim().toLocaleLowerCase();
+    if (nextQuery !== eventSearch) showPastSearchEvents = false;
     var list = getDisplayEvents();
     if (!list.length) {
         var msg = document.createElement("div");
@@ -1393,6 +1576,26 @@ function renderEvents() {
         msg.textContent = "No events to show.";
         container.appendChild(msg); return;
     }
+    var searching = nextQuery.length >= 3;
+    var todayS = dateStr(todayDate());
+    var upcomingList = searching ? list.filter(function(evt){ return evt.date >= todayS; }) : list;
+    var pastList = searching ? list.filter(function(evt){ return evt.date < todayS; }) : [];
+    appendEventGroups(container, upcomingList);
+    if (pastList.length) {
+        var pastButton = document.createElement("button");
+        pastButton.type = "button";
+        pastButton.className = "inactive-club-toggle";
+        pastButton.textContent = showPastSearchEvents ? "hide past events" : "show past events (" + pastList.length + ")";
+        pastButton.onclick = function() {
+            showPastSearchEvents = !showPastSearchEvents;
+            renderEvents();
+        };
+        container.appendChild(pastButton);
+        if (showPastSearchEvents) appendEventGroups(container, pastList);
+    }
+}
+
+function appendEventGroups(container, list) {
     var lastDate = null;
     for (var i = 0; i < list.length; i++) {
         var evt = list[i];
@@ -1475,11 +1678,8 @@ function buildDetailBody(evt) {
     var body = document.createElement("div"); body.className = "evt-detail-body";
     var t = document.createElement("div"); t.className = "evt-detail-title"; t.textContent = evt.title;
     var desc = document.createElement("div"); desc.className = "evt-detail-desc";
-    var descParts = (evt.description || "").split("<br>");
-    for (var dp = 0; dp < descParts.length; dp++) {
-        if (dp > 0) desc.appendChild(document.createElement("br"));
-        desc.appendChild(document.createTextNode(descParts[dp]));
-    }
+    setExpandableDescription(desc, evt.description || "");
+    setupDescriptionExpansion(desc);
     var info = document.createElement("div"); info.className = "evt-detail-info";
 
     info.textContent = fmtHeading(evt.date) + "  ·  " + (evt.time || "") + "  ·  " + evt.room;
@@ -1566,6 +1766,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var dist = Math.sqrt(Math.pow(upX - _evtDownX, 2) + Math.pow(upY - _evtDownY, 2));
             if (dist > 8) return;
             var t = e.target;
+            if (t.closest(".description-more")) return;
             if (t.closest(".evt-close-btn"))    return;
             if (t.closest(".evt-detail-flyer")) return;
             if (t.closest(".club-detail-link")) return;
