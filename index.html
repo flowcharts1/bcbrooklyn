@@ -146,6 +146,7 @@ body {
     margin: 0 auto;
 }
 .club-box {
+    position: relative;
     background: white;
     border-radius: 10px;
     padding: 10px;
@@ -157,6 +158,45 @@ body {
     transition: opacity 0.12s; -webkit-transition: opacity 0.12s;
 }
 .club-box:active { opacity: 0.75; }
+.club-box.has-upcoming-events {
+    background: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.club-box.has-upcoming-events::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 3px;
+    border-radius: inherit;
+    background:
+        linear-gradient(90deg, #fff1a8 0 50%, #ff8c00 50% 100%) 0 0 / 40px 3px repeat-x,
+        linear-gradient(180deg, #fff1a8 0 50%, #ff8c00 50% 100%) 100% 0 / 3px 40px repeat-y,
+        linear-gradient(270deg, #fff1a8 0 50%, #ff8c00 50% 100%) 100% 100% / 40px 3px repeat-x,
+        linear-gradient(0deg, #fff1a8 0 50%, #ff8c00 50% 100%) 0 100% / 3px 40px repeat-y;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: clubBorderTravel 3s linear infinite;
+    animation-delay: var(--club-border-delay, 0s);
+}
+.club-box.has-upcoming-events > .club-wrapper {
+    position: relative;
+    z-index: 1;
+}
+@keyframes clubBorderTravel {
+    to {
+        background-position:
+            40px 0,
+            100% 40px,
+            calc(100% - 40px) 100%,
+            0 calc(100% - 40px);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .club-box.has-upcoming-events::before { animation: none; }
+}
 .inactive-club-box {
     opacity: var(--inactive-club-opacity);
     transition: none;
@@ -308,6 +348,15 @@ body {
 .search-input::placeholder { color: rgba(255,255,255,0.72); opacity: 1; }
 .search-input::-webkit-search-cancel-button { filter: grayscale(1) brightness(0) invert(1); }
 .events-controls > .events-control-actions { display: flex; align-items: center; gap: 10px; }
+@media (max-width: 600px) {
+    .events-controls { flex-wrap: wrap; justify-content: center; row-gap: 4px; }
+    .evt-timeframe-nav { order: 2; flex: 1 0 100%; justify-content: center; }
+    .events-controls > .events-control-actions { order: 1; flex: 1 0 100%; justify-content: center; }
+    .events-control-actions .search-control {
+        position: relative; left: auto; top: auto; transform: none;
+        -webkit-transform: none;
+    }
+}
 .evt-ctrl-btn .arrow {
     display: inline-block;
     transition: transform 0.25s ease; -webkit-transition: -webkit-transform 0.25s ease;
@@ -580,6 +629,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+    direction: ltr;
 }
 .club-flyer-card {
     border-radius: 8px; overflow: hidden;
@@ -682,7 +732,7 @@ window._collection = collection;
     <div class="club-controls">
         <div class="search-control" id="clubSearchControl">
             <button type="button" class="evt-ctrl-btn search-toggle" aria-label="Search clubs" onclick="toggleSearch('clubs')">&#128269;&#65038; <span class="search-label">Search</span></button>
-            <input id="clubSearchInput" class="search-input" type="search" placeholder="Search clubs" oninput="renderClubs()" aria-label="Search clubs">
+            <input id="clubSearchInput" class="search-input" type="search" placeholder="Search clubs" oninput="renderClubs(true)" aria-label="Search clubs">
         </div>
         <div style="position:relative;">
             <button id="clubFilterBtn" class="evt-ctrl-btn" onclick="toggleClubDropdown()">
@@ -768,6 +818,10 @@ window._collection = collection;
 var primarySelected = "clubs";
 var subSelected = "tab1";
 var clubDataJSON  = [];   /* flat array from clubs.json */
+var clubBorderAnimationStart = Date.now();
+var clubEventStatsCache = new WeakMap();
+var clubEventStatsCacheDate = "";
+var clubRenderTimer = null;
 var showInactiveClubs = false;
 var clubSelectedFilter = "all";
 var clubDropOpen = false;
@@ -909,9 +963,48 @@ function compareClubNames(a, b) {
            clubNameSorter.compare(String(a.clubId || ""), String(b.clubId || ""));
 }
 
+function getClubEventStats(club) {
+    var todayS = dateStr(todayDate());
+    if (clubEventStatsCacheDate !== todayS) {
+        clubEventStatsCache = new WeakMap();
+        clubEventStatsCacheDate = todayS;
+    }
+    var cached = clubEventStatsCache.get(club);
+    if (cached) return cached;
+    var titleKeys = {};
+    var upcomingTitleKeys = {};
+    eventsDataJSON.forEach(function(evt, index) {
+        if (!eventMatchesClub(evt, club)) return;
+        var key = String(evt.title || "").trim().toLocaleLowerCase().replace(/\s+/g, " ");
+        if (!key) key = "event-" + String(evt.__docId || evt.id || evt.eventId || evt.event_id || index);
+        titleKeys[key] = true;
+        if (evt.date >= todayS) upcomingTitleKeys[key] = true;
+    });
+    var stats = {
+        total: Object.keys(titleKeys).length,
+        upcoming: Object.keys(upcomingTitleKeys).length
+    };
+    clubEventStatsCache.set(club, stats);
+    return stats;
+}
+
+function compareClubsByEvents(a, b) {
+    var aStats = getClubEventStats(a);
+    var bStats = getClubEventStats(b);
+    return bStats.upcoming - aStats.upcoming ||
+           bStats.total - aStats.total ||
+           compareClubNames(a, b);
+}
+
 function renderClubBox(club, isInactive) {
     var box = document.createElement("div");
-    box.className = "club-box" + (isInactive ? " inactive-club-box" : "");
+    var stats = getClubEventStats(club);
+    box.className = "club-box" + (isInactive ? " inactive-club-box" : "") +
+        (!isInactive && stats.upcoming ? " has-upcoming-events" : "");
+    if (!isInactive && stats.upcoming) {
+        var phaseSeconds = ((Date.now() - clubBorderAnimationStart) % 3000) / 1000;
+        box.style.setProperty("--club-border-delay", "-" + phaseSeconds + "s");
+    }
     var wrapper = document.createElement("div");
     wrapper.className = "club-wrapper";
     var icon = document.createElement("img");
@@ -949,11 +1042,19 @@ function renderInactiveDivider(container) {
     container.appendChild(divider);
 }
 
-function renderClubs() {
+function renderClubs(deferSearchRender) {
+    if (clubRenderTimer) clearTimeout(clubRenderTimer);
+    if (deferSearchRender) {
+        clubRenderTimer = setTimeout(function(){
+            clubRenderTimer = null;
+            renderClubs();
+        }, 100);
+        return;
+    }
     var container = document.getElementById("clubContainer");
     container.innerHTML = "";
     var filteredClubs = clubDataJSON.filter(function(club){ return clubMatchesFilter(club) && clubMatchesSearch(club); });
-    var activeList = filteredClubs.filter(isActiveClub).sort(compareClubNames);
+    var activeList = filteredClubs.filter(isActiveClub).sort(compareClubsByEvents);
     var inactiveList = filteredClubs.filter(function(club){ return !isActiveClub(club); }).sort(compareClubNames);
     if (!activeList.length && !inactiveList.length) return;
     for (var i = 0; i < activeList.length; i++) {
@@ -1018,6 +1119,7 @@ window.onload = function() {
 
     getDocs(collection(db, "events")).then(function(snap) {
         eventsDataJSON = [];
+        clubEventStatsCache = new WeakMap();
         snap.forEach(function(doc) {
             var event = doc.data();
             event.__docId = doc.id;
@@ -1192,7 +1294,19 @@ function buildClubBody(club, detail) {
             var evtPanel = document.createElement("div");
             evtPanel.className = "club-inner-panel active";
             evtPanel.setAttribute("data-panel", "events");
-            evtPanel.appendChild(buildFlyerGrid(clubEvents));
+            var todayS = dateStr(todayDate());
+            var upcomingClubEvents = clubEvents.filter(function(evt){ return evt.date >= todayS; })
+                .sort(function(a, b){ return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+            var pastClubEvents = clubEvents.filter(function(evt){ return evt.date < todayS; })
+                .sort(function(a, b){ return a.date > b.date ? -1 : a.date < b.date ? 1 : 0; });
+            if (upcomingClubEvents.length) evtPanel.appendChild(buildFlyerGrid(upcomingClubEvents));
+            if (pastClubEvents.length) {
+                var pastDivider = document.createElement("div");
+                pastDivider.className = "club-past-divider";
+                pastDivider.textContent = "Past Events";
+                evtPanel.appendChild(pastDivider);
+                evtPanel.appendChild(buildFlyerGrid(pastClubEvents));
+            }
             innerSec.appendChild(evtPanel);
         }
 
@@ -1220,54 +1334,7 @@ function setExpandableDescription(el, description) {
 }
 
 function setupDescriptionExpansion(el) {
-    var fullText = el.textContent || "";
-    var schedule = window.requestAnimationFrame || function(callback){ setTimeout(callback, 16); };
-    schedule(function() {
-        if (!el.isConnected || !fullText) return;
-        var textNode = el.firstChild;
-        if (!textNode || textNode.nodeType !== 3) return;
-        var range = document.createRange();
-        var lineAt = [];
-        var previousTop = null;
-        var line = 0;
-        for (var i = 0; i < fullText.length; i++) {
-            if (fullText.charAt(i) === "\n") { lineAt[i] = line; continue; }
-            range.setStart(textNode, i);
-            range.setEnd(textNode, i + 1);
-            var rect = range.getBoundingClientRect();
-            if (rect.height && previousTop !== null && Math.abs(rect.top - previousTop) > 1) line++;
-            if (rect.height) previousTop = rect.top;
-            lineAt[i] = line;
-        }
-        if (line < 5) return;
-
-        var cutoff = 0;
-        for (var ci = 0; ci < lineAt.length; ci++) {
-            if (lineAt[ci] <= 4) cutoff = ci + 1;
-        }
-        var sentenceEnd = -1;
-        for (var pi = 0; pi < fullText.length; pi++) {
-            if (fullText.charAt(pi) === "." && lineAt[pi] >= 3 && lineAt[pi] <= 5) sentenceEnd = pi;
-        }
-        var preview = sentenceEnd >= 0
-            ? fullText.slice(0, sentenceEnd).trimEnd() + "..."
-            : fullText.slice(0, cutoff).trimEnd() + "...";
-
-        function draw(expanded) {
-            el.textContent = expanded ? fullText : preview;
-            var button = document.createElement("button");
-            button.type = "button";
-            button.className = "description-more";
-            button.textContent = expanded ? "less \u25b4" : "more \u25be";
-            button.setAttribute("aria-expanded", expanded ? "true" : "false");
-            button.onclick = function(event) {
-                event.stopPropagation();
-                draw(!expanded);
-            };
-            el.appendChild(button);
-        }
-        draw(false);
-    });
+    // Descriptions stay fully expanded for both clubs and events.
 }
 
 function switchInnerTab(which, innerSec) {
@@ -1323,7 +1390,7 @@ function checkEmpty(grid) {
     if (grid.children.length === 0) {
         var msg = document.createElement("div");
         msg.className = "club-no-events";
-        msg.textContent = "No upcoming events.";
+        msg.textContent = "No events to display.";
         grid.appendChild(msg);
     }
 }
